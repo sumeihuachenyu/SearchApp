@@ -1,0 +1,2 @@
+先生成基本库：命令：gradlew buildLib -q  会生成app/smallLibs/armeabi/*.so
+生成bundle插件库 gradlew buildBundle -q 生成app/smallLibs/armeabi/libcom_example_mysmall_app_main.so
