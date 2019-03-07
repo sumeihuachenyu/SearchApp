@@ -1,3 +1,424 @@
 如何进行small插件的运行？
 先生成基本库：命令：gradlew buildLib -q  会生成app/smallLibs/armeabi/*.so
 生成bundle插件库 gradlew buildBundle -q 生成app/smallLibs/armeabi/libcom_example_mysmall_app_main.so
+
+一些android studio的快捷键：
+1.ctrl+q：api文档悬浮提示
+2.代码提示的默认快捷键：ctrl+alt+空格
+
+xutils注解模块：
+1.@ContentView：
+加载当前的Activity布局时 将@ContentView加入到Activity的上方
+2.@ViewInject
+View注解的作用是代替我们写了findViewById这行代码，一般用于敏捷开发。
+3.@Event事件注解
+处理控件的各种响应事件，需要注意的是：
+****
+* 1. 方法必须私有限定,
+* 2. 方法参数形式必须和type对应的Listener接口一致.
+* 3. 注解参数value支持数组: value={id1, id2, id3}
+* 4. type默认View.OnClickListener.class，即可故可以不写，直接写@Event(R.id.bt1)如果你想实现其余点击事件效果，只需要把type值进行修改
+
+gradlew compileDebugSource --stacktrace -info  查看具体的错误
+
+https://www.cnblogs.com/favour/p/6936385.html xutils介绍
+
+Intent的使用
+这里的Intent使用，主要是使用它来执行页面的跳转功能。
+如果Intent对象中包含了目标的class文件，那么就是显示意图的跳转；如果Intent没有包含目标的class文件，就是隐式意图跳转，
+隐式意图跳转就涉及到比较多的Intent对象的属性值的比较。
+一）Intent显式跳转页面
+其中实现跳转的java代码非常简单：
+Intent intent = new Intent(this, SecondActivity.class);
+startActivity(intent);
+其中具体实现是通过Intent的属性类Component来实现，不过Component类的方法都封装在Intent的方法里面了，不需要我们过多的去了解。
+这如果要传递数据也可以通过Intent对象使用putExtra方法来传递数据。
+这里的目标文件必须是要在AndroidManifest.xml里面注册。
+二）Intent隐式跳转页面
+隐式意图的跳转是本文主要讲解的内容，也是比较难理解的内容！
+这里先使用Intent的Action和Data属性来跳转页面做示例（特别要注意的是这里的Data不是Intent的数据，而是Action动作对应的数据）：
+1.布局文件activity.xml文件设计
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="意图Intent" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="action"
+        android:text="action" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="actionUri"
+        android:text="actionUri" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="ToSecondActivity"
+        android:text="跳转到第二个页面" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="MyAction"
+        android:text="MyAction" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="actionMain"
+        android:text="返回桌面" />
+
+</LinearLayout>
+上面的xml布局文件设计有5个按钮，具体功能看java代码，下面详细解释
+2.java文件MainActivity.xml文件的设计
+package com.example.intent;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+    //打开一个数据视图，但是没有要求，系统会默认让你从多个中选择其中一个打开
+    public void action(View v) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        startActivity(intent);
+    }
+
+    //打开一个数据视图，有数据要求，系统帮你打开一个浏览器，并连接到相关的页面
+    public void actionUri(View v) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("http://www.baidu.com"));
+        startActivity(intent);
+    }
+
+    //使用显示跳转的方法跳转到第二个页面
+    public void ToSecondActivity(View view) {
+        Intent intent = new Intent(this, SecondActivity.class);
+        startActivity(intent);
+    }
+
+    //这里只用自己定义的Action字符串来找到对应的页面
+    public void MyAction(View v) {
+        Intent intent = new Intent("HelloWorld");//Action字符串可以直接放在Intent的构造函数里面，也可以单独写
+        // intent.setAction("HelloWorld");
+        intent.addCategory("android.intent.category.DEFAULT");//可以没有
+        //但是自定义的Action的xml文件里面必须要有category元素，否则会报错
+        startActivity(intent);
+    }
+
+    //打开程序入口，特征是桌面
+    public void actionMain(View v) {
+        try {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            startActivity(intent);
+        } catch (Exception e) {
+            Toast.makeText(this, "找不到目标页面", Toast.LENGTH_SHORT).show();
+        }
+    }
+}
+3.java文件SecondActivity.java文件的设计
+4.在AndroidManifest注册一下SecondActivity.class文件
+<activity android:name=".SecondActivity"  >
+    <intent-filter>
+        <action android:name="HelloWorld"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+    </intent-filter>
+</activity>
+文件中使用intent-filter（意图过滤器），用来存放意图的属性
+其中MainActivity.java文件是要重点理解的；上面写了五个按钮对应的监听方法。
+运行程序后显示的界面：
+三．intent-filter详细属性的介绍
+<intent-filter/>是每一个Activity对应的过滤器标签节点。每一个过滤器里面的元素可以有：
+0个或多个<action.../>
+0个或多个<category.../>
+0个或1个<data.../>
+一）全部属性的简介
+Intent通过下面的属性来描述的某个意图：
+1. action（动作）: 用来表示意图的动作，如：查看，发邮件，打电话
+2. category（类别）: 用来表示动作的类别。
+3. data（数据）: 表示与动作要操作的数据。如：查看指定的联系人
+4. type（数据类型）: 对data类型的描述。
+5. extras（附件信息）: 附件信息。如：详细资料，一个文件，某事。
+6. component（目标组件）: 目标组件。
+下面详细介绍各个组件的使用
+指定了component属性的Intent(调用setComponent(ComponentName)或者
+setClass(Context, Class)，Class其实就是显式调用需要的目标类的文件名。这个属性用得比较少，最好不用。
+如果是显示调用直接指定目标类的class文件名就可以使用了。
+比如：
+Intent intent = new Intent(this, SecondActivity.class);
+startActivity(intent);
+Intent在后台已经帮我们实现了component属性的设置，我们不需要很麻烦的再去实现它的过程。
+
+（二）action动作属性
+动作很大程序上决定了Intent如何构建,特别是数据和附加信息,就像一个方法名决定了参数和返回值一样,所以应该尽可能明确地指定动作,
+并紧密关联到其他的Intent字段，如Category和Data。
+常用动作
+最常用的是Action_MAIN(作为初始的Activity启动,没有数据的输入输出)
+1. ACTION_MAIN 作为一个主要的进入口，而并不期望去接受数据
+2. ACTION_VIEW 向用户去显示数据
+3. ACTION_ATTACH_DATA 别用于指定一些数据应该附属于一些其他的地方，例如，图片数据应该附
+属于联系人
+4. ACTION_EDIT 访问已给的数据，提供明确的可编辑
+5. ACTION_GET_CONTENT 允许用户选择特殊种类的数据，并返回（特殊种类的数据：照一张相片或
+录一段音） ACTION_DIAL 拨打一个指定的号码，显示一个带有号码的用户界面，允许
+用户去启动呼叫
+6. ACTION_CALL 根据指定的数据执行一次呼叫(有缺陷，使用ACTION_DIAL)
+7. ACTION_SEND 传递数据，被传送的数据没有指定，接收的action请求用户发数据
+8. ACTION_SENDTO 发送一条信息到指定的某人
+9. ACTION_ANSWER 处理一个打进电话呼叫
+10. ACTION_INSERT 插入一条空项目到已给的容器
+11. ACTION_DELETE 从容器中删除已给的数据
+12. ACTION_SEARCH 执行一次搜索
+13. ACTION_WEB_SEARCH 执行一次web搜索
+上面的动作都是Intent对象引用才有实际意义的。
+setAction(String action) 用来设置Intent的动作,参数可以为常量
+getAction() 方法用来获取Intent动作名称
+上面的Action都是系统定义好的，具有一定意义的动作指向的动作。
+Intent的Action对象其实就是一个字符串常量，系统的Action对象是系统定义好的字符串常量，我们也可以自己定义自己的Action作为字符串常量。就像上面的例子使用到了自定义的Action字符串对象。
+
+（三）category类别属性
+Intent的action、category属性都是普通的字符串,其中action表示Intent需要完成的一个抽象”动作”,而category则为action添加额外的类别信息,通常action和category一块使用。
+需要指出的是,一个Intent中只能包含一个action属性，但可以包含多个category属性。当程序创建Intent时,该Intent默认启动常量值为andorid.intent.category.DEFAULT的组件。这里的一个Intent中只能包含一个action属性，并不是Activity中xml的设置规范，而是你要跳转到的页面去，你只能设置一个Action的值。
+常用的Category：
+　1.CATEGORY_DEFAULT：Android系统中默认的执行方式，按照普通Activity的执行方式执行。　
+　2.CATEGORY_HOME：设置该组件为Home Activity。
+　3.CATEGORY_PREFERENCE：设置该组件为Preference。　
+　4.CATEGORY_LAUNCHER：设置为当前应用程序优先级最高的Activity，通常与ACTION_MAIN配合使用。　
+　5.CATEGORY_BROWSABLE：设置该组件可以使用浏览器启动。　
+　6.CATEGORY_GADGET：设置该组件可以内嵌到另外的Activity中。
+上面的类别都是Intent对象引用才有实际意义的。
+
+（四）data动作数据
+Data数据用来向Action属性提供动作的数据。这里的Data不是Intent里面的数据，而是指明动作的具体数据，比如说动作是打电话，那么打给具体的某一个人，就用到了date里面的数据来指定。同样发邮件、或打开具体的某一个网址也是通过Data数据。
+Data属性只接受Uri对象，Uri对象是统一资源标识符。对应概念不用太多理解，只需知道里面某些具体值的表现形式就可以了。
+Uri其实就是相当于一个网址，如图所示：
+
+网址只是Uri其中一种格式的字符串，要使用它还要把它解析后转化为Uri类型。
+为Intent对象添加Data数据，代码：
+intent.setData(Uri.parse(“http://www.baidu.com“));
+这里的Uri的有两个没显示的属性：port的值是8080，path的值是/index
+通过下面三句代码就可以跳转到百度主页面：
+Intent intent = new Intent(Intent.ACTION_VIEW);
+intent.setData(Uri.parse("http://www.baidu.com"));
+startActivity(intent);
+
+（五）type数据类型
+与Data有关的，这个不是Intent的数据类型，是Intent的Action的Data数据的类型。
+比如：
+{“.mp3”, “audio/x-mpeg”},
+{“.mp4”, “video/mp4”},
+{“.gif”, “image/gif”},
+{“.rmvb”, “audio/x-pn-realaudio”},
+这里只是做几个简单的示例介绍，如果是打开gif格式的数据文件，设置type=“image/gif”
+
+（六）extras额外的数据信息
+Extras属性主要用于传递目标组件所需要的额外的数据。这个数据是可以通过Intent来保存的数据和Intent对象来获取数据。
+
+通过putExtras()方法设置。保存数据
+通过putExtras()方法设置。获取数据
+通常我们使用Intent来直接传递Bundle对象，但也可以传递其他系统内置的一些参数。
+如果要传递是是对象，那么对象必须实现序列化。
+
+（七）intent-filter在AndroidManifest中
+1.在里可以有多个 ，只需匹配其中一个即可。
+语法:
+<intent-filter>
+<data android:host="string"
+       android:mimeType="string"
+       android:path="string"
+       android:pathPattern="string"
+       android:pathPrefix="string"
+       android:port="string"
+       android:scheme="string" />
+</intent-filter>
+
+也可以分开写，如:
+
+     <data android:scheme="something" android:host="project.example.com" android:port="80"/>
+ 等同于这样写:
+ <data android:scheme="something"/>
+ <data android:host="project.example.com"/>
+ <data android:port="80"/>
+等同于Uri uri = Uri.parse("something://project.example.com:80");
+
+Uri的格式:scheme://host:port/path or pathPrefix or pathPattern
+如果scheme没有指定，那其它的属性均无效；
+如果host没有指定，那么port,path,pathPrefix,pathPattern均无效;
+如果在manifest里这样写:
+那么Uri uri = Uri.parse(“something://project.example.com”); 才可以匹配
+
+2.在里可以有多个data或action ,只需匹配其中一个即可。
+3.当匹配不上任何Activity的话，会发生异常，跳出对话框:很抱歉…某某应用程序意外停止，请重试。
+4.上面所说的全部适用于Service和BroadcastReceiver。
+
+（八）几个简单示例的代码
+/**
+ * 跳转到指定的网址页面
+ */
+public void toView(View v) {
+    Intent intent = new Intent();
+    //设置Data数据
+    intent.setData(Uri.parse("http://www.baidu.com"));
+    //设置Action数据
+    intent.setAction(Intent.ACTION_VIEW);
+    //页面跳转
+    startActivity(intent);
+}
+/**
+ * 跳转到编辑联系人的信息
+ * 这里联系人的姓名是：1
+ */
+public void toEdit(View v) {
+    Intent intent = new Intent();
+    //设置Data数据
+    intent.setData(Uri.parse("content://com.android.contacts/contacts/1"));
+    //设置Action数据
+    intent.setAction(Intent.ACTION_EDIT);
+    //页面跳转
+    try {
+        startActivity(intent);
+    } catch (Exception e) {
+        Toast.makeText(this, "找不到该联系人！", Toast.LENGTH_SHORT).show();
+    }
+}
+
+/**
+ * 跳转到拨打电话的页面
+ * Data可以设置电话号码
+ */
+public void toDial(View v) {
+    Intent intent = new Intent();
+    //设置Data数据
+    intent.setData(Uri.parse("tel:13814236512"));
+    //设置Action数据
+    intent.setAction(Intent.ACTION_DIAL);
+    //页面跳转
+    startActivity(intent);
+}
+三．下面是一些Intent对象的常量值
+附部分Intent属性值：
+　　Action：
+　　　 ACTION_MAIN：Android Application的入口，每个Android应用必须且只能包含一个此类型的Action声明。　
+　　　　ACTION_VIEW：系统根据不同的Data类型，通过已注册的对应Application显示数据。
+　　　　ACTION_EDIT：系统根据不同的Data类型，通过已注册的对应Application编辑示数据。　
+　　　　ACTION_DIAL：系统默打开拨号程序，如果Data中设置电话号码，则拨号框中会显示此号码。　
+　　　　ACTION_CALL：直接呼叫Data中所带的号码。　
+　　　　ACTION_ANSWER：接听来电。　
+　　　　ACTION_SEND：由用户指定发送方式进行数据发送操作。
+　　　　ACTION_SENDTO：系统根据不同的Data类型，通过已注册的对应Application进行数据发送操作。　
+　　　　ACTION_BOOT_COMPLETED：Android系统在启动完毕后发出带有此Action的广播（Broadcast）。　
+　　　　ACTION_TIME_CHANGED：Android系统的时间发生改变后发出带有此Action的广播（Broadcast）。　
+　　　　ACTION_PACKAGE_ADDED：Android系统安装了新的App之后发出带有此Action的广播（Broadcast）。　
+　　　　ACTION_PACKAGE_CHANGED：Android系统中已存在的App发生改变之后（如更新）发出带有此Action的广播（Broadcast）。　
+　　　　ACTION_PACKAGE_REMOVED：Android系统卸载App之后发出带有此Action的广播（Broadcast）。　　
+　　Category：
+　　　 CATEGORY_DEFAULT：Android系统中默认的执行方式，按照普通Activity的执行方式执行。　
+　　　　CATEGORY_HOME：设置该组件为Home Activity。
+　　　　CATEGORY_PREFERENCE：设置该组件为Preference。　
+　　　　CATEGORY_LAUNCHER：设置为当前应用程序优先级最高的Activity，通常与ACTION_MAIN配合使用。　
+　　　　CATEGORY_BROWSABLE：设置该组件可以使用浏览器启动。　
+　　　　CATEGORY_GADGET：设置该组件可以内嵌到另外的Activity中。
+    Extras:
+　　　 EXTRA_BCC：存放邮件密送人地址的字符串数组。　
+　　　　EXTRA_CC：存放邮件抄送人地址的字符串数组。
+　　　　EXTRA_EMAIL：存放邮件地址的字符串数组。　
+　　　　EXTRA_SUBJECT：存放邮件主题字符串。　
+　　　　EXTRA_TEXT：存放邮件内容。　
+　　　　EXTRA_KEY_EVENT：以KeyEvent对象方式存放触发Intent的按键。　　
+　　　　EXTRA_PHONE_NUMBER：存放调用ACTION_CALL时的电话号码。　 　
+　　Data:
+　　　 tel://：号码数据格式，后跟电话号码。　
+　　　　mailto://：邮件数据格式，后跟邮件收件人地址。
+　　　　smsto://：短息数据格式，后跟短信接收号码。
+　　　　content://：内容数据格式，后跟需要读取的内容。　
+　　　　file://：文件数据格式，后跟文件路径。
+　　　　market://search?q=pname:pkgname：市场数据格式，在Google Market里搜索包名为pkgname的应用。
+　　　　geo://latitude, longitude：经纬数据格式，在地图上显示经纬度所指定的位置。
+MimeType：
+{“.3gp”, “video/3gpp”},
+{“.apk”, “application/vnd.android.package-archive”},
+{“.asf”, “video/x-ms-asf”},
+{“.avi”, “video/x-msvideo”},
+{“.bin”, “application/octet-stream”},
+{“.bmp”, “image/bmp”},
+{“.c”, “text/plain”},
+{“.class”, “application/octet-stream”},
+{“.conf”, “text/plain”},
+{“.cpp”, “text/plain”},
+{“.doc”, “application/msword”},
+{“.docx”, “application/vnd.openxmlformats-officedocument.wordprocessingml.document”},
+{“.xls”, “application/vnd.ms-excel”},
+{“.xlsx”, “application/vnd.openxmlformats-officedocument.spreadsheetml.sheet”},
+{“.exe”, “application/octet-stream”},
+{“.gif”, “image/gif”},
+{“.gtar”, “application/x-gtar”},
+{“.gz”, “application/x-gzip”},
+{“.h”, “text/plain”},
+{“.htm”, “text/html”},
+{“.html”, “text/html”},
+{“.jar”, “application/Java-archive”},
+{“.java”, “text/plain”},
+{“.jpeg”, “image/jpeg”},
+{“.jpg”, “image/jpeg”},
+{“.js”, “application/x-JavaScript”},
+{“.log”, “text/plain”},
+{“.m3u”, “audio/x-mpegurl”},
+{“.m4a”, “audio/mp4a-latm”},
+{“.m4b”, “audio/mp4a-latm”},
+{“.m4p”, “audio/mp4a-latm”},
+{“.m4u”, “video/vnd.mpegurl”},
+{“.m4v”, “video/x-m4v”},
+{“.mov”, “video/quicktime”},
+{“.mp2”, “audio/x-mpeg”},
+{“.mp3”, “audio/x-mpeg”},
+{“.mp4”, “video/mp4”},
+{“.mpc”, “application/vnd.mpohun.certificate”},
+{“.mpe”, “video/mpeg”},
+{“.mpeg”, “video/mpeg”},
+{“.mpg”, “video/mpeg”},
+{“.mpg4”, “video/mp4”},
+{“.mpga”, “audio/mpeg”},
+{“.msg”, “application/vnd.ms-outlook”},
+{“.ogg”, “audio/ogg”},
+{“.pdf”, “application/pdf”},
+{“.png”, “image/png”},
+{“.pps”, “application/vnd.ms-powerpoint”},
+{“.ppt”, “application/vnd.ms-powerpoint”},
+{“.pptx”, “application/vnd.openxmlformats-officedocument.presentationml.presentation”},
+{“.prop”, “text/plain”},
+{“.rc”, “text/plain”},
+{“.rmvb”, “audio/x-pn-realaudio”},
+{“.rtf”, “application/rtf”},
+{“.sh”, “text/plain”},
+{“.tar”, “application/x-tar”},
+{“.tgz”, “application/x-compressed”},
+{“.txt”, “text/plain”},
+{“.wav”, “audio/x-wav”},
+{“.wma”, “audio/x-ms-wma”},
+{“.wmv”, “audio/x-ms-wmv”},
+{“.wps”, “application/vnd.ms-works”},
+{“.xml”, “text/plain”},
+{“.z”, “application/x-compress”},
+{“.zip”, “application/x-zip-compressed”},

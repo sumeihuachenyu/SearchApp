@@ -1,3 +1,18 @@
 <resources>
-    <string name="app_name">SearchApp</string>
+    <string name="app_name">调查app</string>
+    <string name="phone_num">手机号</string>
+    <string name="password">密码</string>
+    <string name="login">登录</string>
+    <string name="forget_and_reset_pwd">忘记登录信息？重置密码</string>
+    <string name="or">或</string>
+    <string name="no_userid_reg">还没有账户？注册。</string>
+    <string name="password_6_20">6-20位密码,包含数字和字母</string>
+    <string name="verify">验证码</string>
+    <string name="get_verify">获取验证码</string>
+    <string name="register">注册</string>
+    <string name="have_userid">已经有账户了？登录。</string>
+    <string name="protocol">登陆注册表明您同意【相关服务协议】</string>
+    <string name="rest_password">重置密码</string>
+    <string name="click_back">点我返回。</string>
+    <string name="login_success">登录成功</string>
 </resources>
