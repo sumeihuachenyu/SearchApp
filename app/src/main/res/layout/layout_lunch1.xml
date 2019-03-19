@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_login"
+    android:orientation="vertical"
+    tools:context="com.example.lenovo.searchapp.LaunchActivity">
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="392px"
+            android:layout_height="70px"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="322px"
+            android:src="@drawable/splash_bg" />
+
+        <TextView
+            android:id="@+id/tv_login_reset"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40px"
+            android:gravity="center"
+            android:text="欢迎使用调查app"
+            android:textColor="@color/white"
+            android:textSize="50px" />
+
+        <!--<Button-->
+            <!--android:id="@+id/btn_splash_start"-->
+            <!--android:layout_width="626px"-->
+            <!--android:layout_height="82px"-->
+            <!--android:layout_marginLeft="30dp"-->
+            <!--android:layout_marginTop="20px"-->
+            <!--android:layout_marginRight="30dp"-->
+            <!--android:background="@drawable/bg_login_btn"-->
+            <!--android:text="开 始"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="26px" />-->
+
+        <!--<Button-->
+            <!--android:id="@+id/btn_splash_start"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/other_item_height"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:onClick="startMain"-->
+            <!--android:layout_marginLeft="32dp"-->
+            <!--android:layout_marginRight="32dp"-->
+            <!--android:layout_marginBottom="30dp"-->
+            <!--android:background="@drawable/btn_bg_white"-->
+            <!--android:text="开 始"-->
+            <!--android:textSize="14sp" />-->
+    </com.zhy.autolayout.AutoLinearLayout>
+
+
+</com.zhy.autolayout.AutoRelativeLayout>
