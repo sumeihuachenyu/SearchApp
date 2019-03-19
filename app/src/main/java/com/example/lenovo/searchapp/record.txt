@@ -19,7 +19,13 @@ View注解的作用是代替我们写了findViewById这行代码，一般用于�
 * 3. 注解参数value支持数组: value={id1, id2, id3}
 * 4. type默认View.OnClickListener.class，即可故可以不写，直接写@Event(R.id.bt1)如果你想实现其余点击事件效果，只需要把type值进行修改
 
-gradlew compileDebugSource --stacktrace -info  查看具体的错误
+gradlew compileDebugSource --stacktrace -info
+gradlew compileDebugSources --stacktrace -info 查看具体的错误
+
+gradlew :demo:dependencies    使用这个命令你可以看到你自己项目的所有依赖关系树中找到重复的依赖，或者版本不一样的依赖。 屡试不爽的一个命令。其中demo就是项目mudule名字。 正常情况下就是app
+重写父类方法的快捷键：ctrl+o
+
+运行海马玩的方法：adb connect 127.0.0.1:26944  进入安装目录 cd: D:\Program Files (x86)\Droid4X  进入模拟器所在目录
 
 https://www.cnblogs.com/favour/p/6936385.html xutils介绍
 

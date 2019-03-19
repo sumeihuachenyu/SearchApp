@@ -11,7 +11,7 @@
         <item name="windowActionBar">false</item>
     </style>
     <style name="Splash_Theme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@drawable/launch</item>
+        <item name="android:windowBackground">@drawable/splash_bg</item>
         <item name="android:windowNoTitle">true</item>
     </style>
     <style name="dialog" parent="@android:style/Theme.Dialog">
@@ -19,7 +19,7 @@
         <item name="android:background">#00000000</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowIsTranslucent">true</item><!--是否半透明-->
     </style>
     <!-- 标题1样式 -->
     <style name="txt_titleStyle1">
@@ -34,4 +34,240 @@
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
     </style>
+    <style name="MMListItem">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingLeft">8.0dip</item>
+        <item name="android:paddingRight">4.0dip</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="MMFontTitleInList">
+        <item name="android:textSize">16.0dip</item>
+        <item name="android:textColor">#ff595c61</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    <style name="MMListCatalog">
+        <item name="android:textSize">14.0dip</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#ff595c61</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">@color/windows_color</item>
+        <item name="android:paddingLeft">10.0dip</item>
+        <item name="android:paddingTop">5.0dip</item>
+        <item name="android:paddingBottom">5.0dip</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="home_tab_bottom">
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:button">@null</item>
+        <item name="android:layout_weight">1.0</item>
+    </style>
+    <style name="PersonalMainLayoutStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:background">@drawable/background_corners</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">1dp</item>
+    </style>
+    <style name="PersonalRightIconStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+    </style>
+    <style name="PersonalLine">
+        <item name="android:background">#ffcccccc</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1.0dip</item>
+    </style>
+    <style name="ToggleButtonStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+    </style>
+    <style name="PersonalCenterText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/small_text_size</item>
+        <item name="android:layout_gravity">left</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+    <style name="PersonalTopStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:focusable">true</item>
+        <item name="android:descendantFocusability">blocksDescendants</item>
+        <item name="android:background">@drawable/more_acitivity_item_selector_top_corners</item>
+    </style>
+    <style name="PersonalIconStyle">
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">38dp</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginLeft">5dp</item>
+    </style>
+    <style name="PersonalTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/small_text_size</item>
+    </style>
+    <style name="PersonalNormalStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:background">@drawable/more_activity_item_selector_no_corners</item>
+    </style>
+    <style name="PersonalBottomStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:background">@drawable/more_activity_item_selector_bottom_corners</item>
+    </style>
+    <!--&lt;!&ndash;-->
+    <!--如果没有特别说明，默认代码都是添加到Style的子节点中-->
+
+<!--<style name="styleName" parent="parentStyle">-->
+    <!--....//添加到这里-->
+<!--</style>-->
+<!--Material Design主题（作为parentStyle）-->
+<!--@android:style/Theme.Material (黑色主题)-->
+<!--@android:style/Theme.Material.Light (亮色主题)-->
+<!--@android:style/Theme.Material.Light.DarkActionBar-->
+<!--兼容的Material主题（作为parentStyle）-->
+<!--Theme.AppCompat.Light-->
+<!--Theme.AppCompat.Light.DarkActionBar-->
+<!--...-->
+<!--沉浸式状态栏（API 19以上才行）-->
+ <!--&lt;!&ndash; 沉浸式状态栏设置 &ndash;&gt;-->
+    <!--<item name="android:windowTranslucentStatus">-->
+        <!--true-->
+    <!--</item>-->
+    <!--开启全屏模式-->
+    <!--&lt;!&ndash; 全屏模式设置 &ndash;&gt;-->
+    <!--<item name="android:windowFullscreen">-->
+        <!--true-->
+    <!--</item>-->
+    <!--设置为NoActionBar类型(使用Toolbar的前提也是应用主题为NoActionBar的)。具体设置代码为：-->
+    <!--<item name="android:windowActionBar">false</item>-->
+    <!--<item name="android:windowNoTitle">true</item>-->
+    <!--<item name="windowActionBar">false</item>-->
+    <!--<item name="windowNoTitle">true</item>-->
+    <!--设置ActionBar的高度-->
+    <!--<item name="actionBarSize">@dimen/actionBarSize</item>-->
+    <!--设置ActionBar/Toolbar的颜色-->
+    <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+    <!--设置Toolbar的菜单弹出样式（分为两步）-->
+    <!--head、创建新的style节点，用于定义详细菜单弹出主题属性。-->
+    <!--<style name="OverflowMenuStyle" parent="@style/Widget.AppCompat.Light.PopupMenu.Overflow">-->
+        <!--&lt;!&ndash; 是否覆盖锚点，默认为true，即盖住Toolbar &ndash;&gt;-->
+        <!--<item name="overlapAnchor">false</item>-->
+        <!--&lt;!&ndash; 弹出层背景颜色 &ndash;&gt;-->
+        <!--<item name="android:popupBackground">-->
+            <!--@drawable/menu_bg-->
+        <!--</item>-->
+        <!--&lt;!&ndash; 弹出层垂直方向上的偏移，即在竖直方向上距离Toolbar的距离，值为负则会盖住Toolbar &ndash;&gt;-->
+        <!--<item name="android:dropDownVerticalOffset">-->
+            <!--0dip-->
+        <!--</item>-->
+        <!--&lt;!&ndash; 弹出层水平方向上的偏移，即距离屏幕左边的距离，负值会导致右边出现空隙 &ndash;&gt;-->
+        <!--<item name="android:dropDownHorizontalOffset">-->
+            <!--0dip-->
+        <!--</item>-->
+        <!--&lt;!&ndash; 设置弹出菜单文字颜色 &ndash;&gt;-->
+        <!--<item name="android:textColor">-->
+            <!--@android:color/white-->
+        <!--</item>-->
+    <!--</style>-->
+    <!--2、在刚刚写好的style引用应用主题中来。-->
+
+    <!--&lt;!&ndash; ActionBar弹出菜单主题样式 &ndash;&gt;-->
+    <!--<item name="actionOverflowMenuStyle">-->
+        <!--@style/OverflowMenuStyle-->
+    <!--</item>-->
+    <!--Edittext CheckBox等控件获得焦点(被激活)时的颜色-->
+    <!--<item name="colorAccent">@color/colorAccent</item>-->
+    <!--&lt;!&ndash; 也是获得焦点时控件的颜色，此属性将覆盖colorAccent &ndash;&gt;-->
+    <!--<item name="colorControlActivated">-->
+        <!--@color/colorControlActivated-->
+    <!--</item>-->
+    <!--Edittext CheckBox等控件没有获得焦点的颜色-->
+    <!--<item name="colorControlNormal">-->
+        <!--@color/colorControlNormal-->
+    <!--</item>-->
+    <!--设置正在按下的控件的颜色-->
+    <!--<item name="colorControlHighlight">-->
+        <!--@color/colorControlHighlight-->
+    <!--</item>-->
+    <!--设置Window/Activity默认背景色or背景图-->
+    <!--<item name="android:windowBackground">-->
+        <!--@color/backgroundColor-->
+    <!--</item>-->
+    <!--设置窗体内容背景-->
+    <!--<item name="windowContentOverlay">@null</item>-->
+    <!--设置Activity设置默认背景色为透明。代码为：-->
+    <!--<item name="android:windowBackground">-->
+        <!--@android:color/transparent-->
+    <!--</item> 　　-->
+    <!--<item name="android:windowIsTranslucent">true</item> 　-->
+    <!--定义状态栏的颜色-->
+    <!--&lt;!&ndash; 状态栏颜色 &ndash;&gt;-->
+    <!--<item name="colorPrimaryDark">-->
+        <!--@color/colorPrimaryDark-->
+    <!--</item>-->
+    <!--定义NavigationBar的颜色（虚拟导航键）-->
+    <!--&lt;!&ndash; NavigationBar颜色 &ndash;&gt;-->
+    <!--<item name="navigationBarColor">-->
+        <!--@color/navigationBar-->
+    <!--</item>-->
+    <!--定义Toolbar/ActionBar的title文字颜色-->
+    <!--<item name="textColorPrimary">-->
+        <!--@color/textColorPrimary-->
+    <!--</item>-->
+    <!--自定义Activity之间的跳转动画(分为两步)-->
+    <!--head、先定义切换style(需要单独定义Style标签)，这个style分别指定Activity打开时的进入/退出动画、Activity关闭时的进入/退出动画。-->
+    <!--<style name="ActivityAnimation" parent="@android:style/Animation.Activity">-->
+        <!--<item name="android:activityOpenEnterAnimation">-->
+            <!--@anim/activity_open_enter-->
+        <!--</item>-->
+        <!--<item name="android:activityOpenExitAnimation">-->
+            <!--@anim/activity_open_exit-->
+        <!--</item>-->
+        <!--<item name="android:activityCloseEnterAnimation">-->
+            <!--@anim/activity_close_enter-->
+        <!--</item>-->
+        <!--<item name="android:activityCloseExitAnimation">-->
+            <!--@anim/activity_close_exit-->
+        <!--</item>-->
+    <!--</style>-->
+    <!--2、在应用主题中应用此style。-->
+    <!--【特别说明的是：SDK有个默认的切换style，具体引用为：-->
+    <!--@android:style/Animation.Translucent-->
+    <!--效果为：Activity打开时：新界面从右向左进入，旧界面保持不变(类似一张纸覆盖上来)；Activity关闭时：面上的界面类似纸向右抽出，下面的界面保持不变(类似面上的纸被抽走)。】-->
+
+    <!--<item name="android:windowAnimationStyle">-->
+        <!--@style/ActivityAnimation-->
+        <!--&lt;!&ndash; SDK自带的切换动画 &ndash;&gt;-->
+        <!--&lt;!&ndash; @android:style/Animation.Translucent &ndash;&gt;-->
+    <!--</item>-->
+    <!--&ndash;&gt;-->
 </resources>

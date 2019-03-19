@@ -1,18 +1,78 @@
 <resources>
     <string name="app_name">调查app</string>
+
+    <!--登录-->
     <string name="phone_num">手机号</string>
     <string name="password">密码</string>
     <string name="login">登录</string>
-    <string name="forget_and_reset_pwd">忘记登录信息？重置密码</string>
-    <string name="or">或</string>
     <string name="no_userid_reg">还没有账户？注册。</string>
+    <string name="login_success">登录成功</string>
+    <string name="rest_password">找回密码</string>
+
+    <!--注册-->
+    <string name="register_in_normal">用户注册</string>
+    <string name="register_normal_useraccount_hint">请输入你的手机号</string>
+    <string name="register_normal_email">用户名</string>
+    <string name="register_normal_email_hint">请输入用户名</string>
+    <string name="register_normal_password">密码</string>
+    <string name="register_normal_repassword">确认密码</string>
+    <string name="register_normal_repassword_hint">请输入确认密码</string>
     <string name="password_6_20">6-20位密码,包含数字和字母</string>
+    <string name="register_success">注册成功</string>
+    <string name="have_userid">已经有账户了？登录。</string>
+
+    <!--找回密码-->
+    <string name="registerinfo">输入手机号后，点击"获取验证码"，系统会自动向你的手机发送一条短信</string>
+    <string name="register_tip">【提示】\n 1.使用手机号免费获取验证码 \n 2.此手机号用来登录调查app\n 3.你可以获取验证码短信后选择输入验证码进行下一步的操作</string>
+    <string name="getverifyindo">输入验证码后，点击"进行验证"，系统会自动进行验证</string>
+    <string name="getverify_tip">【提示】\n 1.在输入验证码的前提是通过使用手机号获取验证码 \n 2.此验证码用来验证是否是调查app的用户\n 3.系统根据输入的验证码进行下一步的操作</string>
+    <string name="getpwdindo">请在此页面重新设置密码</string>
+    <string name="getpwd_tip">【提示】\n 1.在输入验证码验证成功的前提下才会进入此页面 \n 2.用户需要重新设置自己的密码\n 3.系统根据输入的密码判断是否合法，如果合法此密码修改成功</string>
+    <string name="reset_success">密码修改成功</string>
     <string name="verify">验证码</string>
     <string name="get_verify">获取验证码</string>
-    <string name="register">注册</string>
-    <string name="have_userid">已经有账户了？登录。</string>
-    <string name="protocol">登陆注册表明您同意【相关服务协议】</string>
-    <string name="rest_password">重置密码</string>
+
+    <!--个人页面-->
+    <string name="personal_title">个人中心</string>
+    <string name="personal_more">更多</string>
+    <string name="personal_order_center">订单中心</string>
+    <string name="personal_welcome">欢迎来到调查app</string>
+    <string name="personal_login">登录</string>
+    <string name="personal_fast_search">订单状态速查</string>
+    <string name="personal_wait_pay">待付款订单</string>
+    <string name="personal_all_order">全部订单</string>
+    <string name="personal_account_center">账户中心</string>
+    <string name="personal_my_focus">我的关注</string>
+    <string name="personal_comment">商品评价/晒单</string>
+    <string name="personal_information">消息中心</string>
+    <string name="personal_quick_buy">轻松购</string>
+    <string name="personal_account">账户安全</string>
+    <string name="personal_return_back">返修/退换货</string>
+    <string name="personal_customer_service">客户服务</string>
+    <string name="personal_infomation_service">预约电话服务</string>
+    <string name="personal_quit">退出登录</string>
+
+
     <string name="click_back">点我返回。</string>
-    <string name="login_success">登录成功</string>
+    <string name="network_error">网络出了一点问题</string>
+    <string name="sport">shouy</string>
+    <string name="wechat_pay">微信支付</string>
+    <string name="wechat">微信</string>
+    <string name="chat">聊天</string>
+    <string name="constacts">通讯录</string>
+    <string name="me">我</string>
+    <string name="no_msg">暂时没有新消息</string>
+    <string name="my_group">我的群组</string>
+    <string name="focus">关注</string>
+    <string name="hot">热门</string>
+    <string name="setting">设置</string>
+    <string name="proceed">进行中</string>
+    <string name="settle">待结算</string>
+    <string name="evaluation">待评价</string>
+    <string name="all_record">全部记录</string>
+    <string name="advice_feedback">意见反馈</string>
+    <string name="about">关于我们</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 </resources>

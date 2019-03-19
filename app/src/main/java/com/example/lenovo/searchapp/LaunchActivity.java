@@ -13,7 +13,7 @@ import org.xutils.x;
 /**
  * Created by lenovo on 2019-03-06.
  */
-@ContentView(R.layout.activity_launch)
+@ContentView(R.layout.layout_lunch1)
 public class LaunchActivity extends FragmentActivity {
     private UserInfoResult.ResultBean mInfo;
 
@@ -33,11 +33,11 @@ public class LaunchActivity extends FragmentActivity {
         //String token = Utils.getValue(this,"token");
         //boolean isFirst = Utils.getBooleanValue(this,"first",true);
         //if (false){
-            //Utils.start_Activity(this,SplashActivity.class);
+            Utils.start_Activity(LaunchActivity.this,LoginActivity.class);
             //Utils.putBooleanValue(this,"first",false);
        // }else {
             //if (token.isEmpty()){
-                Utils.start_Activity(LaunchActivity.this,LoginActivity.class);
+               // Utils.start_Activity(LaunchActivity.this,LoginActivity.class);
            // } else{
                // loginByToken(token);
            // }

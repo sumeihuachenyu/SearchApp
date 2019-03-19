@@ -8,8 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.example.lenovo.searchapp.R;
+import com.example.lenovo.searchapp.common.Constants;
+import com.orhanobut.logger.Logger;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
 import org.xutils.image.ImageOptions;
+import org.xutils.x;
+
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * Created by lenovo on 2019-03-07.
@@ -51,8 +61,6 @@ public class Xutils {
         instance = new Xutils(context);
         return instance;
     }
-
-
 
     /**
      * 异步get请求
@@ -119,62 +127,63 @@ public class Xutils {
      * @param maps
      * @param callback
      */
-//    public void post(String url, Map<String, String> maps, final XCallBack callback) {
-//        if (!mLoadingDialog.isShowing() && mIsShow){
-//            mLoadingDialog.show();
-//        }
-//        RequestParams params = new RequestParams(url);
-//        try {
-//            params.addParameter("sign", Utils.getSignature(maps, Constants.SECRET));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        if (maps != null && !maps.isEmpty()) {
-//            for (Map.Entry<String, String> entry : maps.entrySet()) {
-//                params.addBodyParameter(entry.getKey(), entry.getValue());
-//            }
-//        }
-//
-//        x.http().post(params, new Callback.CommonCallback<String>() {
-//
-//            @Override
-//            public void onSuccess(String result) {
-//                Logger.json(result);
-//                try {
-//                    JSONObject object = new JSONObject(result);
-//                    if (object.getInt("code") == Constants.HTTP_OK_200) {
-//                        if (object.get("result")!=null){
-//                            onSuccessResponse( object.getString("result"), callback);
-//                        } else {
-//                            onSuccessResponse("",callback);
-//                        }
-//
-//                    }else{
-//                        Utils.showShortToast(x.app(), object.getString("error"));
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            @Override
-//            public void onError(Throwable ex, boolean isOnCallback) {
-//                Utils.showShortToast(x.app(), x.app().getString(R.string.network_error));
-//                ex.printStackTrace();
-//            }
-//
-//            @Override
-//            public void onCancelled(CancelledException cex) {
-//                Utils.showShortToast(x.app(), x.app().getString(R.string.network_error));
-//            }
-//
-//            @Override
-//            public void onFinished() {
-//                mLoadingDialog.dismiss();
-//                onRequestFinished(callback);
-//            }
-//        });
-//    }
+    public void post(String url, Map<String, String> maps, final XCallBack callback) {
+        if (!mLoadingDialog.isShowing() && mIsShow){
+            mLoadingDialog.show();
+        }
+        RequestParams params = new RequestParams(url);
+        try {
+            params.addParameter("sign", Utils.getSignature(maps, Constants.SECRET));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (maps != null && !maps.isEmpty()) {
+            for (Map.Entry<String, String> entry : maps.entrySet()) {
+                params.addBodyParameter(entry.getKey(), entry.getValue());
+            }
+
+        }
+
+        x.http().post(params, new Callback.CommonCallback<String>() {
+
+            @Override
+            public void onSuccess(String result) {
+                Logger.json(result);
+                try {
+                    JSONObject object = new JSONObject(result);
+                    if (object.getInt("code") == Constants.HTTP_OK_200) {
+                        if (object.get("result")!=null){
+                            onSuccessResponse( object.getString("result"), callback);
+                        } else {
+                            onSuccessResponse("",callback);
+                        }
+
+                    }else{
+                        Utils.showShortToast(x.app(), object.getString("error"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Utils.showShortToast(x.app(), x.app().getString(R.string.network_error));
+                ex.printStackTrace();
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+                Utils.showShortToast(x.app(), x.app().getString(R.string.network_error));
+            }
+
+            @Override
+            public void onFinished() {
+                mLoadingDialog.dismiss();
+                onRequestFinished(callback);
+            }
+        });
+    }
 
 
     /**

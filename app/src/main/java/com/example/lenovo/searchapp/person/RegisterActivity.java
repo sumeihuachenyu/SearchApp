@@ -1,19 +1,13 @@
 package com.example.lenovo.searchapp.person;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.TextPaint;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import com.example.lenovo.searchapp.ProtocolActivity;
 import com.example.lenovo.searchapp.R;
+import com.example.lenovo.searchapp.utils.TransformUtils;
 import com.example.lenovo.searchapp.utils.Utils;
 
 import org.xutils.view.annotation.ContentView;
@@ -33,57 +27,42 @@ public class RegisterActivity extends AppCompatActivity {
     /** 手机号输入框 */
     @ViewInject(R.id.et_register_phone)
     private EditText mPhone;
+    /** 用户名输入框*/
+    @ViewInject(R.id.et_register_username)
+    private EditText mUsername;
     /** 密码输入框 */
     @ViewInject(R.id.et_register_password)
     private EditText mPassword;
-    /** 验证码输入框 */
-    @ViewInject(R.id.et_register_verify)
-    private EditText mVerify;
-    /** 获取验证码文字 */
-    @ViewInject(R.id.tv_register_verify)
-    private TextView mGetVerify;
-
-    @ViewInject(R.id.tv_agree_protocol)
-    private TextView mProtocol;
-    /** 更新验证码倒计时handler */
-    /*private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.what != 0) {
-                mGetVerify.setText(msg.what + " s");
-            } else {
-                mGetVerify.setText(getString(R.string.get_verify));
-                mGetVerify.setEnabled(true);
-            }
-        }
-    };*/
+    /** 密码输入框 */
+    @ViewInject(R.id.et_register_password_again)
+    private EditText mPasswordAgain;
+//    /** 验证码输入框 */
+//    @ViewInject(R.id.et_register_verify)
+//    private EditText mVerify;
+//    /** 获取验证码文字 */
+//    @ViewInject(R.id.tv_register_verify)
+//    private TextView mGetVerify;
+//    /**查看服务协议*/
+//    @ViewInject(R.id.tv_agree_protocol)
+//    private TextView mProtocol;
+    /** 更新验证码倒计时handler:消息处理机制 */
+//   private Handler mHandler = new Handler() {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+//            if (msg.what != 0) {
+//                mGetVerify.setText(msg.what + " s");
+//            } else {
+//                mGetVerify.setText(getString(R.string.get_verify));
+//                mGetVerify.setEnabled(true);
+//            }
+//        }
+//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
-        init();
-    }
-
-    private void init() {
-        SpannableString spanText=new SpannableString(getString(R.string.protocol));
-        spanText.setSpan(new ClickableSpan() {
-
-            @Override
-            public void updateDrawState(TextPaint ds) {
-                super.updateDrawState(ds);
-                ds.setColor(Color.WHITE);       //设置文件颜色
-                ds.setUnderlineText(true);      //设置下划线
-            }
-            @Override
-            public void onClick(View view) {
-                Utils.start_Activity(RegisterActivity.this,ProtocolActivity.class);
-            }
-        }, spanText.length() - 8, spanText.length()-1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        mProtocol.setHighlightColor(Color.TRANSPARENT); //设置点击后的颜色为透明，否则会一直出现高亮
-        mProtocol.setText(spanText);
-        mProtocol.setMovementMethod(LinkMovementMethod.getInstance());//开始响应点击事件
     }
 
     /**
@@ -94,28 +73,58 @@ public class RegisterActivity extends AppCompatActivity {
     @Event(value = {R.id.btn_register})
     private void register(View v) {
         if(mPhone.getText().toString().isEmpty()){
-            Utils.showShortToast(this,"请输入正确的手机号");
+            Utils.showShortToast(this,"请输入手机号");
             return;
+        }else{
+            if (!TransformUtils.isMobile(mPhone.getText().toString())){
+                Utils.showShortToast(this,"请输入格式正确的手机号");
+                return;
+            }
+        }
+        if(mUsername.getText().toString().isEmpty()){
+            Utils.showShortToast(this,"请输入用户名");
+            return;
+        }else{
+            if (!TransformUtils.isUsername(mUsername.getText().toString())){
+                Utils.showShortToast(this,"用户名包含非法字符，请重新输入");
+                return;
+            }
         }
         if(mPassword.getText().toString().isEmpty()){
             Utils.showShortToast(this,"请输入密码");
             return;
+        }else{
+            if(!TransformUtils.isPassword(mPassword.getText().toString())){
+                Utils.showShortToast(this,"请输入6-20位包含字母和数字的密码");
+                return;
+            }
         }
-        if(mVerify.getText().toString().isEmpty()){
-            Utils.showShortToast(this,"请输入验证码");
+        if(mPasswordAgain.getText().toString().isEmpty()){
+            Utils.showShortToast(this,"请再次输入密码");
             return;
+        }else{
+            if(!mPassword.getText().toString().equals(mPasswordAgain.getText().toString())){
+                Utils.showShortToast(this,"两次密码不一致，请重新输入");
+                return;
+            }
         }
+//        if(mVerify.getText().toString().isEmpty()){
+//            Utils.showShortToast(this,"请输入验证码");
+//            return;
+//        }
+        Utils.showShortToast(RegisterActivity.this,getString(R.string.register_success));
         Map<String, String> map = new HashMap<>();
         map.put("mobile", mPhone.getText().toString());
         map.put("password", mPassword.getText().toString());
-        map.put("verify", mVerify.getText().toString());
-        Utils.start_Activity(RegisterActivity.this, LoginActivity.class);//自己写的
+
+        Log.i("用户数据",map.toString());
+        //Utils.start_Activity(ReisterActivity.this, LoginActivity.class);//为了走通逻辑设置
+        //与服务器进行交互
 //        Xutils.getInstance(this).post(API.REGISTER_WITH_MOBILE, map, new Xutils.XCallBack() {
 //            @Override
 //            public void onResponse(String result) {
 //                Utils.start_Activity(RegisterActivity.this, LoginActivity.class);
 //            }
-//
 //            @Override
 //            public void onFinished() {
 //
@@ -128,12 +137,18 @@ public class RegisterActivity extends AppCompatActivity {
      *
      * @param v 点击视图
      */
-    @Event(value = {R.id.tv_register_verify})
-    private void getVerify(View v) {
-        if (mPhone.getText().toString().isEmpty()){
-            Utils.showShortToast(this,"请输入正确的手机号");
-            return;
-        }
+//    @Event(value = {R.id.tv_register_verify})
+//    private void getVerify(View v) {
+//        if (mPhone.getText().toString().isEmpty()){
+//            Utils.showShortToast(this,"请输入手机号");
+//            return;
+//        }else{
+//            if (!TransformUtils.isMobile(mPhone.getText().toString())){
+//                Utils.showShortToast(this,"请输入格式正确的手机号");
+//                return;
+//            }
+//        }
+//
 //        calcGetVerifyTime();
 //        Map<String, String> map = new HashMap<>();
 //        map.put("mobile", mPhone.getText().toString());
@@ -167,7 +182,7 @@ public class RegisterActivity extends AppCompatActivity {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-    }
+//    }
 
     /**
      * 计算再次获取验证码的时间

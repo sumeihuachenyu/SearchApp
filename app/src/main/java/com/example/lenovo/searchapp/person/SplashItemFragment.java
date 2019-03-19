@@ -28,9 +28,9 @@ public class SplashItemFragment extends Fragment {
                 if (picId != 0) {
                     ImageView img = (ImageView) contentView.findViewById(R.id.iv_splash_item);
                     Button btn = (Button) contentView.findViewById(R.id.btn_splash_start);
-                    if (btn != null&&getActivity().getIntent().getBooleanExtra("flag",false)){
-                        btn.setVisibility(View.GONE);
-                    }
+                    //if (btn != null&&getActivity().getIntent().getBooleanExtra("flag",false)){
+                        //btn.setVisibility(View.GONE);
+                    //}
                     img.setImageResource(picId);
                 }
             }

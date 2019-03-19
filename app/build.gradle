@@ -5,11 +5,16 @@ android {
     buildToolsVersion "28.0.3"
     defaultConfig {
         applicationId "com.example.lenovo.searchapp"
-        minSdkVersion 19
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0"
+        versionName "head.0"
+        //multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters "armeabi-v7a", "x86"
+        }
     }
     buildTypes {
         release {
@@ -18,7 +23,7 @@ android {
         }
     }
     configurations.all {
-        resolutionStrategy.force 'com.android.support:support-annotations:26.1.0'
+       //resolutionStrategy.force 'com.android.support:support-annotations:26.head.0'
     }
 }
 
@@ -30,9 +35,22 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'org.xutils:xutils:3.4.0'
+    //implementation 'com.7heaven.widgets:segmentcontrol:head.17'//实现选择切换的
+    //implementation 'cn.carbs.android:SegmentControlView:head.0.0'
+    implementation 'info.hoang8f:android-segmented:1.0.6'//实现选择切换的
+    //implementation 'com.android.support:multidex:head.0.head'
     implementation 'com.zhy:autolayout:1.4.5'//适配屏幕工具
     implementation 'me.yokeyword:swipebackfragment:0.2.2'///进行手指的滑动
-    implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.6.0'//加载超大图片
-
+    //implementation 'me.yokeyword:fragmentation:0.8.6'//提供fragment转场动画
+    implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.6.0'
+    implementation 'com.orhanobut:logger:1.8'//开源库，用于日志打印的
+    implementation 'com.github.bumptech.glide:glide:3.7.0'//图片加载库
+    implementation  'me.yokeyword:fragmentation:0.10.4'//加载多个同级根Fragment,没有添加Fragment事务到回退栈
+    //implementation 'com.makeramen:roundedimageview:2.2.head'//android开发圆形头像
+    implementation 'org.greenrobot:eventbus:3.0.0'// EventBus可以实现组件间通信,线程通信,比较方便灵活
+    //implementation 'info.hoang8f:android-segmented:head.0.6'//一种扁平风格的控件叫做分段选择控件UISegmentedControl，控件上横放或竖放着几个被简单线条隔开的按钮，每次点击能切换不同的按钮和按钮所对应的界面
+    implementation 'com.google.code.gson:gson:2.8.0'
+    implementation 'org.jetbrains:annotations-java5:15.0'
+//Google提供的用来在Java对象和JSON数据之间进行映射的Java类库。可以将一个Json字符转成一个Java对象，或者将一个Java转化为Json字符串。
 
 }

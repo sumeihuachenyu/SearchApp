@@ -9,4 +9,14 @@
     <!--窗体颜色 -->
     <color name="windows_color">#F5F5F5</color>
     <color name="bar_color">#485159</color>
+    <color name="gray">#ACACAC</color>
+    <color name="black1">#7A7E83</color>
+    <color name="black">#ff000000</color>
+    <color name="black2">#ffeeeeee</color>
+    <color name="btn_send_msg">#0E88EB</color>
+    <!--     金黄色 -->
+    <color name="goldyellow">#ff9428</color>
+    <color name="red">#DF0101</color>
+    <color name="transparent">#0000</color>
+    <color name="login_button">#ff775025</color>
 </resources>

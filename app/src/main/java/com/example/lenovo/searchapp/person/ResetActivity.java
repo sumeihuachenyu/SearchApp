@@ -3,19 +3,16 @@ package com.example.lenovo.searchapp.person;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.example.lenovo.searchapp.R;
 import com.example.lenovo.searchapp.common.BaseActivity;
+import com.example.lenovo.searchapp.utils.TransformUtils;
 import com.example.lenovo.searchapp.utils.Utils;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by lenovo on 2019-03-07.
@@ -24,36 +21,18 @@ import java.util.Map;
 public class ResetActivity extends BaseActivity {
     /** Log标记 */
     private final String TAG = "ResetActivity";
-    /** 手机号输入框 */
-    @ViewInject(R.id.et_reset_phone)
-    private EditText mPhone;
     /** 密码输入框 */
-    @ViewInject(R.id.et_reset_password)
-    private EditText mPassword;
-    /** 验证码输入框 */
-    @ViewInject(R.id.et_reset_verify)
-    private EditText mVerify;
-    /** 获取验证码文字 */
-    @ViewInject(R.id.tv_reset_verify)
-    private TextView mGetVerify;
-    /** 更新验证码倒计时handler */
-    /*private Handler mHandler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if(msg.what != 0){
-                mGetVerify.setText(msg.what+" s");
-            } else {
-                mGetVerify.setText(getString(R.string.get_verify));
-                mGetVerify.setEnabled(true);
-            }
-        }
-    };*/
+    @ViewInject(R.id.et_register_password)
+    private EditText password;
+    /** 确认密码输入框 */
+    @ViewInject(R.id.et_register_password_again)
+    private EditText apassword;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Utils.hideNavigationBar(this);
         x.view().inject(this);
     }
 
@@ -62,107 +41,74 @@ public class ResetActivity extends BaseActivity {
      *
      * @param v 点击视图
      */
-    @Event(value = {R.id.btn_reset})
+    @Event(value = {R.id.tv_reset_update})
     private void reset(View v){
-        if(mPhone.getText().toString().isEmpty()){
-            Utils.showShortToast(this,"请输入正确的手机号");
-            return;
-        }
-        if(mPassword.getText().toString().isEmpty()){
+        if(password.getText().toString().isEmpty()){
             Utils.showShortToast(this,"请输入密码");
             return;
+        }else{
+            if(!TransformUtils.isPassword(password.getText().toString())){
+                Utils.showShortToast(this,"请输入6-20位包含字母和数字的密码");
+                return;
+            }
         }
-        if(mVerify.getText().toString().isEmpty()){
-            Utils.showShortToast(this,"请输入验证码");
+        if(apassword.getText().toString().isEmpty()){
+            Utils.showShortToast(this,"请再次输入密码");
             return;
+        }else{
+            if(!apassword.getText().toString().equals(password.getText().toString())){
+                Utils.showShortToast(this,"两次密码不一致，请重新输入");
+                return;
+            }
         }
-        Map<String,String> map = new HashMap<>();
-        map.put("mobile",mPhone.getText().toString());
-        map.put("password",mPassword.getText().toString());
-        map.put("verify",mVerify.getText().toString());
-        /*RequestParams params = new RequestParams(API.RESET_PASSWORD);
-        try {
-            params.addParameter("sign", Utils.getSignature(map, Constants.SECRET));
-            params.addParameter("mobile",mPhone.getText().toString());
-            params.addParameter("password",mPassword.getText().toString());
-            params.addParameter("verify",mVerify.getText().toString());
-            x.http().post(params, new Callback.CommonCallback<String>() {
-                @Override
-                public void onSuccess(String result) {
-                    BaseResult baseResult = Utils.parseJsonWithGson(result,BaseResult.class);
-                    if (baseResult.getCode()== Constants.HTTP_OK_200){
-                        Utils.start_Activity(ResetActivity.this,LoginActivity.class);
-                    } else {
-                        Utils.showShortToast(ResetActivity.this, baseResult.getError());
-                    }
-                }
+        Utils.showShortToast(ResetActivity.this,"密码修改成功");
+        Utils.start_Activity(ResetActivity.this,LoginActivity.class);
+                //update();
 
-                @Override
-                public void onError(Throwable ex, boolean isOnCallback) {
-                    Utils.showShortToast(ResetActivity.this, getString(R.string.network_error));
-                }
 
-                @Override
-                public void onCancelled(CancelledException cex) {
-                    Utils.showShortToast(ResetActivity.this, getString(R.string.network_error));
-                }
-
-                @Override
-                public void onFinished() {
-
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+//        Map<String,String> map = new HashMap<>();
+//        map.put("mobile",mPhone.getText().toString());
+//        map.put("password",mPassword.getText().toString());
+//        map.put("verify",mVerify.getText().toString());
+        //Utils.start_Activity(ResetActivity.this,LoginActivity.class);//走通逻辑而写
+//        RequestParams params = new RequestParams(API.RESET_PASSWORD);
+//        try {
+//            params.addParameter("sign", Utils.getSignature(map, Constants.SECRET));
+//            params.addParameter("mobile",mPhone.getText().toString());
+//            params.addParameter("password",mPassword.getText().toString());
+//            params.addParameter("verify",mVerify.getText().toString());
+//            x.http().post(params, new Callback.CommonCallback<String>() {
+//                @Override
+//                public void onSuccess(String result) {
+//                    BaseResult baseResult = Utils.parseJsonWithGson(result,BaseResult.class);
+//                    if (baseResult.getCode()== Constants.HTTP_OK_200){
+//                        Utils.start_Activity(ResetActivity.this,LoginActivity.class);
+//                    } else {
+//                        Utils.showShortToast(ResetActivity.this, baseResult.getError());
+//                    }
+//                }
+//
+//                @Override
+//                public void onError(Throwable ex, boolean isOnCallback) {
+//                    Utils.showShortToast(ResetActivity.this, getString(R.string.network_error));
+//                }
+//
+//                @Override
+//                public void onCancelled(CancelledException cex) {
+//                    Utils.showShortToast(ResetActivity.this, getString(R.string.network_error));
+//                }
+//
+//                @Override
+//                public void onFinished() {
+//
+//                }
+//            });
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
-
-    /**
-     * 获取验证码（点击验证码文字）
-     *
-     * @param v 点击视图
-     */
-    @Event(value = {R.id.tv_reset_verify})
-    private void getVerify(View v){
-        if (mPhone.getText().toString().isEmpty()){
-            Utils.showShortToast(this,"请输入正确的手机号");
-            return;
-        }
-        //calcGetVerifyTime();
-        Map<String,String> map = new HashMap<>();
-        map.put("mobile",mPhone.getText().toString());
-        /*RequestParams params = new RequestParams(API.GET_VERIFY_MOBILE);
-        try {
-            params.addQueryStringParameter("sign",Utils.getSignature(map, Constants.SECRET));
-            params.addQueryStringParameter("mobile",mPhone.getText().toString());
-            x.http().get(params, new Callback.CommonCallback<String>() {
-                @Override
-                public void onSuccess(String result) {
-                    BaseResult baseResult = Utils.parseJsonWithGson(result,BaseResult.class);
-                    if (!(baseResult.getCode()== Constants.HTTP_OK_200)){
-                        Utils.showShortToast(ResetActivity.this, baseResult.getError());
-                    }
-                }
-
-                @Override
-                public void onError(Throwable ex, boolean isOnCallback) {
-                    Utils.showShortToast(ResetActivity.this, getString(R.string.network_error));
-                }
-
-                @Override
-                public void onCancelled(CancelledException cex) {
-                    Utils.showShortToast(ResetActivity.this, getString(R.string.network_error));
-                }
-
-                @Override
-                public void onFinished() {
-
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
+    public void update(){
+        Utils.start_Activity(ResetActivity.this,LoginActivity.class);
     }
 
     /**
@@ -170,29 +116,9 @@ public class ResetActivity extends BaseActivity {
      *
      * @param v 点击视图
      */
-    @Event(value = {R.id.tv_reset_back})
+    @Event(value = {R.id.tv_reset_login})
     private void back(View v){
-        finish();
+        Utils.start_Activity(ResetActivity.this,LoginActivity.class);
     }
 
-    /**
-     * 计算再次获取验证码的时间
-     *
-     */
-    /*private void calcGetVerifyTime() {
-        mGetVerify.setEnabled(false);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (int i=59;i>=0;i--) {
-                    try {
-                        Thread.sleep(1000);
-                        mHandler.sendEmptyMessage(i);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
-    }*/
 }

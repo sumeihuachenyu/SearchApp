@@ -3,6 +3,10 @@
     package="com.example.lenovo.searchapp">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
     <application  android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -25,8 +29,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
-        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.Main" />
         <activity android:name=".person.LoginActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -35,16 +40,22 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Main" />
-        <activity
-            android:name="ProtocolActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Swipe.Back" />
+        <!--<activity-->
+            <!--android:name="ProtocolActivity"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:theme="@style/Theme.Swipe.Back" />-->
         <activity
             android:name=".person.ResetActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Main" />
-
+        <activity
+            android:name=".MainActivityTop"
+            android:theme="@style/Theme.Main" />
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/Theme.Main" />
     </application>
+
 
 </manifest>

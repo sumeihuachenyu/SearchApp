@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/splash_item" />
+    <!--<include layout="@layout/splash_item" />-->
+    <ImageView
+        android:id="@+id/iv_splash_item"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/boot_imageview_3"/>
 
     <Button
         android:id="@+id/btn_splash_start"

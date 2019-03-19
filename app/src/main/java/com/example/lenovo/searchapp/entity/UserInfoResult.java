@@ -7,7 +7,7 @@ public class UserInfoResult {
 
     /**
      * code : 200
-     * result : {"id":"16","uname":"mZhrCK","mobile":null,"nick":"天马","sex":"男","email":null,"idcard":null,"area":null,"city":null,"portrait":"http://wx.qlogo.cn/mmopen/bBCXfVgPcicHZuXqMM0HNpYbjQnAibt3UPJibR7jeTWSSyT9iaKicMFueIRjWtvdJlAEDkwLCddZlYY3ck1CG8xckhtEKYjBv6iaOX/0","wx_openid":"o2q3hwsHeOL9eSKZMTWJTWxD3jyE","wxpub_openid":null,"unionid":"oVhw5vx--cuPUFMvv5n2rWLX5ldU","token":"0eHHh+pqqAwoWU4LN5MYRW83TCgZ08EqPcx0VME7r/+k/TYIy3f3P9Q5CZMKUyQ5LFM3aKsRvwXIIoVRR34d5Q==","channel":"微信","login_time":null,"reg_time":"2016-12-06 22:42:28","status":null,"portrait_status":null,"valid":"1"}
+     * result : {"id":"16","uname":"mZhrCK","mobile":null,"nick":"天马","sex":"男","email":null,"idcard":null,"area":null,"city":null,"portrait":"http://wx.qlogo.cn/mmopen/bBCXfVgPcicHZuXqMM0HNpYbjQnAibt3UPJibR7jeTWSSyT9iaKicMFueIRjWtvdJlAEDkwLCddZlYY3ck1CG8xckhtEKYjBv6iaOX/0","wx_openid":"o2q3hwsHeOL9eSKZMTWJTWxD3jyE","wxpub_openid":null,"unionid":"oVhw5vx--cuPUFMvv5n2rWLX5ldU","token":"0eHHh+pqqAwoWU4LN5MYRW83TCgZ08EqPcx0VME7r/+k/TYIy3f3P9Q5CZMKUyQ5LFM3aKsRvwXIIoVRR34d5Q==","channel":"微信","login_time":null,"reg_time":"2016-12-06 22:42:28","status":null,"portrait_status":null,"valid":"head"}
      */
 
     private int code;
@@ -50,7 +50,7 @@ public class UserInfoResult {
          * reg_time : 2016-12-06 22:42:28
          * status : null
          * portrait_status : null
-         * valid : 1
+         * valid : head
          */
 
         private String id;

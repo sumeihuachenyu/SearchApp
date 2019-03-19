@@ -1,115 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/bg_login"
     android:orientation="vertical"
-    android:weightSum="2.5"
-    tools:context="com.example.lenovo.searchapp.person.ResetActivity">
-
-    <com.zhy.autolayout.AutoLinearLayout
+    android:background="@drawable/android_layout_bg"
+    tools:context=".person.ResetActivity">
+    <RelativeLayout
+        android:id="@+id/personal_top_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:background="@drawable/android_title_bg" >
 
-        <ImageView
-            android:layout_width="392px"
-            android:layout_height="70px"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="322px"
-            android:src="@drawable/sportspagex" />
-
-        <EditText
-            android:id="@+id/et_reset_phone"
-            android:layout_width="626px"
-            android:layout_height="82px"
-            android:layout_marginLeft="62px"
-            android:layout_marginRight="62px"
-            android:layout_marginTop="20px"
-            android:background="@drawable/bg_edittext"
-            android:hint="@string/phone_num"
-            android:inputType="phone"
-            android:imeOptions="actionNext"
-            android:textSize="26px"
-            android:maxLength="11"
-            android:paddingRight="20px"
-            android:paddingLeft="20px"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:text="@string/rest_password"
             android:textColor="@color/white"
-            android:textColorHint="@color/white"/>
+            android:textSize="@dimen/medium_text_size" />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingTop="20dp"
+            android:paddingRight="10dp"
+            android:text="@string/getpwdindo"
+            android:textColor="@color/goldyellow"
+            android:textSize="16sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/register_normal_password"
+            android:textColor="@color/black" />
 
         <EditText
-            android:id="@+id/et_reset_password"
-            android:layout_width="626px"
-            android:layout_height="82px"
-            android:layout_marginLeft="62px"
-            android:layout_marginRight="62px"
-            android:layout_marginTop="20px"
-            android:background="@drawable/bg_edittext"
+            android:id="@+id/et_register_password"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_marginLeft="35dp"
             android:hint="@string/password_6_20"
             android:inputType="textPassword"
-            android:imeOptions="actionNext"
-            android:paddingRight="20px"
-            android:paddingLeft="20px"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:textSize="26px" />
+            android:background="@drawable/category_selection_gridview_bg"
+            android:layout_gravity="center_vertical"
+            />
 
-        <com.zhy.autolayout.AutoRelativeLayout
-            android:layout_width="626px"
-            android:layout_height="82px"
-            android:layout_marginLeft="62px"
-            android:layout_marginRight="62px"
-            android:layout_marginTop="20px">
+    </LinearLayout>
 
-            <EditText
-                android:id="@+id/et_reset_verify"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/bg_edittext"
-                android:hint="@string/verify"
-                android:inputType="text"
-                android:imeOptions="actionDone"
-                android:paddingRight="20px"
-                android:paddingLeft="20px"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:textSize="26px" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        >
 
-            <TextView
-                android:id="@+id/tv_reset_verify"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:gravity="center"
-                android:paddingRight="@dimen/et_padding"
-                android:text="@string/get_verify"
-                android:textColor="@color/white"
-                android:textSize="26px" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/register_normal_repassword"
+            android:textColor="@color/black" />
 
-        </com.zhy.autolayout.AutoRelativeLayout>
+        <EditText
+            android:id="@+id/et_register_password_again"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_marginLeft="10dp"
+            android:hint="@string/register_normal_repassword_hint"
+            android:inputType="textPassword"
+            android:background="@drawable/category_selection_gridview_bg"
+            android:layout_gravity="center_vertical"
+            />
 
-        <Button
-            android:id="@+id/btn_reset"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/bg_login_btn"
-            android:text="@string/rest_password"
-            android:textColor="@color/white" />
-
-    </com.zhy.autolayout.AutoLinearLayout>
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_reset_back"
-        android:layout_width="match_parent"
-        android:layout_height="100px"
-        android:layout_alignParentBottom="true"
+        android:id="@+id/tv_reset_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/register_btn_bg"
         android:gravity="center"
-        android:background="@color/trans_white"
+        android:text="确认修改"
         android:textColor="@color/white"
-        android:text="@string/click_back"
-        />
-</com.zhy.autolayout.AutoRelativeLayout >
+        android:textSize="14sp" />
+
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:paddingLeft="10dp"-->
+        <!--android:paddingTop="20dp"-->
+        <!--android:paddingRight="10dp"-->
+        <!--android:text="@string/registerinfo"-->
+        <!--android:textColor="@color/goldyellow"-->
+        <!--android:textSize="12sp" />-->
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="40dp"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:background="@drawable/category_selection_gridview_bg" >-->
+
+        <!--<EditText-->
+            <!--android:id="@+id/et_reset_phone"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:hint="请输入你的手机号"-->
+            <!--android:inputType="number"-->
+            <!--android:background="@null"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--/>-->
+
+    <!--</LinearLayout>-->
+<!--<LinearLayout-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="30dp"-->
+    <!--android:layout_gravity="center_horizontal">-->
+    <!--<TextView-->
+        <!--android:id="@+id/tv_reset_verify"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:background="@drawable/register_btn_bg"-->
+        <!--android:gravity="center"-->
+        <!--android:text="获取验证码"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:textSize="16sp" />-->
+<!--</LinearLayout>-->
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:paddingTop="20dp"
+        android:layout_margin="10dp"
+        android:text="@string/getpwd_tip"
+        android:textSize="15sp"
+        android:textColor="#9b7e33" />
+    <TextView
+        android:id="@+id/tv_reset_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/register_btn_bg"
+        android:gravity="center"
+        android:text="回到登录页面"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+</LinearLayout>
