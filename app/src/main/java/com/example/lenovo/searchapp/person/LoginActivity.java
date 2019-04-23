@@ -3,7 +3,6 @@ package com.example.lenovo.searchapp.person;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -12,19 +11,27 @@ import com.example.lenovo.searchapp.MainActivity;
 import com.example.lenovo.searchapp.MainActivityTop;
 import com.example.lenovo.searchapp.MyApplication;
 import com.example.lenovo.searchapp.R;
+import com.example.lenovo.searchapp.common.API;
+import com.example.lenovo.searchapp.common.BaseActivity;
+import com.example.lenovo.searchapp.person.model.User;
 import com.example.lenovo.searchapp.utils.TransformUtils;
 import com.example.lenovo.searchapp.utils.Utils;
+import com.example.lenovo.searchapp.utils.Xutils;
+import com.orhanobut.logger.Logger;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by lenovo on 2019-03-06.
  */
 @ContentView(R.layout.activity_login)
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
     /** Log标记 */
     private final String TAG = "LoginActivity";
     /** 手机号输入框 */
@@ -39,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
     private AlertDialog mLoadingDialog;
     private Handler handler;
     private MyApplication myApplication;
-
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +54,13 @@ public class LoginActivity extends AppCompatActivity {
        // Utils.hideNavigationBar(this);
         x.view().inject(this);
         myApplication = MyApplication.getInstance();
-        myApplication.setData("");
-        init();
+        user = myApplication.getUser();
+        Logger.d("登录：user="+user);
+        if(user != null){
+            mPhone.setText(user.getPhone());
+            mPassword.setText(user.getPassword());
+        }
+        //init();
     }
 
     private void init() {
@@ -60,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
          * 注：Inflate()或可理解为“隐性膨胀”，隐性摆放在view里，inflate()前只是获得控件，但没有大小没有在View里占据空间，inflate()后有一定大小，只是出于隐藏状态。
          * 一般在activity中通过setContentView()将界面显示出来，但是如果在非activity中如何对控件布局设置操作了，这需LayoutInflater动态加载。
          */
-        View content = LayoutInflater.from(this).inflate(R.layout.dialog_loading, null);//进行进度条的初始化
+        View content = LayoutInflater.from(this).inflate(R.layout.pop_item, null);//进行进度条的初始化
         mLoadingDialog.setView(content);//如果需要自定义对话框界面
         //SpannableString可以直接作为TextView的显示文本，不同的是SpannableString可以通过使用其方法setSpan方法实现字符串各种形式风格的显示,重要的是可以指定设置的区间，
         // 也就是为字符串指定下标区间内的子字符串设置格式。
@@ -91,52 +103,43 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
         }
-//        Map<String,String> map = new HashMap<>();
-//        map.put("mobile",mPhone.getText().toString());
-//        map.put("password",mPassword.getText().toString());
-//        //不连服务器的时候，首先保证整个业务的流畅
-        if(mPhone.getText().toString().equals("18209571211") && mPassword.getText().toString().equals("111111sm")){
-            Utils.showShortToast(LoginActivity.this,getString(R.string.login_success));
-         new Thread(new Runnable() {
-           @Override
-           public void run() {
-               login();
-           }
-       }).start();
-            //startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        Map<String,String> map = new HashMap<>();
+        map.put("mobile",mPhone.getText().toString());
+        map.put("password",mPassword.getText().toString());
+        Logger.d("token="+myApplication.getToken());
+        if(myApplication.getToken() == null || myApplication.getToken().equals("")){
+            map.put("token","无值");
+        }else{
+            map.put("token",myApplication.getToken());
         }
-
-//        String verify = "1111";
-//        Intent smsIntent=new Intent(Intent.ACTION_SENDTO,
-//                Uri.parse("sms:"+mPhone.getText().toString()));
-//        smsIntent.putExtra("sms_body", "您的验证码为"+verify+",此验证码30分钟内有效");
-//        try {
-//            this.startActivity(smsIntent);
-//        } catch(ActivityNotFoundException exception) {
-//            Toast.makeText(this, "no activity", Toast.LENGTH_SHORT).show();
-//        }
+        //map.put("canshu","你好");
 
         //将数据传递到服务器端
-//        Xutils.getInstance(this).post(API.LOGIN_WITH_MOBILE, map, new Xutils.XCallBack() {
-//            @Override
-//            public void onResponse(String result) {
-//                LoginResult.UserInfo loginResult = Utils.parseJsonWithGson(result,LoginResult.UserInfo.class);
-//                Utils.showShortToast(LoginActivity.this,getString(R.string.login_success));
-//                mUserName = loginResult.getUserName();
-//                mPortrait = loginResult.getPortrait();
-//            }
-//
-//            @Override
-//            public void onFinished() {
-//
-//            }
-//        });
+        Xutils.getInstance(LoginActivity.this,LoginActivity.this,false).post(API.LOGIN_WITH_MOBILE, map, new Xutils.XCallBack() {
+            @Override
+            public void onResponse(String result) {
+               // LoginResult.UserInfo loginResult = Utils.parseJsonWithGson(result,LoginResult.UserInfo.class);
+                User data = Utils.parseJsonWithGson(result,User.class);
+                Logger.d("登录页面的user="+user);
+                myApplication.setUser(data);
+                myApplication.setToken(data.getToken());
+                Logger.d("token="+myApplication.getToken());
+                Utils.showShortToast(LoginActivity.this,getString(R.string.login_success));
+                Utils.start_Activity(LoginActivity.this,MainActivityTop.class);
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     private void login() {
         //String token = Utils.getValue(this,"token");
         //boolean isFirst = Utils.getBooleanValue(this,"first",true);
         //if (false){
+        myApplication.setToken("111111");
         Utils.start_Activity(LoginActivity.this,MainActivityTop.class);
         //Utils.putBooleanValue(this,"first",false);
         // }else {

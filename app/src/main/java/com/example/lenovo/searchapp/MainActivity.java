@@ -3,10 +3,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.example.lenovo.searchapp.common.BaseActivity;
 import com.example.lenovo.searchapp.frament.InputVertifyFragment;
 import com.example.lenovo.searchapp.frament.inputPhoneFragment;
 
@@ -15,7 +15,7 @@ import info.hoang8f.android.segmented.SegmentedGroup;
 /**
  * 实现找回密码中输入手机号和填写验证码两个Fragment页面的跳转
  */
-public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener{
+public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener{
 
     private SegmentedGroup mSegmentedGroup;
     private RadioButton radioButtonOne, radioButtonTwo;
@@ -24,12 +24,12 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_top);
-
         initWidget();//初始化组件
         initData();//初始化数据
         initEvent();//初始化是事件
 
     }
+
 
     private void initEvent() {
         radioButtonOne.setChecked(true);//默认选择第一个（案例展示碎片）

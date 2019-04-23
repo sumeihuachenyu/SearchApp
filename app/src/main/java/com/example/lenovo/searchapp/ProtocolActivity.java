@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+import com.example.lenovo.searchapp.utils.ActivityCollectorUtil;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -32,7 +33,14 @@ public class ProtocolActivity extends SwipeBackActivity {
         super.onCreate(savedInstanceState);
         //Utils.hideNavigationBar(this);
         x.view().inject(this);
+        ActivityCollectorUtil.addActivity(this);
         init();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollectorUtil.removeActivity(this);
     }
 
     private void init() {

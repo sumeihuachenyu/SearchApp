@@ -1,14 +1,20 @@
 package com.example.lenovo.searchapp.person;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.lenovo.searchapp.MyApplication;
 import com.example.lenovo.searchapp.R;
+import com.example.lenovo.searchapp.common.API;
+import com.example.lenovo.searchapp.common.BaseActivity;
+import com.example.lenovo.searchapp.person.model.User;
+import com.example.lenovo.searchapp.utils.ActivityCollectorUtil;
 import com.example.lenovo.searchapp.utils.TransformUtils;
 import com.example.lenovo.searchapp.utils.Utils;
+import com.example.lenovo.searchapp.utils.Xutils;
+import com.orhanobut.logger.Logger;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -23,7 +29,7 @@ import java.util.Map;
  * Created by lenovo on 2019-03-06.
  */
 @ContentView(R.layout.layout_register)
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends BaseActivity {
     /** 手机号输入框 */
     @ViewInject(R.id.et_register_phone)
     private EditText mPhone;
@@ -33,37 +39,20 @@ public class RegisterActivity extends AppCompatActivity {
     /** 密码输入框 */
     @ViewInject(R.id.et_register_password)
     private EditText mPassword;
-    /** 密码输入框 */
+    /** 密码确认输入框 */
     @ViewInject(R.id.et_register_password_again)
     private EditText mPasswordAgain;
-//    /** 验证码输入框 */
-//    @ViewInject(R.id.et_register_verify)
-//    private EditText mVerify;
-//    /** 获取验证码文字 */
-//    @ViewInject(R.id.tv_register_verify)
-//    private TextView mGetVerify;
-//    /**查看服务协议*/
-//    @ViewInject(R.id.tv_agree_protocol)
-//    private TextView mProtocol;
-    /** 更新验证码倒计时handler:消息处理机制 */
-//   private Handler mHandler = new Handler() {
-//        @Override
-//        public void handleMessage(Message msg) {
-//            super.handleMessage(msg);
-//            if (msg.what != 0) {
-//                mGetVerify.setText(msg.what + " s");
-//            } else {
-//                mGetVerify.setText(getString(R.string.get_verify));
-//                mGetVerify.setEnabled(true);
-//            }
-//        }
-//    };
+    private MyApplication myApplication;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
+        myApplication = MyApplication.getInstance();
+        user = new User();
     }
+
 
     /**
      * 注册（点击注册按钮）
@@ -108,28 +97,32 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
         }
-//        if(mVerify.getText().toString().isEmpty()){
-//            Utils.showShortToast(this,"请输入验证码");
-//            return;
-//        }
-        Utils.showShortToast(RegisterActivity.this,getString(R.string.register_success));
+
+//        Utils.showShortToast(RegisterActivity.this,getString(R.string.register_success));
         Map<String, String> map = new HashMap<>();
         map.put("mobile", mPhone.getText().toString());
         map.put("password", mPassword.getText().toString());
+        map.put("username",mUsername.getText().toString());
 
         Log.i("用户数据",map.toString());
         //Utils.start_Activity(ReisterActivity.this, LoginActivity.class);//为了走通逻辑设置
         //与服务器进行交互
-//        Xutils.getInstance(this).post(API.REGISTER_WITH_MOBILE, map, new Xutils.XCallBack() {
-//            @Override
-//            public void onResponse(String result) {
-//                Utils.start_Activity(RegisterActivity.this, LoginActivity.class);
-//            }
-//            @Override
-//            public void onFinished() {
-//
-//            }
-//        });
+        Xutils.getInstance(this).post(API.REGISTER_WITH_MOBILE, map, new Xutils.XCallBack() {
+            @Override
+            public void onResponse(String result) {
+                Logger.d("在onResponse中的Result="+result);
+                //如何将json字符串转换成JSON对象
+                User data = Utils.parseJsonWithGson(result,User.class);
+                Logger.d("注册页面的user="+data);
+                myApplication.setUser(data);
+                ActivityCollectorUtil.finishAllActivity();
+                Utils.start_Activity(RegisterActivity.this, LoginActivity.class);
+            }
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     /**

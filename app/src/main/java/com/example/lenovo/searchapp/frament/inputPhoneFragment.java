@@ -2,6 +2,8 @@ package com.example.lenovo.searchapp.frament;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,14 +15,25 @@ import android.widget.TextView;
 
 import com.example.lenovo.searchapp.MyApplication;
 import com.example.lenovo.searchapp.R;
+import com.example.lenovo.searchapp.common.API;
+import com.example.lenovo.searchapp.common.Constants;
+import com.example.lenovo.searchapp.entity.Captcha;
 import com.example.lenovo.searchapp.person.LoginActivity;
 import com.example.lenovo.searchapp.utils.TransformUtils;
 import com.example.lenovo.searchapp.utils.Utils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import info.hoang8f.android.segmented.SegmentedGroup;
 
@@ -41,18 +54,19 @@ public class inputPhoneFragment extends Fragment {
     private MyApplication myApplication;
 
     /** 更新验证码倒计时handler */
-//    private Handler mHandler = new Handler(){
-//        @Override
-//        public void handleMessage(Message msg) {
-//            super.handleMessage(msg);
-//            if(msg.what != 0){
-//                mGetVerify.setText(msg.what+" s");
-//            } else {
-//                mGetVerify.setText(getString(R.string.get_verify));
-//                mGetVerify.setEnabled(true);
-//            }
-//        }
-//    };
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if(msg.what != 0){
+                mGetVerify.setText(msg.what+" s");
+            } else if(msg.what == 0){
+                mGetVerify.setEnabled(true);
+                mGetVerify.setText("获取验证码");
+                //mGetVerify.setEnabled(true);
+            }
+        }
+    };
 
     @Nullable
     @Override
@@ -81,42 +95,49 @@ public class inputPhoneFragment extends Fragment {
                 return;
             }
         }
-        //calcGetVerifyTime();
-        String verify = "1111";
-        sendVerify(phone.getText().toString());
-//        Map<String,String> map = new HashMap<>();
-//        map.put("mobile",phone.getText().toString());
-//        RequestParams params = new RequestParams(API.GET_VERIFY_MOBILE);
-//        try {
-//            params.addQueryStringParameter("sign",Utils.getSignature(map, Constants.SECRET));
-//            params.addQueryStringParameter("mobile",mPhone.getText().toString());
-//            x.http().get(params, new Callback.CommonCallback<String>() {
-//                @Override
-//                public void onSuccess(String result) {
-//                    BaseResult baseResult = Utils.parseJsonWithGson(result,BaseResult.class);
-//                    if (!(baseResult.getCode()== Constants.HTTP_OK_200)){
-//                        Utils.showShortToast(ResetActivity.this, baseResult.getError());
-//                    }
-//                }
-//
-//                @Override
-//                public void onError(Throwable ex, boolean isOnCallback) {
-//                    Utils.showShortToast(ResetActivity.this, getString(R.string.network_error));
-//                }
-//
-//                @Override
-//                public void onCancelled(CancelledException cex) {
-//                    Utils.showShortToast(ResetActivity.this, getString(R.string.network_error));
-//                }
-//
-//                @Override
-//                public void onFinished() {
-//
-//                }
-//            });
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        calcGetVerifyTime();
+        Map<String,String> map = new HashMap<>();
+        map.put("mobile",phone.getText().toString());
+        RequestParams params = new RequestParams(API.GET_VERIFY_MOBILE);
+        try {
+            params.addQueryStringParameter("sign",Utils.getSignature(map, Constants.SECRET));
+            params.addQueryStringParameter("mobile",phone.getText().toString());
+            x.http().get(params, new Callback.CommonCallback<String>() {
+                @Override
+                public void onSuccess(String result) {
+                    //BaseResult baseResult = Utils.parseJsonWithGson(result,BaseResult.class);
+                    try {
+                        JSONObject baseResult = new JSONObject(result);
+                        if (!(baseResult.getInt("status") == Constants.STATUS_OK)){
+                            Utils.showShortToast(x.app(), baseResult.getString("desc"));
+                        }else if(baseResult.getInt("status") == Constants.STATUS_OK){
+                            Captcha captcha = Utils.parseJsonWithGson(baseResult.getString("data"),Captcha.class);
+                            mGetVerify.setEnabled(false);
+                            myApplication.setData(captcha);
+                            radioButtonTwo.setChecked(true);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback) {
+                    Utils.showShortToast(mContext, getString(R.string.network_error));
+                }
+
+                @Override
+                public void onCancelled(CancelledException cex) {
+                    Utils.showShortToast(mContext, getString(R.string.network_error));
+                }
+
+                @Override
+                public void onFinished() {
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -126,8 +147,6 @@ public class inputPhoneFragment extends Fragment {
      * @param phone
      */
     private void sendVerify(String phone){
-        myApplication.setData("1111");
-        radioButtonTwo.setChecked(true);
 //        String verify = "1111";
 //        Intent smsIntent=new Intent(Intent.ACTION_SENDTO,
 //                Uri.parse("sms:"+phone));
@@ -148,22 +167,22 @@ public class inputPhoneFragment extends Fragment {
      * 计算再次获取验证码的时间
      *
      */
-//    private void calcGetVerifyTime() {
-//        mGetVerify.setEnabled(false);
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                for (int i=59;i>=0;i--) {
-//                    try {
-//                        Thread.sleep(1000);
-//                        mHandler.sendEmptyMessage(i);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        }).start();
-//    }
+    private void calcGetVerifyTime() {
+        mGetVerify.setEnabled(false);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i=59;i>=0;i--) {
+                    try {
+                        Thread.sleep(1000);
+                        mHandler.sendEmptyMessage(i);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+    }
     /**
      * 退回登录（点击底部文字）
      *

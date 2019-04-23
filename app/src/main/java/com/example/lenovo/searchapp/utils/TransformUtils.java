@@ -45,4 +45,16 @@ public class TransformUtils {
         Matcher m = p.matcher(username);
         return m.matches();
     }
+
+    /**
+     * 检查输入的文本包含字母，数字，中文
+     * @param username
+     * @return
+     */
+    public static boolean isPattern(String username){
+        String regx = "^[a-zA-Z0-9_\\u4e00-\\u9fa5]+$";
+        Pattern p = Pattern.compile(regx,Pattern.CASE_INSENSITIVE);
+        Matcher m = p.matcher(username);
+        return m.matches();
+    }
 }

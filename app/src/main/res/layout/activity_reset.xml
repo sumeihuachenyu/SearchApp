@@ -8,18 +8,26 @@
     android:background="@drawable/android_layout_bg"
     tools:context=".person.ResetActivity">
     <RelativeLayout
-        android:id="@+id/personal_top_layout"
+        android:id="@+id/back_reset"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:background="@drawable/android_title_bg" >
+
+        <ImageView
+            android:id="@+id/back_update"
+            style="@style/PersonalIconStyle"
+            android:layout_width="30dp"
+            android:layout_height="35dp"
+            android:src="@drawable/back_dark" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_margin="10dp"
-            android:text="@string/rest_password"
+            android:layout_marginLeft="45dp"
+            android:text="@string/personal_search"
             android:textColor="@color/white"
             android:textSize="@dimen/medium_text_size" />
     </RelativeLayout>
@@ -63,7 +71,6 @@
             android:background="@drawable/category_selection_gridview_bg"
             android:layout_gravity="center_vertical"
             />
-
     </LinearLayout>
 
     <LinearLayout

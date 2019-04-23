@@ -19,4 +19,23 @@
     <color name="red">#DF0101</color>
     <color name="transparent">#0000</color>
     <color name="login_button">#ff775025</color>
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <!--<color name="colorPrimaryDark">#303F9F</color>-->
+    <!--<color name="colorAccent">#FF4081</color>-->
+    <!--<color name="white">#FFFFFF</color>-->
+    <!--<color name="gray">#808080</color>-->
+    <color name="lightYellow">#FFFFF0</color>
+    <color name="lightCyan">#E1FFFF</color>
+
+    <color name="colorMainGreen">#40cab3</color>
+    <!-- 亮蓝色 -->
+    <color name="darkgray">#a9a9a9</color>
+    <color name="expand_popup_background">#b0000000</color>
+    <color name="expand_item_color">#f4f4f4</color>
+    <color name="zu_choose_bg">#CD2626</color>
+
+    <color name="zu_choose_left_item_bg">#E5E5E5</color>
+    <color name="zu_choose_right_item_bg">#F3F3F3</color>
+    <color name="zu_choose_left_item_diveder">#D6D6D5</color>
+    <color name="list_text_select_color">#FF822E</color>
 </resources>

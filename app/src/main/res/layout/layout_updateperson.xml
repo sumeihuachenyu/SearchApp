@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/register"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f5f5f5"    >
+    <RelativeLayout
+        android:id="@+id/personal_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/android_title_bg" >
+
+        <ImageView
+            android:id="@+id/back_update"
+            style="@style/PersonalIconStyle"
+            android:layout_width="30dp"
+            android:layout_height="35dp"
+            android:src="@drawable/back_dark" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="45dp"
+            android:text="@string/person_update"
+            android:textColor="@color/white"
+            android:textSize="@dimen/medium_text_size" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:orientation="vertical"
+            android:background="@color/white">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <!--<ImageView                   -->
+                    <!--android:id="@+id/img_upload_img"            -->
+                    <!--android:layout_width="100dp"                   -->
+                    <!--android:layout_height="100dp"                 -->
+                    <!--android:layout_centerHorizontal="true"                   -->
+                    <!--android:src="@drawable/head"/>            -->
+                <com.example.lenovo.searchapp.utils.XCRoundImageView
+                    android:layout_width="85dip"
+                    android:id="@+id/img_upload_img"
+                    android:layout_height="85dip"
+                    android:layout_marginLeft="140dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/head"/>
+                <!--<TextView-->
+                    <!--android:id="@+id/tx_upload_img"-->
+                    <!--android:layout_below="@id/img_upload_img"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="上传头像"-->
+                    <!--android:layout_centerHorizontal="true"-->
+                    <!--android:textSize="15sp"-->
+                    <!--android:gravity="fill_vertical"-->
+                    <!--android:textColor="@color/black1"/>-->
+                <!--<ImageView-->
+                    <!--android:id="@+id/img_upload_img"-->
+                    <!--android:layout_width="120dp"-->
+                    <!--android:layout_height="120dp"-->
+                    <!--android:layout_marginTop="20dp"-->
+                    <!--android:src="@mipmap/ic_launcher"/>-->
+                <Button
+                    android:layout_below="@id/img_upload_img"
+                    android:id="@+id/tx_upload_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="15sp"
+                    android:gravity="fill_vertical"
+                    android:textColor="@color/black"
+                    android:text="更换头像"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="35dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/phone_num"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/et_update_phone"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_marginLeft="20dp"
+            android:hint="@string/register_normal_useraccount_hint"
+            android:inputType="phone"
+            android:background="@drawable/category_selection_gridview_bg"
+            android:layout_gravity="center_vertical"
+            />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/register_normal_email"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/et_update_username"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_marginLeft="20dp"
+            android:hint="@string/register_normal_email_hint"
+            android:inputType="text"
+            android:background="@drawable/category_selection_gridview_bg"
+            android:layout_gravity="center_vertical"
+            />
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/btn_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:background="@mipmap/edit_product_num_cancle_normal"
+        android:gravity="center"
+        android:text="确认修改"
+        android:textSize="16sp" />
+</LinearLayout>
+

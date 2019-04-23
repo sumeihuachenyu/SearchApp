@@ -35,6 +35,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'org.xutils:xutils:3.4.0'
+    implementation 'com.github.bumptech.glide:glide:4.6.1'//原型头像
     //implementation 'com.7heaven.widgets:segmentcontrol:head.17'//实现选择切换的
     //implementation 'cn.carbs.android:SegmentControlView:head.0.0'
     implementation 'info.hoang8f:android-segmented:1.0.6'//实现选择切换的
@@ -52,5 +53,6 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.0'
     implementation 'org.jetbrains:annotations-java5:15.0'
 //Google提供的用来在Java对象和JSON数据之间进行映射的Java类库。可以将一个Json字符转成一个Java对象，或者将一个Java转化为Json字符串。
-
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    //implementation 'com.carson_ho:SearchLayout:1.0.1'//一款封装了 历史搜索记录功能 & 样式 的Android自定义搜索框
 }

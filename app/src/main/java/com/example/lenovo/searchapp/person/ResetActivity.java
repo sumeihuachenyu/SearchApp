@@ -4,15 +4,27 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.lenovo.searchapp.MyApplication;
 import com.example.lenovo.searchapp.R;
+import com.example.lenovo.searchapp.common.API;
 import com.example.lenovo.searchapp.common.BaseActivity;
+import com.example.lenovo.searchapp.common.Constants;
+import com.example.lenovo.searchapp.person.model.User;
 import com.example.lenovo.searchapp.utils.TransformUtils;
 import com.example.lenovo.searchapp.utils.Utils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by lenovo on 2019-03-07.
@@ -27,6 +39,7 @@ public class ResetActivity extends BaseActivity {
     /** 确认密码输入框 */
     @ViewInject(R.id.et_register_password_again)
     private EditText apassword;
+    private MyApplication myApplication;
 
 
     @Override
@@ -34,6 +47,12 @@ public class ResetActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         // Utils.hideNavigationBar(this);
         x.view().inject(this);
+        myApplication = MyApplication.getInstance();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     /**
@@ -61,54 +80,55 @@ public class ResetActivity extends BaseActivity {
                 return;
             }
         }
-        Utils.showShortToast(ResetActivity.this,"密码修改成功");
-        Utils.start_Activity(ResetActivity.this,LoginActivity.class);
-                //update();
 
-
-//        Map<String,String> map = new HashMap<>();
-//        map.put("mobile",mPhone.getText().toString());
-//        map.put("password",mPassword.getText().toString());
-//        map.put("verify",mVerify.getText().toString());
+        Map<String,String> map = new HashMap<>();
+        map.put("mobile",myApplication.getData().getPhone());
+        map.put("password",password.getText().toString());
         //Utils.start_Activity(ResetActivity.this,LoginActivity.class);//走通逻辑而写
-//        RequestParams params = new RequestParams(API.RESET_PASSWORD);
-//        try {
-//            params.addParameter("sign", Utils.getSignature(map, Constants.SECRET));
-//            params.addParameter("mobile",mPhone.getText().toString());
-//            params.addParameter("password",mPassword.getText().toString());
-//            params.addParameter("verify",mVerify.getText().toString());
-//            x.http().post(params, new Callback.CommonCallback<String>() {
-//                @Override
-//                public void onSuccess(String result) {
-//                    BaseResult baseResult = Utils.parseJsonWithGson(result,BaseResult.class);
-//                    if (baseResult.getCode()== Constants.HTTP_OK_200){
-//                        Utils.start_Activity(ResetActivity.this,LoginActivity.class);
-//                    } else {
-//                        Utils.showShortToast(ResetActivity.this, baseResult.getError());
-//                    }
-//                }
-//
-//                @Override
-//                public void onError(Throwable ex, boolean isOnCallback) {
-//                    Utils.showShortToast(ResetActivity.this, getString(R.string.network_error));
-//                }
-//
-//                @Override
-//                public void onCancelled(CancelledException cex) {
-//                    Utils.showShortToast(ResetActivity.this, getString(R.string.network_error));
-//                }
-//
-//                @Override
-//                public void onFinished() {
-//
-//                }
-//            });
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-    }
-    public void update(){
-        Utils.start_Activity(ResetActivity.this,LoginActivity.class);
+        RequestParams params = new RequestParams(API.RESET_PASSWORD);
+        try {
+            params.addParameter("sign", Utils.getSignature(map, Constants.SECRET));
+            params.addParameter("password",password.getText().toString());
+            params.addParameter("mobile",myApplication.getData().getPhone());
+            x.http().post(params, new Callback.CommonCallback<String>() {
+                @Override
+                public void onSuccess(String result) {
+                    try {
+                        JSONObject baseResult = new JSONObject(result);
+                        if (!(baseResult.getInt("status") == Constants.STATUS_OK)){
+                            //需要提醒再次输入
+                            password.setText("");
+                            apassword.setText("");
+                            Utils.showShortToast(x.app(), baseResult.getString("desc"));
+                        }else if(baseResult.getInt("status") == Constants.STATUS_OK){
+                            ///返回成功之后需要直接跳转到登录页面
+                            User user = Utils.parseJsonWithGson(baseResult.getString("data"),User.class);
+                            myApplication.setUser(user);
+                            Utils.start_Activity(ResetActivity.this,LoginActivity.class);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback) {
+                    Utils.showShortToast(ResetActivity.this, getString(R.string.network_error));
+                }
+
+                @Override
+                public void onCancelled(CancelledException cex) {
+                    Utils.showShortToast(ResetActivity.this, getString(R.string.network_error));
+                }
+
+                @Override
+                public void onFinished() {
+
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -119,6 +139,15 @@ public class ResetActivity extends BaseActivity {
     @Event(value = {R.id.tv_reset_login})
     private void back(View v){
         Utils.start_Activity(ResetActivity.this,LoginActivity.class);
+    }
+    /**
+     * 退回上一页
+     *
+     * @param v 点击视图
+     */
+    @Event(value = {R.id.back_reset})
+    private void back_reset(View v){
+        this.finish();
     }
 
 }

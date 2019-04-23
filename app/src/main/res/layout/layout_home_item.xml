@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/view_selector"
+    android:padding="10dp">
+    <!--android:background="@drawable/view_selector"-->
+
+        <com.example.lenovo.searchapp.utils.XCRoundImageView
+            android:id="@+id/iv_head"
+            android:layout_width="60dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/head" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/iv_head"
+            android:text="标题"
+            android:textColor="#555"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发布时间"
+            android:layout_marginTop="60dp"
+            android:layout_marginLeft="-30dp"
+            android:layout_toRightOf="@+id/iv_head"
+            android:textColor="#999"
+            android:textSize="10sp" />
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:background="@color/red"/>-->
+
+</LinearLayout>

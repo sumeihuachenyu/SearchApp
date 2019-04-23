@@ -7,6 +7,20 @@
     <uses-permission android:name="android.permission.SEND_SMS"/>
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />    <!-- SD卡权限 -->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS">
+    </uses-permission>
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" >
+    </uses-permission>
+    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" >    </uses-permission>
+    <!-- 用于读取手机当前的状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" >    </uses-permission>
+    <!-- 写入扩展存储，向扩展卡写入数据，用于写入缓存定位数据 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >    </uses-permission>
+
     <application  android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -22,12 +36,13 @@
             android:value="1334" />
         <activity
             android:name=".LaunchActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Splash_Theme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
@@ -54,6 +69,57 @@
             android:theme="@style/Theme.Main" />
         <activity
             android:name=".SplashActivity"
+            android:theme="@style/Theme.Main" />
+        <activity
+            android:name=".person.UpdatePerson"
+            android:theme="@style/Theme.Main" />
+        <activity
+            android:name=".person.PersonActivity"
+            android:theme="@style/Theme.Main" />
+        <activity
+            android:name=".person.AboutActivity"
+            android:theme="@style/Theme.Main" />
+        <activity
+        android:name=".person.HelpActivity"
+        android:theme="@style/Theme.Main" />
+        <activity
+            android:name=".person.MessageActivity"
+            android:theme="@style/Theme.Main" />
+        <activity
+            android:name=".home.HomeActivity"
+            android:theme="@style/Theme.Main" />
+        <activity
+            android:name=".home.SearchActivity"
+            android:theme="@style/Theme.Main" />
+        <activity
+            android:name=".home.ItemActivity"
+            android:theme="@style/Theme.Main" />
+        <activity
+            android:name=".home.SearchPersonActivity"
+            android:theme="@style/Theme.Main" />
+        <activity
+            android:name=".home.ShowCloudActivity"
+            android:theme="@style/Theme.Main" />
+        <activity
+            android:name=".home.JoinSearchActivity"
+            android:theme="@style/Theme.Main" />
+        <activity
+            android:name=".join.MyJoinActivity"
+            android:theme="@style/Theme.Main" />
+        <activity
+            android:name=".search.MySearchActivity"
+            android:theme="@style/Theme.Main" />
+        <activity
+            android:name=".search.MySearchItemActivity"
+            android:theme="@style/Theme.Main" />
+        <activity
+            android:name=".join.MyJoinItemActivity"
+            android:theme="@style/Theme.Main" />
+        <activity
+            android:name=".join.MyJoinRecordActivity"
+            android:theme="@style/Theme.Main" />
+        <activity
+            android:name=".search.SubmitSearchActivity"
             android:theme="@style/Theme.Main" />
     </application>
 

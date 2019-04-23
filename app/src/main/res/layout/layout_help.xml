@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_personal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/android_layout_bg" >
+
+    <RelativeLayout
+        android:id="@+id/personal_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/android_title_bg" >
+
+        <ImageView
+            android:id="@+id/back_help"
+            style="@style/PersonalIconStyle"
+            android:layout_width="30dp"
+            android:layout_height="35dp"
+            android:src="@drawable/back_dark" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="45dp"
+            android:text="@string/personal_help"
+            android:textColor="@color/white"
+            android:textSize="@dimen/medium_text_size" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/personal_top_layout" >
+
+        <ImageView
+            android:id="@+id/personal_background_image"
+            android:layout_width="match_parent"
+            android:layout_height="320dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="-100dp"
+            android:background="@drawable/my_personal_not_login_bg" />
+
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:orientation="vertical"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/android_layout_bg"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        style="@style/PersonalCenterText"
+                        android:text="猜你想问" />
+
+                    <LinearLayout style="@style/PersonalMainLayoutStyle" >
+
+                        <RelativeLayout style="@style/PersonalTopStyle" >
+
+                            <ImageView
+                                android:id="@+id/personal_icon_01"
+                                style="@style/PersonalIconStyle"
+                                android:layout_width="36dp"
+                                android:layout_height="38dp"
+                                android:src="@drawable/main_menu_help" />
+
+                            <TextView
+                                style="@style/PersonalTextStyle"
+                                android:layout_toRightOf="@id/personal_icon_01"
+                                android:textSize="20dp"
+                                android:text="@string/question_one" />
+                        </RelativeLayout>
+
+                        <View style="@style/PersonalLine" />
+
+                        <!--<View style="@style/PersonalLine" />-->
+
+                        <RelativeLayout style="@style/PersonalBottomStyle" >
+
+                            <ImageView
+                                android:id="@+id/personal_icon_03"
+                                style="@style/PersonalIconStyle"
+                                android:src="@drawable/android_personel_all_order" />
+
+                            <TextView
+                                style="@style/PersonalTextStyle"
+                                android:layout_toRightOf="@id/personal_icon_03"
+                                android:text="@string/answer_one" />
+
+                            <!--<ImageView-->
+                            <!--style="@style/PersonalRightIconStyle"-->
+                            <!--android:src="@drawable/android_list_idex" />-->
+                        </RelativeLayout>
+                        <View style="@style/PersonalLine" />
+                        <View style="@style/PersonalLine" />
+                        <View style="@style/PersonalLine" />
+                <!--</LinearLayout>-->
+                    <!--<LinearLayout style="@style/PersonalMainLayoutStyle" >-->
+
+                        <RelativeLayout
+                            style="@style/PersonalTopStyle"
+                            android:id="@+id/btn_about"
+                            android:layout_marginBottom="10dp" >
+
+                            <ImageView
+                                android:id="@+id/personal_icon_09"
+                                style="@style/PersonalIconStyle"
+                                android:src="@drawable/main_menu_help" />
+
+                            <TextView
+                                style="@style/PersonalTextStyle"
+                                android:layout_alignParentTop="true"
+                                android:layout_marginTop="6dp"
+                                android:layout_toRightOf="@id/personal_icon_09"
+                                android:text="@string/question_two"
+                                android:textSize="20dp" />
+
+                            <!--<ImageView-->
+                                <!--style="@style/PersonalRightIconStyle"-->
+                                <!--android:src="@drawable/android_list_idex" />-->
+                        </RelativeLayout>
+
+                        <View style="@style/PersonalLine" />
+
+                        <RelativeLayout
+                            style="@style/PersonalBottomStyle"
+                            android:layout_marginBottom="10dp" >
+
+                            <ImageView
+                                android:id="@+id/personal_icon_10"
+                                style="@style/PersonalIconStyle"
+                                android:src="@drawable/android_personel_all_order" />
+
+                            <TextView
+                                android:id="@+id/personal_service"
+                                style="@style/PersonalTextStyle"
+                                android:layout_toRightOf="@id/personal_icon_10"
+                                android:text="@string/answer_two" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toRightOf="@id/personal_service"
+                                android:src="@drawable/color_shopping_new" />
+
+                            <!--<ImageView-->
+                                <!--style="@style/PersonalRightIconStyle"-->
+                                <!--android:src="@drawable/android_list_idex" />-->
+                        </RelativeLayout>
+                        <View style="@style/PersonalLine" />
+                        <View style="@style/PersonalLine" />
+                        <View style="@style/PersonalLine" />
+                        <RelativeLayout
+                            style="@style/PersonalTopStyle"
+                            android:id="@+id/btn_about1"
+                            android:layout_marginBottom="10dp" >
+
+                            <ImageView
+                                android:id="@+id/personal_icon_08"
+                                style="@style/PersonalIconStyle"
+                                android:src="@drawable/main_menu_help" />
+
+                            <TextView
+                                style="@style/PersonalTextStyle"
+                                android:layout_alignParentTop="true"
+                                android:layout_marginTop="6dp"
+                                android:layout_toRightOf="@id/personal_icon_08"
+                                android:text="@string/question_two"
+                                android:textSize="20dp" />
+
+                            <!--<ImageView-->
+                            <!--style="@style/PersonalRightIconStyle"-->
+                            <!--android:src="@drawable/android_list_idex" />-->
+                        </RelativeLayout>
+
+                        <View style="@style/PersonalLine" />
+
+                        <RelativeLayout
+                            style="@style/PersonalBottomStyle"
+                            android:layout_marginBottom="10dp" >
+
+                            <ImageView
+                                android:id="@+id/personal_icon_11"
+                                style="@style/PersonalIconStyle"
+                                android:src="@drawable/android_personel_all_order" />
+
+                            <TextView
+                                android:id="@+id/personal_service1"
+                                style="@style/PersonalTextStyle"
+                                android:layout_toRightOf="@id/personal_icon_11"
+                                android:text="@string/answer_two" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toRightOf="@id/personal_service1"
+                                android:src="@drawable/color_shopping_new" />
+
+                            <!--<ImageView-->
+                            <!--style="@style/PersonalRightIconStyle"-->
+                            <!--android:src="@drawable/android_list_idex" />-->
+                        </RelativeLayout>
+
+                    </LinearLayout>
+            </LinearLayout>
+            </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

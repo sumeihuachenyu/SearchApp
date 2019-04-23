@@ -1,31 +1,8 @@
 package com.example.lenovo.searchapp.frament;
 
-import android.app.Activity;
-import android.content.Context;
-import android.graphics.PixelFormat;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
-
 import com.example.lenovo.searchapp.R;
-import com.example.lenovo.searchapp.adapter.ContactAdapter;
-import com.example.lenovo.searchapp.entity.UserInfoResult;
-import com.example.lenovo.searchapp.utils.Utils;
-import com.example.lenovo.searchapp.view.SideBar;
 
 import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.ViewInject;
-import org.xutils.x;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import me.yokeyword.fragmentation.SupportFragment;
 
@@ -34,96 +11,96 @@ import me.yokeyword.fragmentation.SupportFragment;
  */
 @ContentView(R.layout.fragment_contacts)
 public class ContactsFragment extends SupportFragment {
-    private Activity mContent;
-    @ViewInject(R.id.txt_title)
-    private TextView mTitle;
-    @ViewInject(R.id.lv_contact)
-    private ListView mContactList;
-    @ViewInject(R.id.sideBar)
-    private SideBar indexBar;
-    private TextView mDialogText;
-    private ContactAdapter mAdapter;
-    private WindowManager mWindowManager;
-    private List<UserInfoResult.ResultBean> mDatas;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = x.view().inject(this, inflater, container);
-        mContent = this.getActivity();
-        mWindowManager = (WindowManager) mContent
-                .getSystemService(Context.WINDOW_SERVICE);
-        mDatas = new ArrayList<>();
-        initViews();
-        initData();
-        return view;
-    }
-
-    private void initViews() {
-        mAdapter = new ContactAdapter(mContent, mDatas);
-        mDialogText = (TextView) LayoutInflater.from(getActivity()).inflate(
-                R.layout.list_position, null);
-        mDialogText.setVisibility(View.INVISIBLE);
-        if(mAdapter.equals(null)){
-            mContactList.setAdapter(mAdapter);
-
-            indexBar.setTextView(mDialogText);
-            indexBar.setListView(mContactList);
-        }
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.TYPE_APPLICATION,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-                        | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-                PixelFormat.TRANSLUCENT);
-        try{mWindowManager.addView(mDialogText, lp);}catch (Exception e){}
-
-        mTitle.setText(R.string.constacts);
-    }
-
-    private void initData() {
-        getFriendData();
-    }
-
-    private void refresh() {
-        mDatas.clear();
-        initData();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-
-    public void getFriendData() {
-        String userId = Utils.getValue(mContent, "userId");
-        Map<String, String> map = new HashMap<>();
-        map.put("userId", userId);
-//        Xutils.getInstance(mContent).get(API.GET_FRIENDS, map, new Xutils.XCallBack() {
-//            @Override
-//            public void onResponse(String result) {
-//                try {
-//                    JSONObject resultObject = new JSONObject(result);
-//                    JSONObject data = resultObject.getJSONObject("data");
-//                    JSONArray value = data.getJSONArray("value");
-//                    mDatas.clear();
-//                    for (int i = 0; i < value.length(); i++) {
-//                        JSONArray array = value.getJSONArray(i);
-//                        for (int j = 0; j < array.length(); j++) {
-//                            JSONObject object = (JSONObject) array.get(j);
-//                            UserInfoResult.ResultBean bean = Utils.parseJsonWithGson(
-//                                    object.toString(), UserInfoResult.ResultBean.class);
-//                            mDatas.add(bean);
-//                        }
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
+//    private Activity mContent;
+//    @ViewInject(R.id.txt_title)
+//    private TextView mTitle;
+//    @ViewInject(R.id.lv_contact)
+//    private ListView mContactList;
+//    @ViewInject(R.id.sideBar)
+//    private SideBar indexBar;
+//    private TextView mDialogText;
+//    private ContactAdapter mAdapter;
+//    private WindowManager mWindowManager;
+//    private List<UserInfoResult.ResultBean> mDatas;
+//
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                             Bundle savedInstanceState) {
+//        View view = x.view().inject(this, inflater, container);
+//        mContent = this.getActivity();
+//        mWindowManager = (WindowManager) mContent
+//                .getSystemService(Context.WINDOW_SERVICE);
+//        mDatas = new ArrayList<>();
+//        initViews();
+//        initData();
+//        return view;
+//    }
+//
+//    private void initViews() {
+//        mAdapter = new ContactAdapter(mContent, mDatas);
+//        mDialogText = (TextView) LayoutInflater.from(getActivity()).inflate(
+//                R.layout.list_position, null);
+//        mDialogText.setVisibility(View.INVISIBLE);
+//        if(mAdapter.equals(null)){
+//            mContactList.setAdapter(mAdapter);
+//
+//            indexBar.setTextView(mDialogText);
+//            indexBar.setListView(mContactList);
+//        }
+//        WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
+//                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT,
+//                WindowManager.LayoutParams.TYPE_APPLICATION,
+//                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+//                        | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+//                PixelFormat.TRANSLUCENT);
+//        try{mWindowManager.addView(mDialogText, lp);}catch (Exception e){}
+//
+//        mTitle.setText(R.string.constacts);
+//    }
+//
+//    private void initData() {
+//        getFriendData();
+//    }
+//
+//    private void refresh() {
+//        mDatas.clear();
+//        initData();
+//    }
+//
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//    }
+//
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//    }
+//
+//
+//    public void getFriendData() {
+//        String userId = Utils.getValue(mContent, "userId");
+//        Map<String, String> map = new HashMap<>();
+//        map.put("userId", userId);
+////        Xutils.getInstance(mContent).get(API.GET_FRIENDS, map, new Xutils.XCallBack() {
+////            @Override
+////            public void onResponse(String result) {
+////                try {
+////                    JSONObject resultObject = new JSONObject(result);
+////                    JSONObject data = resultObject.getJSONObject("data");
+////                    JSONArray value = data.getJSONArray("value");
+////                    mDatas.clear();
+////                    for (int i = 0; i < value.length(); i++) {
+////                        JSONArray array = value.getJSONArray(i);
+////                        for (int j = 0; j < array.length(); j++) {
+////                            JSONObject object = (JSONObject) array.get(j);
+////                            UserInfoResult.ResultBean bean = Utils.parseJsonWithGson(
+////                                    object.toString(), UserInfoResult.ResultBean.class);
+////                            mDatas.add(bean);
+////                        }
+////                    }
+////                } catch (JSONException e) {
+////                    e.printStackTrace();
 //                }
 //                mAdapter.notifyDataSetChanged();
 //            }
@@ -154,5 +131,3 @@ public class ContactsFragment extends SupportFragment {
 //        Utils.start_Activity(mContent, GroupListActivity.class);
 //    }
 
-
-}

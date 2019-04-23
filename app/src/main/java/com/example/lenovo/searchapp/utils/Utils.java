@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.example.lenovo.searchapp.R;
+import com.example.lenovo.searchapp.home.model.SearchAndPerson;
 import com.google.gson.Gson;
 import com.orhanobut.logger.Logger;
 
@@ -19,6 +20,8 @@ import java.security.MessageDigest;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by lenovo on 2019-03-06.
@@ -41,6 +44,38 @@ public class Utils {
         Intent intent = new Intent();
         intent.setClass(activity, cls);
         activity.startActivity(intent);
+        //右往左推出效果
+        activity.overridePendingTransition(R.anim.push_left_in,
+                R.anim.push_left_out);
+
+    }
+
+    /**
+     * 打开Activity
+     *
+     * @param activity
+     * @param cls
+     */
+    public static void start_Activity(Activity activity, Class<?> cls, String paramName,String paramValue) {
+        Intent intent = new Intent(activity, cls); //声明一个Intent对象，构造函数参数为第一个页面与第二个页面
+        intent.putExtra(paramName, paramValue);//给Intent对象绑定数据，类比HashMap 的键-值对形式
+        activity.startActivity(intent);//跳转页面
+        //右往左推出效果
+        activity.overridePendingTransition(R.anim.push_left_in,
+                R.anim.push_left_out);
+
+    }
+
+    /**
+     * 打开Activity
+     *
+     * @param activity
+     * @param cls
+     */
+    public static void start_Activity(Activity activity, Class<?> cls, String paramName, SearchAndPerson paramValue) {
+        Intent intent = new Intent(activity, cls); //声明一个Intent对象，构造函数参数为第一个页面与第二个页面
+        intent.putExtra(paramName, paramValue.toString());//给Intent对象绑定数据，类比HashMap 的键-值对形式
+        activity.startActivity(intent);//跳转页面
         //右往左推出效果
         activity.overridePendingTransition(R.anim.push_left_in,
                 R.anim.push_left_out);
@@ -206,5 +241,35 @@ public class Utils {
 
     private static final SharedPreferences getSharedPreference(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
+    }
+
+    /**
+     * 判断字符串是否包含中文
+     *
+     * @param str
+     * @return
+     */
+    public static boolean isContainChinese(String str) {
+        Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
+        Matcher m = p.matcher(str);
+        return m.find();
+    }/**
+     * 判断字符串是否包含字母
+     *
+     * @param str
+     * @return
+     */
+    public static boolean isContainLetters(String str) {
+        for (char i = 'A'; i <= 'Z'; i++) {
+            if (str.contains(String.valueOf(i))) {
+                return true;
+            }
+        }
+        for (char i = 'a'; i <= 'z'; i++) {
+            if (str.contains(String.valueOf(i))) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_personal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/android_layout_bg" >
+
+    <RelativeLayout
+        android:id="@+id/personal_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/android_title_bg" >
+
+        <ImageView
+            android:id="@+id/back_about"
+            style="@style/PersonalIconStyle"
+            android:layout_width="30dp"
+            android:layout_height="35dp"
+            android:src="@drawable/back_dark" />
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="50dp"-->
+            <!--android:text="@string/personal_about"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="25dp" />-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="45dp"
+            android:text="@string/personal_about"
+            android:textColor="@color/white"
+            android:textSize="@dimen/medium_text_size" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/personal_top_layout" >
+
+                    <TextView
+                        style="@style/PersonalCenterText"
+                        android:text="调查中心" />
+
+                    <LinearLayout style="@style/PersonalMainLayoutStyle" >
+
+                        <RelativeLayout style="@style/PersonalTopStyle" >
+
+                            <!--<ImageView-->
+                                <!--android:id="@+id/personal_icon_01"-->
+                                <!--style="@style/PersonalIconStyle"-->
+                                <!--android:layout_width="36dp"-->
+                                <!--android:layout_height="38dp"-->
+                                <!--android:src="@drawable/android_personel_quickly_order" />-->
+
+                            <TextView
+                                style="@style/PersonalTextStyle"
+                                android:layout_toRightOf="@id/personal_icon_01"
+                                android:textSize="20dp"
+                                android:text="@string/personal_about_info" />
+
+                            <!--<ImageView-->
+                            <!--style="@style/PersonalRightIconStyle"-->
+                            <!--android:src="@drawable/android_list_idex" />-->
+                        </RelativeLayout>
+
+                        <!--<View style="@style/PersonalLine" />-->
+                    </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

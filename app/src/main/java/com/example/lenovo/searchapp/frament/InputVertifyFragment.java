@@ -12,15 +12,25 @@ import android.widget.TextView;
 
 import com.example.lenovo.searchapp.MyApplication;
 import com.example.lenovo.searchapp.R;
+import com.example.lenovo.searchapp.common.API;
+import com.example.lenovo.searchapp.common.Constants;
 import com.example.lenovo.searchapp.person.LoginActivity;
 import com.example.lenovo.searchapp.person.ResetActivity;
 import com.example.lenovo.searchapp.utils.Utils;
 import com.orhanobut.logger.Logger;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by lenovo on 2019-03-15.
@@ -48,8 +58,8 @@ public class InputVertifyFragment extends Fragment {
     }
     public void init(){
         Logger.d("myapplication="+myApplication.getData());
-        if(!myApplication.getData().equals("")){
-            editText.setText(myApplication.getData());
+        if(myApplication.getData() != null){
+            editText.setText(myApplication.getData().getCaptcha());
         }else{
             Utils.showShortToast(mContext,"请先输入手机号获取验证码");
         }
@@ -58,12 +68,60 @@ public class InputVertifyFragment extends Fragment {
     private void click(View v){
         //Utils.start_Activity(mContext,LoginActivity.class);
         //需要将刚刚传递过来的验证码进行验证
-        if("1111".equals(editText.getText().toString())){
-            //进入密码修改页面
-            Utils.start_Activity(mContext,ResetActivity.class);
-        }else{
-            Utils.showLongToast(mContext,"验证码错误，请重新输入手机号进行获取");
+//        if("1111".equals(editText.getText().toString())){
+//            //进入密码修改页面
+//            Utils.start_Activity(mContext,ResetActivity.class);
+//        }else{
+//            Utils.showLongToast(mContext,"验证码错误，请重新输入手机号进行获取");
+//        }
+        if(editText.getText().toString().isEmpty()){
+            Utils.showLongToast(mContext,"请重新输入手机号获取验证码");
         }
+
+        Map<String,String> map = new HashMap<>();
+        map.put("verify",editText.getText().toString());
+        map.put("mobile",myApplication.getData().getPhone());
+        RequestParams params = new RequestParams(API.COMPARE_VERIFY);
+        try {
+            params.addQueryStringParameter("sign",Utils.getSignature(map, Constants.SECRET));
+            params.addQueryStringParameter("verify",editText.getText().toString());
+            params.addQueryStringParameter("mobile",myApplication.getData().getPhone());
+            x.http().get(params, new Callback.CommonCallback<String>() {
+                @Override
+                public void onSuccess(String result) {
+                    //BaseResult baseResult = Utils.parseJsonWithGson(result,BaseResult.class);
+                    try {
+                        JSONObject baseResult = new JSONObject(result);
+                        if (!(baseResult.getInt("status") == Constants.STATUS_OK)){
+                            Utils.showShortToast(x.app(), baseResult.getString("desc"));
+                        }else if(baseResult.getInt("status") == Constants.STATUS_OK){
+                            ///返回成功之后需要直接跳转到修改密码页面
+                            Utils.showShortToast(x.app(), baseResult.getString("desc"));
+                            Utils.start_Activity(mContext,ResetActivity.class);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback) {
+                    Utils.showShortToast(mContext, getString(R.string.network_error));
+                }
+
+                @Override
+                public void onCancelled(CancelledException cex) {
+                    Utils.showShortToast(mContext, getString(R.string.network_error));
+                }
+
+                @Override
+                public void onFinished() {
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
     /**
      * 退回登录（点击底部文字）

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">调查app</string>
+    <string name="app_name">你的声音</string>
 
     <!--登录-->
     <string name="phone_num">手机号</string>
@@ -34,23 +34,64 @@
 
     <!--个人页面-->
     <string name="personal_title">个人中心</string>
-    <string name="personal_more">更多</string>
+    <string name="personal_more">设置</string>
     <string name="personal_order_center">订单中心</string>
     <string name="personal_welcome">欢迎来到调查app</string>
     <string name="personal_login">登录</string>
-    <string name="personal_fast_search">订单状态速查</string>
+    <string name="personal_fast_search">我的调查</string>
     <string name="personal_wait_pay">待付款订单</string>
-    <string name="personal_all_order">全部订单</string>
-    <string name="personal_account_center">账户中心</string>
+    <string name="personal_all_order">我的参与</string>
+    <string name="personal_account_center">个人中心</string>
     <string name="personal_my_focus">我的关注</string>
-    <string name="personal_comment">商品评价/晒单</string>
+    <string name="personal_comment">个人信息修改</string>
     <string name="personal_information">消息中心</string>
     <string name="personal_quick_buy">轻松购</string>
-    <string name="personal_account">账户安全</string>
-    <string name="personal_return_back">返修/退换货</string>
+    <string name="personal_account">切换账号</string>
+    <string name="personal_return_back">关于</string>
     <string name="personal_customer_service">客户服务</string>
-    <string name="personal_infomation_service">预约电话服务</string>
-    <string name="personal_quit">退出登录</string>
+    <string name="personal_infomation_service">帮助与反馈</string>
+    <string name="personal_quit">退出</string>
+    <string name="personal_about">关于</string>
+    <string name="personal_about_info">
+        调查app主要功能包括调查发起，调查提交，词云展示的功能。用户可以发起调查，也可以参与到调查中去，
+        为其他人的相关调查提供一份数据。</string>
+    <string name="personal_help">帮助与反馈</string>
+    <string name="question_one">1.如何进行调查发起？</string>
+    <string name="answer_one">
+        方式一：进入首页后，点击下面的“调查”按钮进入调查页面后右上角有一个"发布调查"的按钮，点击即可进行调查的发布\n方式二：进入个人中心，点击我的调查即可进行发布</string>
+    <string name="question_two">2.如何参与调查？</string>
+    <string name="answer_two">
+        方式一：进入首页后，点击其中的某一个调查主题进入之后点击"参与调查"按钮进入参与页面后即可进行调查的参与</string>
+    <string name="question_three">3.如何停止调查？</string>
+    <string name="answer_three">
+        方式一：进入调查页面后，点击其中的某一个调查主题进入之后点击"结束调查"按钮即可结束此次调查</string>
+    <string name="personal_message">消息中心</string>
+    <string name="empty_crime_set">没有记录可以显示</string>
+    <string name="person_update">个人信息修改</string>
+
+    <!--首页-->
+    <string name="load_more_before">加载更多</string>
+    <string name="load_more">正在加载&#8230;</string>
+    <string name="load_more_complete">已经到达底部了</string>
+    <string name="index_search_edit_hint">搜索调查主题</string>
+    <string name="search_info">暂无搜索历史</string>
+    <string name="personal_search">返回</string>
+    <string name="home_search_name"></string>
+
+    <!--发布调查-->
+    <string name="submit_search_hint">请输入调查主题</string>
+    <string name="submit_search_more">请输入具体描述</string>
+
+    <!--参与调查-->
+    <string name="join_search_key1">请输入关键词1</string>
+    <string name="join_search_key2">请输入关键词2</string>
+    <string name="join_search_key3">请输入关键词3</string>
+    <string name="join_search_key4">请输入其他答案</string>
+    <string name="joinsearch_tip">【提示】\n 1.关键词主要用于参与者进行选择 \n 2.关键词的字数有限制，限制在5个汉字之内\n 3.备注中填写关于
+        此调查的补充说明。</string>
+
+    <!--发布调查-->
+    <string name="submitsearch_tip">【提示】\n 1.可以选择多个答案 \n 2.其他可以填写一些未出现的答案，并且其字数有限制，限制在5个汉字之内\n </string>
 
 
     <string name="click_back">点我返回。</string>
@@ -72,7 +113,10 @@
     <string name="all_record">全部记录</string>
     <string name="advice_feedback">意见反馈</string>
     <string name="about">关于我们</string>
-
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="zu_quyu">类型</string>
+    <string name="zu_money">排序</string>
+    <string name="zu_huxing">户型</string>
+    <string name="zu_laiyuan">来源</string>
 </resources>

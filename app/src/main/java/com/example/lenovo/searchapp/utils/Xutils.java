@@ -1,14 +1,18 @@
 package com.example.lenovo.searchapp.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.example.lenovo.searchapp.R;
 import com.example.lenovo.searchapp.common.Constants;
+import com.example.lenovo.searchapp.person.LoginActivity;
+import com.example.lenovo.searchapp.person.model.User;
 import com.orhanobut.logger.Logger;
 
 import org.json.JSONException;
@@ -26,16 +30,18 @@ import java.util.Map;
  */
 public class Xutils {
     private volatile static Xutils instance;
+    private  static Activity context2;
     private Handler handler;
     private ImageOptions options;
     private AlertDialog mLoadingDialog;
     private boolean mIsShow = true;
+    private User user;
 
     private Xutils(Context context) {
         handler = new Handler(Looper.getMainLooper());
         mLoadingDialog = new AlertDialog.Builder(context,R.style.dialog).create();
         mLoadingDialog.setCanceledOnTouchOutside(false);
-        View content = LayoutInflater.from(context).inflate(R.layout.dialog_loading, null);
+        View content = LayoutInflater.from(context).inflate(R.layout.pop_item, null);
         mLoadingDialog.setView(content);
     }
 
@@ -45,7 +51,8 @@ public class Xutils {
      * @param isShowDialog
      * @return
      */
-    public static Xutils getInstance(Context context,boolean isShowDialog) {
+    public static Xutils getInstance(Activity activity,Context context,boolean isShowDialog) {
+        context2 = activity;
         instance = new Xutils(context);
         instance.mIsShow = isShowDialog;
         return instance;
@@ -128,9 +135,7 @@ public class Xutils {
      * @param callback
      */
     public void post(String url, Map<String, String> maps, final XCallBack callback) {
-        if (!mLoadingDialog.isShowing() && mIsShow){
-            mLoadingDialog.show();
-        }
+        Logger.d("url="+url);
         RequestParams params = new RequestParams(url);
         try {
             params.addParameter("sign", Utils.getSignature(maps, Constants.SECRET));
@@ -140,10 +145,10 @@ public class Xutils {
         if (maps != null && !maps.isEmpty()) {
             for (Map.Entry<String, String> entry : maps.entrySet()) {
                 params.addBodyParameter(entry.getKey(), entry.getValue());
+                Logger.d("params="+params);
             }
 
         }
-
         x.http().post(params, new Callback.CommonCallback<String>() {
 
             @Override
@@ -151,15 +156,26 @@ public class Xutils {
                 Logger.json(result);
                 try {
                     JSONObject object = new JSONObject(result);
-                    if (object.getInt("code") == Constants.HTTP_OK_200) {
-                        if (object.get("result")!=null){
-                            onSuccessResponse( object.getString("result"), callback);
+                    Logger.d("result="+result);
+                    if (object.getInt("status") == Constants.STATUS_OK) {
+                        if (object.get("data")!=null){
+                            JSONObject data = new JSONObject(object.getString("data"));
+                            onSuccessResponse( data.toString(), callback);
                         } else {
                             onSuccessResponse("",callback);
                         }
 
+                    }else if (object.getInt("status") == Constants.STATUS_PHONE_HAVE) {
+                        Utils.showShortToast(x.app(), object.getString("desc"));
+                    }
+                    else if (object.getInt("status") == Constants.STATUS_USERNAME_HAVE) {
+                        Utils.showShortToast(x.app(), object.getString("desc"));
+                    }else if (object.getInt("status") == Constants.STATUS_TOKEN_ERROR) {
+                        //token值失效
+                        Utils.start_Activity(context2,LoginActivity.class);
+                        Utils.showShortToast(x.app(), object.getString("desc"));
                     }else{
-                        Utils.showShortToast(x.app(), object.getString("error"));
+                        Utils.showShortToast(x.app(), object.getString("desc"));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -301,15 +317,15 @@ public class Xutils {
      * @param url
      * @param option
      */
-//    public void bindCommonImage(ImageView iv, String url, boolean option) {
-//        if (option) {
-//            options = new ImageOptions.Builder().setLoadingDrawableId(R.mipmap.ic_launcher)
-//                    .setFailureDrawableId(R.mipmap.ic_launcher).build();
-//            x.image().bind(iv, url, options);
-//        } else {
-//            x.image().bind(iv, url);
-//        }
-//    }
+    public void bindCommonImage(ImageView iv, String url, boolean option) {
+        if (option) {
+            options = new ImageOptions.Builder().setLoadingDrawableId(R.mipmap.ic_launcher)
+                    .setFailureDrawableId(R.mipmap.ic_launcher).build();
+            x.image().bind(iv, url, options);
+        } else {
+            x.image().bind(iv, url);
+        }
+    }
 
     /**
      * 圆形图片显示

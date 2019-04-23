@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_login"
     android:orientation="vertical"
     tools:context="com.example.lenovo.searchapp.LaunchActivity">
 
@@ -13,20 +12,30 @@
         android:layout_alignParentTop="true"
         android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="392px"
-            android:layout_height="70px"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="322px"
-            android:src="@drawable/splash_bg" />
+        <!--<ImageView-->
+            <!--android:layout_width="392px"-->
+            <!--android:layout_height="70px"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:layout_marginTop="322px"-->
+            <!--android:src="@drawable/splash_bg" />-->
 
         <TextView
-            android:id="@+id/tv_login_reset"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40px"
+            android:layout_marginTop="200px"
+            android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:text="欢迎使用调查app"
+            android:text="欢迎使用你的声音"
+            android:textColor="@color/white"
+            android:textSize="70px" />
+        <TextView
+            android:id="@+id/tv_launch_start"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="200px"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:text="点击开始"
             android:textColor="@color/white"
             android:textSize="50px" />
 

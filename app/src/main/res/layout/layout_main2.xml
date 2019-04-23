@@ -7,16 +7,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
-    <TextView
-            android:orientation="vertical"
-            android:background="@drawable/main_navigation_background"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:text="微信"
-            android:textColor="#ffffff"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+    <!--<TextView-->
+            <!--android:orientation="vertical"-->
+            <!--android:background="@drawable/main_navigation_background"-->
+            <!--android:gravity="center"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="45dp"-->
+            <!--android:text="微信"-->
+            <!--android:textColor="#ffffff"-->
+            <!--android:textSize="20sp"-->
+            <!--android:textStyle="bold"/>-->
 
 
     <!--<include layout="@layout/layout_top"/>-->
