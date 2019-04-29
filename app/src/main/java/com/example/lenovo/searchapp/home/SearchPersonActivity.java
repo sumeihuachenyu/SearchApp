@@ -21,6 +21,7 @@ import org.xutils.x;
 
 /**
  * Created by lenovo on 2019-03-27.
+ * 点击头像会进入到用户页面
  */
 @ContentView(R.layout.layout_home_person)
 public class SearchPersonActivity extends BaseActivity {
@@ -42,20 +43,23 @@ public class SearchPersonActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Utils.hideNavigationBar(this);
         x.view().inject(this);
         myApplication = MyApplication.getInstance();
-        //仅仅对页面做一个展示
+        //获取从首页模块传递过来的searchid值
         Intent intent = getIntent();
         if(!intent.equals(null) || !intent.equals("")){
             this.searchid = intent.getStringExtra("headsearchid");//从intent对象中获得数据
         }
         Logger.d("searchid="+searchid);
+        //查询数据
         initdata();
         Logger.d("searchPerson="+rvData);
+        //根据传递的值渲染页面
         initview();
     }
-
+    /**
+     * 初始化页面
+     */
     private void initview() {
         if(rvData != null){
             if(rvData.getHeadaddress() != null){
@@ -70,7 +74,9 @@ public class SearchPersonActivity extends BaseActivity {
             username.setText(rvData.getUsername());
         }
     }
-
+    /**
+     * 通过searchid查询数据
+     */
     private void initdata() {
         //查找数据
         for(int i = 0; i < myApplication.getSearchs().size();i++){
@@ -80,7 +86,6 @@ public class SearchPersonActivity extends BaseActivity {
                 break;
             }
         }
-        //进行数据的初始化
     }
 
     /**

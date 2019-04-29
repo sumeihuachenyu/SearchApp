@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.example.lenovo.searchapp.MyApplication;
 import com.example.lenovo.searchapp.R;
@@ -40,22 +39,24 @@ public class InputVertifyFragment extends Fragment {
     /**输入的验证码*/
     @ViewInject(R.id.et_reset_phone)
     private EditText editText;
-    /**点击进行验证*/
-    @ViewInject(R.id.tv_reset_verify)
-    private TextView textView;
+    /**
+     * 定义Activity变量
+     */
     private Activity mContext;
     private MyApplication myApplication;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //View view = inflater.inflate(R.layout.tab_inputvedify, container, false);
         View view = x.view().inject(this,inflater,container);
-        //editText = (EditText) view.findViewById(R.id.et_reset_phone);
-        myApplication = MyApplication.getInstance();
-        mContext = this.getActivity();
-        init();
+        myApplication = MyApplication.getInstance();//获取MyApplication对象
+        mContext = this.getActivity();//给参数mContext设置Activity值
+        init();//初始化验证码的值
         return view;
     }
+
+    /**
+     * 初始化EditView中验证码的值
+     */
     public void init(){
         Logger.d("myapplication="+myApplication.getData());
         if(myApplication.getData() != null){
@@ -64,39 +65,45 @@ public class InputVertifyFragment extends Fragment {
             Utils.showShortToast(mContext,"请先输入手机号获取验证码");
         }
     }
+
+    /**
+     * 点击进行验证的事件触发处理方法
+     * @param v
+     */
     @Event(value = {R.id.tv_reset_verify})
     private void click(View v){
-        //Utils.start_Activity(mContext,LoginActivity.class);
-        //需要将刚刚传递过来的验证码进行验证
-//        if("1111".equals(editText.getText().toString())){
-//            //进入密码修改页面
-//            Utils.start_Activity(mContext,ResetActivity.class);
-//        }else{
-//            Utils.showLongToast(mContext,"验证码错误，请重新输入手机号进行获取");
-//        }
+        //验证手机号是否为空
         if(editText.getText().toString().isEmpty()){
             Utils.showLongToast(mContext,"请重新输入手机号获取验证码");
         }
 
+        //构建签名生成算法所需要的map数据
         Map<String,String> map = new HashMap<>();
         map.put("verify",editText.getText().toString());
         map.put("mobile",myApplication.getData().getPhone());
+        //http请求
         RequestParams params = new RequestParams(API.COMPARE_VERIFY);
         try {
+            //签名参数
             params.addQueryStringParameter("sign",Utils.getSignature(map, Constants.SECRET));
+            //验证码参数
             params.addQueryStringParameter("verify",editText.getText().toString());
+            //手机号参数
             params.addQueryStringParameter("mobile",myApplication.getData().getPhone());
+            //利用get方法与服务器交互
             x.http().get(params, new Callback.CommonCallback<String>() {
                 @Override
                 public void onSuccess(String result) {
-                    //BaseResult baseResult = Utils.parseJsonWithGson(result,BaseResult.class);
                     try {
+                        //将结果转换成JSONObject
                         JSONObject baseResult = new JSONObject(result);
+                        //获取数据中的状态码是否为STATUS_OK，STATUS_OK表示获取数据成功
                         if (!(baseResult.getInt("status") == Constants.STATUS_OK)){
                             Utils.showShortToast(x.app(), baseResult.getString("desc"));
                         }else if(baseResult.getInt("status") == Constants.STATUS_OK){
-                            ///返回成功之后需要直接跳转到修改密码页面
+                            //进行成功的提示
                             Utils.showShortToast(x.app(), baseResult.getString("desc"));
+                            ///返回成功之后需要直接跳转到修改密码页面
                             Utils.start_Activity(mContext,ResetActivity.class);
                         }
                     } catch (JSONException e) {
@@ -124,7 +131,7 @@ public class InputVertifyFragment extends Fragment {
 
     }
     /**
-     * 退回登录（点击底部文字）
+     * 退回登录（点击回到登录页面）
      *
      * @param v 点击视图
      */

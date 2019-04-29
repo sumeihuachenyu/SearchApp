@@ -26,6 +26,7 @@ import org.xutils.x;
 
 /**
  * Created by lenovo on 2019-03-15.
+ * 个人中心模块
  */
 @ContentView(R.layout.layout_person)
 public class PersonActivity extends BaseActivity {
@@ -37,16 +38,12 @@ public class PersonActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Utils.hideNavigationBar(this);
         x.view().inject(this);
         myApplication = MyApplication.getInstance();
-        //需要设置头像和名称
+        //设置名称
         welcom.setText(myApplication.getUser().getUsername()+"欢迎您");
+        //设置头像显示
         if(myApplication.getUser().getHeadaddress() != null){
-            //mImageUri.getEncodedPath()=/mnt/sdcard/bigIcon/1554644509881.jpg
-            // Logger.d("mImageUri.getEncodedPath()="+mImageUri.getEncodedPath());
-            //文件名称=F:\\BaiduNetdiskDownload\\androidProject\\uploadimg\\1554685537364.jpg
-            ///String filename = new File(myApplication.getUser().getHeadaddress().trim()).getName();
             String fName = myApplication.getUser().getHeadaddress().trim();
             String filename = fName.substring(fName.lastIndexOf("\\")+1);
             String path = "/mnt/sdcard/bigIcon/"+filename;
@@ -85,7 +82,6 @@ public class PersonActivity extends BaseActivity {
     }
     /**
      * 退出登录,指的是关闭app,但是仍然处于登录状态，点击进入之后会直接进入home
-     *
      * @param v 点击视图
      */
     @Event(value = {R.id.personal_exit})
@@ -95,7 +91,6 @@ public class PersonActivity extends BaseActivity {
         intent.setAction(Intent.ACTION_MAIN);// 设置Intent动作
         intent.addCategory(Intent.CATEGORY_HOME);// 设置Intent种类
         startActivity(intent);// 将Intent传递给Activity
-        //Utils.start_Activity(this,LoginActivity.class);
     }
     /**
      * 切换账号，指的是到登录页面重新登录
@@ -116,7 +111,6 @@ public class PersonActivity extends BaseActivity {
      */
     @Event(value = {R.id.btn_message})
     private void getmessage(View v){
-        //ActivityCollectorUtil.finishAllActivity();
         Utils.start_Activity(this,MessageActivity.class);
     }
     /**
@@ -126,7 +120,6 @@ public class PersonActivity extends BaseActivity {
      */
     @Event(value = {R.id.btn_update_person})
     private void getupdate(View v){
-        //ActivityCollectorUtil.finishAllActivity();
         Utils.start_Activity(this,UpdatePerson.class);
     }
     /**
@@ -136,7 +129,6 @@ public class PersonActivity extends BaseActivity {
      */
     @Event(value = {R.id.btn_search_submit})
     private void submit(View v){
-        //ActivityCollectorUtil.finishAllActivity();
         Utils.start_Activity(this,SubmitSearchActivity.class);
     }
 
@@ -147,7 +139,6 @@ public class PersonActivity extends BaseActivity {
      */
     @Event(value = {R.id.btn_join})
     private void join(View v){
-        //ActivityCollectorUtil.finishAllActivity();
         Utils.start_Activity(this,MyJoinActivity.class);
     }
 
@@ -158,7 +149,6 @@ public class PersonActivity extends BaseActivity {
      */
     @Event(value = {R.id.btn_search})
     private void search(View v){
-        //ActivityCollectorUtil.finishAllActivity();
         Utils.start_Activity(this,MySearchActivity.class);
     }
 }

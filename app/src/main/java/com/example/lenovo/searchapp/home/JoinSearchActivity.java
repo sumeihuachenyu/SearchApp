@@ -32,6 +32,7 @@ import java.util.Map;
 
 /**
  * Created by lenovo on 2019-03-27.
+ * 参与调查页面
  */
 @ContentView(R.layout.layout_join_search)
 public class JoinSearchActivity extends BaseActivity {
@@ -64,20 +65,21 @@ public class JoinSearchActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Utils.hideNavigationBar(this);
         x.view().inject(this);
-        //仅仅对页面做一个展示
         myApplication = MyApplication.getInstance();
+        //获取从ItemActivity传递过来的searchid值
         Intent intent = getIntent();
         if(!intent.equals(null) || !intent.equals("")){
             this.searchid = intent.getStringExtra("itemsearchid");//从intent对象中获得数据
         }
+        //查询数据
         initdata();
+        //根据传递的值渲染页面
         initview();
-
-        // init();
     }
-
+    /**
+     * 初始化页面
+     */
     private void initview() {
         if(rvData != null){
             keyOne.setText(rvData.getQuestionone());
@@ -86,6 +88,9 @@ public class JoinSearchActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 通过searchid查询数据
+     */
     private void initdata() {
         //查找数据
         for(int i = 0; i < myApplication.getSearchs().size();i++){
@@ -110,34 +115,33 @@ public class JoinSearchActivity extends BaseActivity {
     }
 
     /**
-     * 提交操作
-     *
+     * 点击按钮进行提交操作
      * @param v 点击视图
      */
     @Event(value = {R.id.btn_search_submit})
     private void joinsubmit(View v){
+        //根据关键词1是否被选，构造数据
         if(keyOne.isChecked()){
             answerone = "1";
         }else{
             answerone = "0";
         }
-
+        //根据关键词2是否被选，构造数据
         if(keyTwo.isChecked()){
             answertwo = "1";
         }else{
             answertwo = "0";
         }
-
+        //根据关键词3是否被选，构造数据
         if(keyThree.isChecked()){
             answerthree = "1";
         }else{
             answerthree = "0";
         }
-
+        //获取其他答案数据
         otheranswer = keyMore.getText().toString();
-
         Logger.d("answerone="+answerone+",answertwo="+answerthree+",otheranswer="+otheranswer);
-
+        //构造签名算法需要的数据
         Map<String,String> map = new HashMap<>();
         map.put("searchid",rvData.getSearchid());
         map.put("userid",myApplication.getUser().getUserid().toString());
@@ -145,8 +149,10 @@ public class JoinSearchActivity extends BaseActivity {
         map.put("answertwo",answertwo);
         map.put("answerthree",answerthree);
         map.put("otheranswer",otheranswer);
+        //http请求
         RequestParams params = new RequestParams(API.JOIN_SEARCH);
         try {
+            //传递参数
             params.addParameter("sign", Utils.getSignature(map, Constants.SECRET));
             params.addParameter("searchid",rvData.getSearchid());
             params.addBodyParameter("userid",myApplication.getUser().getUserid().toString());
@@ -159,6 +165,7 @@ public class JoinSearchActivity extends BaseActivity {
                 public void onSuccess(String result) {
                     try {
                         JSONObject baseResult = new JSONObject(result);
+                        //判断是否参与成功
                         if (!(baseResult.getInt("status") == Constants.STATUS_OK)){
                             Utils.showShortToast(x.app(), baseResult.getString("desc"));
                         }else if(baseResult.getInt("status") == Constants.STATUS_OK){

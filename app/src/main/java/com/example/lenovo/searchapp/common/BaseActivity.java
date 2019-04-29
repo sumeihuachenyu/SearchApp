@@ -8,6 +8,7 @@ import com.example.lenovo.searchapp.utils.ActivityCollectorUtil;
 
 /**
  * Created by lenovo on 2019-03-07.
+ * Activity的基类，其他Activity需要继承这个类
  */
 public class BaseActivity extends AppCompatActivity {
     @Override

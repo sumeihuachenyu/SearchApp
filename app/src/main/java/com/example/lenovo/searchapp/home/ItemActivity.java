@@ -20,6 +20,7 @@ import org.xutils.x;
 
 /**
  * Created by lenovo on 2019-03-27.
+ * 点击每一个调查item进入的页面，只使用于首页模块
  */
 @ContentView(R.layout.layout_home_single_item)
 public class ItemActivity extends BaseActivity {
@@ -28,7 +29,7 @@ public class ItemActivity extends BaseActivity {
      */
     private SearchAndPerson rvData = null;
     /**
-     * 获取传递过来的id值
+     * 获取传递过来的searchid值
      */
     private String searchid = null;
     MyApplication myApplication = null;
@@ -54,18 +55,24 @@ public class ItemActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Utils.hideNavigationBar(this);
         x.view().inject(this);
+        //设置参与调查按钮为View.GONE
         button.setVisibility(View.GONE);
         myApplication = MyApplication.getInstance();
+        //获取从首页模块传递过来的searchid值
         Intent intent = getIntent();
         if(!intent.equals(null) || !intent.equals("")){
             this.searchid = intent.getStringExtra("searchid");//从intent对象中获得数据
         }
+        //查询数据
         initdata();
+        //根据传递的值渲染页面
         initview();
     }
 
+    /**
+     * 初始化页面
+     */
     private void initview() {
         if(rvData != null){
             searchtitle.setText(rvData.getSearchtitle());
@@ -76,17 +83,23 @@ public class ItemActivity extends BaseActivity {
             questionone.setText(rvData.getQuestionone());
             questtiontwo.setText(rvData.getQuestiontwo());
             questionthree.setText(rvData.getQuestionthree());
+            //根据rvData.getIsstop()的值设置参与调查按钮是否显示
             Logger.d("rvData.getIsstop()="+rvData.getIsstop());
             if("1.0".equals(rvData.getIsstop())){
                 Logger.d("3333333进入");
+                //进行显示
                 button.setVisibility(View.VISIBLE);
             }else{
                 Logger.d("4444444进入");
+                //去掉
                 button.setVisibility(View.GONE);
             }
         }
     }
 
+    /**
+     * 通过searchid查询数据
+     */
     private void initdata() {
         //查找数据
         for(int i = 0; i < myApplication.getSearchs().size();i++){
@@ -115,7 +128,7 @@ public class ItemActivity extends BaseActivity {
      */
     @Event(value = {R.id.btn_showyun})
     private void showcloud(View v){
-        //Utils.start_Activity(ItemActivity.this,ShowCloudActivity.class);
+        //需要传递searchid参数
         Utils.start_Activity(ItemActivity.this,ShowCloudActivity.class,"itemsearchid",rvData.getSearchid());
     }
 
@@ -126,6 +139,7 @@ public class ItemActivity extends BaseActivity {
      */
     @Event(value = {R.id.btn_playsearch})
     private void joinsearch(View v){
+        //需要传递searchid参数
         Utils.start_Activity(ItemActivity.this,JoinSearchActivity.class,"itemsearchid",rvData.getSearchid());
     }
 }

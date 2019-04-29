@@ -12,13 +12,13 @@ import org.xutils.x;
 
 /**
  * Created by lenovo on 2019-03-20.
+ * 关于页面
  */
 @ContentView(R.layout.layout_about)
 public class AboutActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Utils.hideNavigationBar(this);
         x.view().inject(this);
     }
 

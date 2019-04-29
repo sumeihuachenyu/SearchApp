@@ -7,7 +7,6 @@ import android.view.View;
 
 import com.example.lenovo.searchapp.common.API;
 import com.example.lenovo.searchapp.common.BaseActivity;
-import com.example.lenovo.searchapp.entity.UserInfoResult;
 import com.example.lenovo.searchapp.person.LoginActivity;
 import com.example.lenovo.searchapp.person.model.User;
 import com.example.lenovo.searchapp.utils.Utils;
@@ -23,10 +22,10 @@ import java.util.Map;
 
 /**
  * Created by lenovo on 2019-03-06.
+ * 启动页
  */
 @ContentView(R.layout.layout_lunch1)
 public class LaunchActivity extends BaseActivity {
-    private UserInfoResult.ResultBean mInfo;
     private MyApplication myApplication;
     private User user;
 
@@ -39,19 +38,20 @@ public class LaunchActivity extends BaseActivity {
 
 
     /**
-     * 点击进行登录
+     * 点击开始
      *
      * @param v 点击视图
      */
     @Event(value = {R.id.tv_launch_start})
     private void loginstart(View v){
         Logger.d("token="+myApplication.getToken());
+        //如果是第一次登录
         if (myApplication.getToken() == null || myApplication.getToken().equals("") ){
             //需要登录，以前没有登陆过
             Logger.d("token="+myApplication.getUser());
             Utils.start_Activity(LaunchActivity.this,LoginActivity.class);
-            //Utils.putBooleanValue(this,"first",false);
         }else if(myApplication.isExit() && myApplication.getUser() != null){
+            //如果用户存在，主要针对退出操作做的
             myApplication.setExit(false);
             Utils.start_Activity(LaunchActivity.this,MainActivityTop.class);
         } else{
@@ -69,18 +69,13 @@ public class LaunchActivity extends BaseActivity {
                     myApplication.setUser(data);
                     myApplication.setToken(data.getToken());
                     Logger.d("token="+myApplication.getToken());
-//                    Utils.showShortToast(LaunchActivity.this,getString(R.string.login_success));
-//                    Utils.start_Activity(LaunchActivity.this,MainActivityTop.class);
                 }
-
                 @Override
                 public void onFinished() {
                     Utils.showShortToast(LaunchActivity.this,getString(R.string.login_success));
                     Utils.start_Activity(LaunchActivity.this, MainActivityTop.class);
                     finish();
                 }
-
-
             });
         }
     }

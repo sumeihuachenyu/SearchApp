@@ -2,6 +2,7 @@ package com.example.lenovo.searchapp.home.model;
 
 /**
  * Created by lenovo on 2019-04-11.
+ * 只包含search和Person数据，主要在首页和调查页面使用
  */
 public class SearchAndPerson {
     private String searchid;

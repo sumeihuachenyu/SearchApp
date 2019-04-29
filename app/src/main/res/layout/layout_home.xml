@@ -60,25 +60,6 @@
             android:gravity="center"
             android:text="@string/zu_money"
             android:textColor="@color/white" />
-
-        <!--<TextView-->
-            <!--android:id="@+id/tvZuQuyu"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:layout_weight="1"-->
-            <!--android:gravity="center"-->
-            <!--android:text="@string/zu_huxing"-->
-            <!--android:textColor="@color/white" />-->
-
-        <!--<TextView-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:layout_weight="1"-->
-            <!--android:gravity="center"-->
-            <!--android:text="@string/zu_laiyuan"-->
-            <!--android:textColor="@color/white" />-->
     </LinearLayout>
 
     <com.example.lenovo.searchapp.view.AutoSwipeRefreshLayout

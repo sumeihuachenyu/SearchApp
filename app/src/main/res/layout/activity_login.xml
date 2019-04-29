@@ -86,12 +86,6 @@
                             android:textSize="16.0sp" >
 
                         </EditText>
-
-                        <!--<ImageView-->
-                            <!--android:id="@+id/login_more"-->
-                            <!--style="@style/PersonalRightIconStyle"-->
-                            <!--android:layout_gravity="center_vertical"-->
-                            <!--android:src="@mipmap/android_order_trace_info_more" />-->
                     </LinearLayout>
 
                     <View style="@style/PersonalLine" />

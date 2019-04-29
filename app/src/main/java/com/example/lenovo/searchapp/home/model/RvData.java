@@ -1,7 +1,7 @@
 package com.example.lenovo.searchapp.home.model;
 
 /**
- * 模拟RecyclerView数据
+ * 模拟RecyclerView数据，目前已经被弃用
  * Created by lenovo on 2019-03-24.
  */
 public class RvData {

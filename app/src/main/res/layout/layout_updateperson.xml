@@ -59,22 +59,6 @@
                     android:layout_marginTop="20dp"
                     android:layout_gravity="center"
                     android:src="@drawable/head"/>
-                <!--<TextView-->
-                    <!--android:id="@+id/tx_upload_img"-->
-                    <!--android:layout_below="@id/img_upload_img"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="上传头像"-->
-                    <!--android:layout_centerHorizontal="true"-->
-                    <!--android:textSize="15sp"-->
-                    <!--android:gravity="fill_vertical"-->
-                    <!--android:textColor="@color/black1"/>-->
-                <!--<ImageView-->
-                    <!--android:id="@+id/img_upload_img"-->
-                    <!--android:layout_width="120dp"-->
-                    <!--android:layout_height="120dp"-->
-                    <!--android:layout_marginTop="20dp"-->
-                    <!--android:src="@mipmap/ic_launcher"/>-->
                 <Button
                     android:layout_below="@id/img_upload_img"
                     android:id="@+id/tx_upload_img"

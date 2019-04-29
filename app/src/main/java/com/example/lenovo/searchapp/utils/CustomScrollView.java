@@ -9,7 +9,9 @@ import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 
-
+/**
+ * 自定义的圆形头像
+ */
 public class CustomScrollView extends ScrollView {
 
 	private View inner;// 孩子View

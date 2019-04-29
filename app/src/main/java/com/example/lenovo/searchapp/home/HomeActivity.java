@@ -44,6 +44,7 @@ import java.util.Map;
 
 /**
  * Created by lenovo on 2019-03-24.
+ * 首页模块
  * reyclerView实现下拉刷新和加载
  */
 public class HomeActivity extends BaseActivity implements RecyclerViewScrollListener.OnLoadListener, SwipeRefreshLayout.OnRefreshListener ,View.OnClickListener {
@@ -53,7 +54,7 @@ public class HomeActivity extends BaseActivity implements RecyclerViewScrollList
     private LoadRecyclerView recyclerView;
     /**RecyclerView适配器*/
     private RvAdapter adapter;
-    /**显示的数据*/
+    /**显示的数据列表*/
     private ArrayList<SearchAndPerson> mDatas = new ArrayList<SearchAndPerson>();
     /**底部数据*/
     private FooterData footerData;
@@ -61,9 +62,9 @@ public class HomeActivity extends BaseActivity implements RecyclerViewScrollList
     private boolean isAbleLoading = true;
     /**搜索框*/
     private EditText mSearchBox = null;
-    /**自定义下拉框*/
+    /**自定义类型下拉框*/
     private SelectPopupWindow mPopupWindow = null;
-    /**自定义下拉框*/
+    /**自定义排序下拉框*/
     private SelectPopupWindowPaixu mPopupWindowpaixu = null;
     /**类型*/
     private TextView tvZuQuyu;
@@ -92,7 +93,7 @@ public class HomeActivity extends BaseActivity implements RecyclerViewScrollList
      * 存放类型的数组
      */
     private String[] types = new String[20];
-    private ArrayList<LinkedTreeMap> dataBeanListTmp;
+    private ArrayList<LinkedTreeMap> dataBeanListTmp;//存放获取到的主页数据的临时变量
     private String[] parentStrings1 = {"全部类型","校园生活","娱乐明星","生活琐事","职场生涯","教育问题","生物领域","其他"};
     private String[] parentStrings = new String[30];
     private String[] parentStringspaixu = {"降序","升序"};
@@ -110,31 +111,42 @@ public class HomeActivity extends BaseActivity implements RecyclerViewScrollList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_home);
+        //由于数据库中没有全部类型，则需要手动添加一个"全部类型"
         parentStrings[0] = "全部类型";
+        //初始化控件
         initView();
+        //初始化类型下拉框数据
         initTypeData();
-        this.page = "home";
-        swipeLayout.autoRefresh();
+        this.page = "home";//指定这个页面时首页
+        swipeLayout.autoRefresh();//进行页面的下拉刷新操作
+        /**
+         * 获取SearchActivity中输入的值并传入到当前的HomeActivity中进行搜索
+         */
         Intent intent = getIntent();
         if(!intent.equals(null) || !intent.equals("")){
             searchValue = intent.getStringExtra("searchName");//从intent对象中获得数据
             mSearchBox.setText(searchValue);
-            //Utils.showShortToast(HomeActivity.this,"得到的搜索框的值为"+searchValue);
         }
-        //swipeLayout.autoRefresh();
+        //初始化首页List数据
         getHomeSearchData();
     }
 
+    /**
+     * 从服务器获取调查数据
+     */
     private void getHomeSearchData() {
+        //构建签名生成算法需要的数据
         Map<String,String> map = new HashMap<>();
-        //搜索主题
+        //添加搜索主题参数
         if(searchValue == null){
+            //防止当搜索主题为空时导致的签名不合法的问题
             map.put("searchtitle","无值");
         }else{
             map.put("searchtitle",searchValue);
         }
-        //搜索类型
+        //添加搜索类型参数
         if(typeStr == null){
+            //防止当搜索类型为空时导致的签名不合法的问题
             map.put("searchtype","无值");
         }else{
             if("全部类型".equals(typeStr)){
@@ -143,8 +155,9 @@ public class HomeActivity extends BaseActivity implements RecyclerViewScrollList
                 map.put("searchtype",typeStr);
             }
         }
-        //搜索排序
+        //添加搜索排序参数
         if(paixuStr == null){
+            //默认是降序排列
             map.put("paixu","desc");
         }else{
             if("降序".equals(paixuStr)){
@@ -153,9 +166,10 @@ public class HomeActivity extends BaseActivity implements RecyclerViewScrollList
                 map.put("paixu","asc");
             }
         }
-        //Utils.start_Activity(ResetActivity.this,LoginActivity.class);//走通逻辑而写
+        //http请求
         RequestParams params = new RequestParams(API.GET_HOME_SEARCH);
         try {
+            //签名参数
             params.addParameter("sign", Utils.getSignature(map, Constants.SECRET));
             if(searchValue == null){
                 params.addBodyParameter("searchtitle","无值");
@@ -188,11 +202,11 @@ public class HomeActivity extends BaseActivity implements RecyclerViewScrollList
                 public void onSuccess(String result) {
                     try {
                         JSONObject baseResult = new JSONObject(result);
+                        //获取数据中的状态码是否为STATUS_OK，STATUS_OK表示获取数据成功
                         if (!(baseResult.getInt("status") == Constants.STATUS_OK)){
                             Utils.showShortToast(x.app(), baseResult.getString("desc"));
                         }else if(baseResult.getInt("status") == Constants.STATUS_OK){
-                            //需要获取我的调查的全部护具
-                            //Utils.showShortToast(x.app(), baseResult.getString("desc"));
+                            //通过Utils.parseJsonWithGson方法将json字符串转换成List<LinkedTreeMap>数据
                             searchs_temp = Utils.parseJsonWithGson(baseResult.getString("data"),ArrayList.class);
 
                             Logger.d("searchs_temp="+searchs_temp);
@@ -203,12 +217,15 @@ public class HomeActivity extends BaseActivity implements RecyclerViewScrollList
                             int num = searchs_temp.size();
                             Logger.d("num="+num);
                             if(num >0) {
+                                /**
+                                 * 将List<LinkedTreeMap>中每一个的数据封装到SearchAndPerson中，并将其添加到List<SearchAndPerson>数据中
+                                 */
                                 for (int i = 0; i < num; i++) {
                                     searchAndPerson = new SearchAndPerson();
                                     Logger.d("2==searchAndPerson" + searchAndPerson);
                                     String[] temp = new String[num];
                                     Logger.d("onFinished" + i);
-                                    LinkedTreeMap map1 = searchs_temp.get(i);
+                                    LinkedTreeMap map1 = searchs_temp.get(i);//按照参数i获取List<LinkedTreeMap>
                                     searchAndPerson.setPhone(map1.get("phone").toString());
                                     Logger.d("searchAndPerson.getPhone() = " + searchAndPerson.getPhone());
                                     searchAndPerson.setSearchtitle(map1.get("searchtitle").toString());
@@ -238,19 +255,19 @@ public class HomeActivity extends BaseActivity implements RecyclerViewScrollList
                                     searchAndPerson.setQuestionthree(map1.get("questionthree").toString());
                                     Logger.d("searchAndPerson.getQuestionthree() = " + searchAndPerson.getQuestionthree());
                                     Logger.d("3==searchAndPerson" + searchAndPerson);
-                                    searchAndPerson.setType(RvAdapter.TYPE_ONE);
+                                    searchAndPerson.setType(RvAdapter.TYPE_ONE);//表示是数据
                                     searchs.add(searchAndPerson);
                                     Logger.d("）））））searchs=" + searchAndPerson);
                                 }
 
+                                //遍历其中的数据进行显示，主要是为了查看数据是否正确
                                 Logger.d("((((searchs=" + searchs);
                                 for (int i = 0; i < searchs.size(); i++) {
                                     Logger.d("searchs=" + searchs.get(i));
                                 }
 
+                                //将获取到的数据存放到MyApplication中方便在其他地方获取
                                 myApplication.setSearchs(searchs);
-                                // 加载数据
-                                //swipeLayout.autoRefresh();
                                 onRefresh();
                             }
                         }
@@ -279,7 +296,9 @@ public class HomeActivity extends BaseActivity implements RecyclerViewScrollList
         }
     }
 
-    // 初始化控件
+    /**
+     * 初始化控件
+     */
     private void initView() {
         myApplication = MyApplication.getInstance();
         mSearchBox = findViewById(R.id.index_search_edit);
@@ -307,25 +326,36 @@ public class HomeActivity extends BaseActivity implements RecyclerViewScrollList
         tvZuQuyupaixu.setOnClickListener(this);
     }
 
+    /**
+     * 初始化类型数据
+     */
     private void initTypeData() {
         Logger.d("myApplication.getTypes()="+myApplication.getTypes());
+        //判断如果myapplication中没有types类型数据
         if(myApplication.getTypes() == null){
+            //构建签名生成算法所需要的map数据
             Map<String,String> map = new HashMap<>();
             map.put("type","type");
+            //http请求
             RequestParams params = new RequestParams(API.GET_TYPES);
             try {
+                //签名参数
                 params.addParameter("sign", Utils.getSignature(map, Constants.SECRET));
+                //类型参数
                 params.addParameter("type","type");
                 x.http().post(params, new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
                         try {
                             JSONObject baseResult = new JSONObject(result);
+                            //获取数据中的状态码是否为STATUS_OK，STATUS_OK表示获取数据成功
                             if (!(baseResult.getInt("status") == Constants.STATUS_OK)){
                                 Logger.d("types="+types);
                                 Utils.showShortToast(x.app(), baseResult.getString("desc"));
                             }else if(baseResult.getInt("status") == Constants.STATUS_OK){
+                                //通过Utils.parseJsonWithGson方法将json字符串转换成ArrayList<LinkedTreeMap>数据
                                 dataBeanListTmp = Utils.parseJsonWithGson(baseResult.getString("data"),ArrayList.class);
+                                //遍历ArrayList<LinkedTreeMap>数据将类型名称存储到parentStrings数组中
                                 for(int i=0,j=1; i<dataBeanListTmp.size(); i++,j++){
                                     LinkedTreeMap map = dataBeanListTmp.get(i);
                                     parentStrings[j] = map.get("typename").toString();
@@ -334,6 +364,7 @@ public class HomeActivity extends BaseActivity implements RecyclerViewScrollList
                                 Logger.d("data="+baseResult.getString("data"));
                                 Logger.d("====parentStrings="+parentStrings);
 
+                                //将数据存放到MyApplication中的types数组中
                                 myApplication.setTypes(parentStrings);
                             }
                         } catch (JSONException e) {
@@ -359,27 +390,33 @@ public class HomeActivity extends BaseActivity implements RecyclerViewScrollList
                 e.printStackTrace();
             }
 
+            //如果parentStrings为空的化，将parentStrings1的值赋给parentStrings
             if(parentStrings == null){
                 parentStrings = parentStrings1;
             }
 
+            //进行数据的显示，方便查看数据是否成功
             Logger.d("((((types="+types);
             for(int i =0;i<parentStrings.length;i++){
                 Logger.d("parentStrings="+i+" = "+parentStrings[i]);
             }
         }else{
+            //如果MyApplication中存在types值，那么直接取出来用即可
             this.parentStrings = myApplication.getTypes();
         }
 
     }
-
-
-    // 自定义setAdapter
+    /**
+     * 自定义setAdapter
+     */
     private void setAdapter() {
         if (adapter == null) {
+            //如果Adapter未new对象，需要创建对象
             adapter = new RvAdapter(page,HomeActivity.this, mDatas, footerData);
+            //下拉加载更多RecyclerView，给RecyclerView添加Adapter
             recyclerView.setAdapter(adapter);
         } else {
+            //刷新列表数据
             adapter.reflushList(mDatas);
         }
 
@@ -401,7 +438,7 @@ public class HomeActivity extends BaseActivity implements RecyclerViewScrollList
         switch (index) {
             case ConstantUtil.LOAD_MORE_BEFORE:// 加载前/后
                 recyclerView.setLoading(false);
-                footerData.setShowProgressBar(false);
+                footerData.setShowProgressBar(false);//是否展示进度条
                 footerData.setShowFooter(true);
                 footerData.setTitle(getResources().getString(R.string.load_more_before));
                 break;
@@ -442,11 +479,13 @@ public class HomeActivity extends BaseActivity implements RecyclerViewScrollList
                     mDatas = new ArrayList<>();
                 mDatas.clear();
                 if(searchs.size() > 0){
+                    //如果目前从服务器获取的数据的长度大于10，则条件为j小于10
                     if(searchs.size() >= ConstantUtil.PAGE_SIZE){
                         for(int j = 0; j < ConstantUtil.PAGE_SIZE;j++){
                             mDatas.add(searchs.get(j));
                         }
                     }
+                    //如果目前从服务器获取的数据的长度小于10，则条件为j小于searchs.size()
                     if(searchs.size() < ConstantUtil.PAGE_SIZE){
                         for(int j = 0; j < searchs.size();j++){
                             mDatas.add(searchs.get(j));
@@ -455,19 +494,20 @@ public class HomeActivity extends BaseActivity implements RecyclerViewScrollList
 
                     Logger.d("mDatas="+mDatas);
                 }
+                //将获取到的数据存放到Adapter中进行加载
                 setAdapter();
                 //取消加载
                 swipeLayout.setRefreshing(false);
             }
         }, 3000);
-
+        //刷新底部：加载更多之前
         reflashFooterView(ConstantUtil.LOAD_MORE_BEFORE);
     }
 
     // 加载更多
-
     @Override
     public void onLoad() {
+        //如果从服务器获取到的数据长度大于目前显示的数据的长度并且需要获取最新数据
         if (myApplication.getSearchs().size() > mDatas.size() && isAbleLoading) {
             // 获取更多数据
             // 模拟网络加载
@@ -478,27 +518,32 @@ public class HomeActivity extends BaseActivity implements RecyclerViewScrollList
                     if(searchs.size() > 0){
                         int num = mDatas.size();
                         Logger.d("num="+num);
+                        //如果目前加载的数据长度+5>=从服务器获取的所有数据长度
                         if(num + ConstantUtil.PAGE_LOAD >= searchs.size()){
-                            //表示剩最后的数据
+                            //表示可以获得最后的数据
                             for (int i = num; i < searchs.size(); i++) {
                                 Logger.d("i="+i);
                                 mDatas.add(searchs.get(i));
                             }
                         }
+                        //如果目前加载的数据长度+5<=从服务器获取的所有数据长度
                         if(num + ConstantUtil.PAGE_LOAD <= searchs.size()){
+                            //表示数据不能一次性加载完
                             for (int i = num; i < num + ConstantUtil.PAGE_LOAD; i++) {
                                 Logger.d("i="+i);
                                 mDatas.add(searchs.get(i));
                             }
                         }
                     }
+                    //将获取到的数据存放到Adapter中进行加载
                     setAdapter();
                 }
             }, 3000);
-
+            //刷新底部：加载更多
             reflashFooterView(ConstantUtil.LOAD_MORE);
             swipeLayout.setRefreshing(false);
         } else {
+            //如果从服务器获取到的数据长度等于目前显示的数据的长度并且需要获取最新数据，那么刷新底部加载完成
             reflashFooterView(ConstantUtil.LOAD_MORE_COMPLETE);
         }
 
@@ -508,25 +553,24 @@ public class HomeActivity extends BaseActivity implements RecyclerViewScrollList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.index_search_edit:
-                //Utils.start_Activity(this,SearchActivity.class);
-//                Intent intent = new Intent();
-//                intent.setClass(this,SearchActivity.class);
-//                this.startActivity(intent);
+                //如果点击搜索框，则进入SearchActivity之后进行搜索，需要传递的参数是page，表示这是home页面进行搜索操作，原因是SearchActivity是重用的
                 Utils.start_Activity(HomeActivity.this,SearchActivity.class,"page",page);
                 break;
             case R.id.tvZuQuyu:
-                //if(mPopupWindow == null){
-                    if(parentStrings != null) {
-                        mPopupWindow = new SelectPopupWindow(parentStrings, HomeActivity.this, selectCategory);
-                        mPopupWindow.showAsDropDown(tvZuQuyu, -5, 10);
-                    }
-               // }
+               //如果点击类型，则显示类型下拉框
+                if(parentStrings != null) {
+                    //创建自定义的类型下拉框
+                    mPopupWindow = new SelectPopupWindow(parentStrings, HomeActivity.this, selectCategory);
+                    mPopupWindow.showAsDropDown(tvZuQuyu, -5, 10);
+                }
                 break;
             case R.id.tvZuQuyupaixu:
+                //如果点击排序，则显示排序下拉框
                 if(mPopupWindowpaixu == null){
+                    //创建自定义的排序下拉框
                     mPopupWindowpaixu = new SelectPopupWindowPaixu(parentStringspaixu,HomeActivity.this,selectCategory);
+                    mPopupWindowpaixu.showAsDropDown(tvZuQuyupaixu, -2, 10);
                 }
-                mPopupWindowpaixu.showAsDropDown(tvZuQuyupaixu, -2, 10);
                 break;
             default:
                 break;
@@ -537,45 +581,49 @@ public class HomeActivity extends BaseActivity implements RecyclerViewScrollList
      * 选择完成回调接口
      */
     private SelectCategory selectCategory=new SelectCategory() {
-
         @Override
         public void selectCategory(int parentSelectposition,boolean type) {
             if(type){
-                //表示是类型
-                typeid = parentSelectposition;
-                typeStr=parentStrings[parentSelectposition];
-                paixuStr = parentStringspaixu[paixuid];
+                //表示回调的是类型
+                typeid = parentSelectposition;//获取选中的类型数组的索引
+                typeStr=parentStrings[parentSelectposition];//获取选中的数据
+                paixuStr = parentStringspaixu[paixuid];//设置之前选中的排序参数
+                //如果选中表示需要进行数据的查询，则需要将之前的数据清空
                 mDatas.clear();
                 if(searchs.size() > 0){
-                    searchs.clear();
+                    searchs.clear();//从服务器获得的数据也需要清空
                 }
+                //存储在MyApplication中的从服务器获得的数据也需要清空
                 if(myApplication.getSearchs().size() > 0){
                     myApplication.getSearchs().clear();
                 }
                 Logger.d("111进入类型");
+                //自动刷新
                 swipeLayout.autoRefresh();
+                //从服务器获取数据
                 getHomeSearchData();
                 Logger.d("2222进入类型");
-                //Utils.showShortToast(HomeActivity.this,"点击了类型数据"+typeStr + "，位置为"+parentSelectposition+"排序位置="+paixuid+"排序数据="+paixuStr);
             }else{
-                //表示是排序
-                paixuid = parentSelectposition;
-                paixuStr=parentStringspaixu[parentSelectposition];
-                typeStr = parentStrings[typeid];
+                //表示回调的是排序
+                paixuid = parentSelectposition;//获取选中的类型数组的索引
+                paixuStr=parentStringspaixu[parentSelectposition];//获取选中的值
+                typeStr = parentStrings[typeid];//获取之前选中的类型数据
+                //如果选中表示需要进行数据的查询，则需要将之前的数据清空
                 mDatas.clear();
                 if(searchs.size() > 0){
-                    searchs.clear();
+                    searchs.clear();//从服务器获得的数据也需要清空
                 }
+                //存储在MyApplication中的从服务器获得的数据也需要清空
                 if(myApplication.getSearchs().size() > 0){
                     myApplication.getSearchs().clear();
                 }
                 Logger.d("11111进入paixu");
+                //自动刷新
                 swipeLayout.autoRefresh();
+                //从服务器获取数据
                 getHomeSearchData();
                 Logger.d("22222进入paixu");
-                //Utils.showShortToast(HomeActivity.this,"点击了排序数据"+paixuStr + "，位置为"+parentSelectposition+"类型位置="+typeid+"类型数据="+typeStr);
             }
-
         }
     };
 }

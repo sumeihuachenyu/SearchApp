@@ -12,13 +12,13 @@ import org.xutils.x;
 
 /**
  * Created by lenovo on 2019-03-20.
+ * 帮助页面
  */
 @ContentView(R.layout.layout_help)
 public class HelpActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Utils.hideNavigationBar(this);
         x.view().inject(this);
     }
 

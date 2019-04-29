@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 /**
  * Created by lenovo on 2019-03-20.
+ * Activity的添加、删除操作
  */
 public class ActivityCollectorUtil {
     public static ArrayList<Activity> mActivityList = new ArrayList<Activity>();

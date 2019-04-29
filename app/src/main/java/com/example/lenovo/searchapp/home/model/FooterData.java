@@ -10,7 +10,7 @@ public class FooterData {
     private String title;// 显示的文字
 
     public FooterData() {
-        super();
+
     }
 
     public FooterData(boolean isShowFooter, boolean isShowProgressBar, String title) {

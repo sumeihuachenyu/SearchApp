@@ -55,10 +55,6 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Main" />
-        <!--<activity-->
-            <!--android:name="ProtocolActivity"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:theme="@style/Theme.Swipe.Back" />-->
         <activity
             android:name=".person.ResetActivity"
             android:launchMode="singleTask"
@@ -66,9 +62,6 @@
             android:theme="@style/Theme.Main" />
         <activity
             android:name=".MainActivityTop"
-            android:theme="@style/Theme.Main" />
-        <activity
-            android:name=".SplashActivity"
             android:theme="@style/Theme.Main" />
         <activity
             android:name=".person.UpdatePerson"

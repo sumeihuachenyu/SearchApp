@@ -8,7 +8,6 @@ import android.widget.TextView;
 import com.example.lenovo.searchapp.MyApplication;
 import com.example.lenovo.searchapp.R;
 import com.example.lenovo.searchapp.common.BaseActivity;
-import com.example.lenovo.searchapp.home.ItemActivity;
 import com.example.lenovo.searchapp.home.ShowCloudActivity;
 import com.example.lenovo.searchapp.home.model.JoinSearchPerson;
 import com.example.lenovo.searchapp.utils.Utils;
@@ -20,6 +19,7 @@ import org.xutils.x;
 
 /**
  * Created by lenovo on 2019-03-28.
+ * 进入参与页面中的每一项调查中
  */
 @ContentView(R.layout.layout_join_single_item)
 public class MyJoinItemActivity extends BaseActivity {
@@ -52,17 +52,21 @@ public class MyJoinItemActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Utils.hideNavigationBar(this);
         x.view().inject(this);
         myApplication = MyApplication.getInstance();
+        //获取Adapter传递过来的searchid值
         Intent intent = getIntent();
         if(!intent.equals(null) || !intent.equals("")){
             this.searchid = intent.getStringExtra("searchId");//从intent对象中获得数据
         }
+        //查询数据
         initdata();
+        //根据传递的值渲染页面
         initview();
     }
-
+    /**
+     * 初始化页面
+     */
     private void initview() {
         if(rvData != null){
             searchtitle.setText(rvData.getSearchtitle());
@@ -76,7 +80,9 @@ public class MyJoinItemActivity extends BaseActivity {
             questionthree.setText(rvData.getQuestionthree());
         }
     }
-
+    /**
+     * 通过searchid查询数据
+     */
     private void initdata() {
         //查找数据
         for(int i = 0; i < myApplication.getJoinsearchs().size();i++){
@@ -85,7 +91,6 @@ public class MyJoinItemActivity extends BaseActivity {
                 break;
             }
         }
-        //进行数据的初始化
     }
     /**
      * 跳转到上一页
@@ -104,7 +109,7 @@ public class MyJoinItemActivity extends BaseActivity {
      */
     @Event(value = {R.id.btn_show_cloud})
     private void showcloud(View v){
-        //Utils.start_Activity(MyJoinItemActivity.this,ShowCloudActivity.class);
+        //需要传递searchid参数
         Utils.start_Activity(MyJoinItemActivity.this,ShowCloudActivity.class,"itemsearchid",rvData.getSearchid());
     }
 
@@ -115,7 +120,7 @@ public class MyJoinItemActivity extends BaseActivity {
      */
     @Event(value = {R.id.btn_join_record})
     private void showjoinrecord(View v){
+        //需要传递searchid参数
         Utils.start_Activity(MyJoinItemActivity.this,MyJoinRecordActivity.class,"itemsearchid",rvData.getSearchid());
-        //Utils.start_Activity(ItemActivity.this,JoinSearchActivity.class,"itemsearchid",rvData.getSearchid());
     }
 }

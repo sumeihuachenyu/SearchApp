@@ -2,6 +2,7 @@ package com.example.lenovo.searchapp.SpinnerSelectAdress;
 
 /**
  * Created by lenovo on 2019-03-26.
+ * 需要实现的接口
  */
 public interface SelectCategory {
     /**

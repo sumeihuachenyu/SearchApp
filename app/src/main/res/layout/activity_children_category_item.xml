@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--主要是layout_quyu_choose_view_child.xml文件中每一项item的布局文件-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="40dp"
     android:background="@drawable/chuzu_item_left_selector"
     android:orientation="horizontal" >
-
     <TextView
         android:id="@+id/tv_children_category_name"
         android:layout_width="wrap_content"
@@ -14,5 +14,4 @@
         android:gravity="center_vertical"
         android:text="全部"
         android:textSize="18sp" />
-
 </LinearLayout>

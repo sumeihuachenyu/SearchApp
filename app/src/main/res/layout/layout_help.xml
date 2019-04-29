@@ -96,17 +96,10 @@
                                 style="@style/PersonalTextStyle"
                                 android:layout_toRightOf="@id/personal_icon_03"
                                 android:text="@string/answer_one" />
-
-                            <!--<ImageView-->
-                            <!--style="@style/PersonalRightIconStyle"-->
-                            <!--android:src="@drawable/android_list_idex" />-->
                         </RelativeLayout>
                         <View style="@style/PersonalLine" />
                         <View style="@style/PersonalLine" />
                         <View style="@style/PersonalLine" />
-                <!--</LinearLayout>-->
-                    <!--<LinearLayout style="@style/PersonalMainLayoutStyle" >-->
-
                         <RelativeLayout
                             style="@style/PersonalTopStyle"
                             android:id="@+id/btn_about"
@@ -125,9 +118,6 @@
                                 android:text="@string/question_two"
                                 android:textSize="20dp" />
 
-                            <!--<ImageView-->
-                                <!--style="@style/PersonalRightIconStyle"-->
-                                <!--android:src="@drawable/android_list_idex" />-->
                         </RelativeLayout>
 
                         <View style="@style/PersonalLine" />
@@ -152,10 +142,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_toRightOf="@id/personal_service"
                                 android:src="@drawable/color_shopping_new" />
-
-                            <!--<ImageView-->
-                                <!--style="@style/PersonalRightIconStyle"-->
-                                <!--android:src="@drawable/android_list_idex" />-->
                         </RelativeLayout>
                         <View style="@style/PersonalLine" />
                         <View style="@style/PersonalLine" />
@@ -177,10 +163,6 @@
                                 android:layout_toRightOf="@id/personal_icon_08"
                                 android:text="@string/question_two"
                                 android:textSize="20dp" />
-
-                            <!--<ImageView-->
-                            <!--style="@style/PersonalRightIconStyle"-->
-                            <!--android:src="@drawable/android_list_idex" />-->
                         </RelativeLayout>
 
                         <View style="@style/PersonalLine" />
@@ -205,10 +187,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_toRightOf="@id/personal_service1"
                                 android:src="@drawable/color_shopping_new" />
-
-                            <!--<ImageView-->
-                            <!--style="@style/PersonalRightIconStyle"-->
-                            <!--android:src="@drawable/android_list_idex" />-->
                         </RelativeLayout>
 
                     </LinearLayout>

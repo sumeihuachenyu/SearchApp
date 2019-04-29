@@ -21,13 +21,6 @@ import com.example.lenovo.searchapp.utils.ActivityCollectorUtil;
  * 进行主页面中各个模块的跳转
  */
 public class MainActivityTop extends TabActivity{
-//    private RadioGroup mTabButtonGroup;
-//    //声明ViewPager
-//    private ViewPager mViewPager;
-//    //适配器
-//    private FragmentPagerAdapter mAdapter;
-//    //装载Fragment的集合
-//    private List<Fragment> mFragments;
     /** 上次点击返回键的时间 */
     private long lastBackPressed;
     /** 两次点击的间隔时间 */
@@ -80,7 +73,9 @@ public class MainActivityTop extends TabActivity{
         mTabButtonGroup = (RadioGroup) findViewById(R.id.home_radio_button_group);
     }
 
-    //初始化控件
+    /**
+     * 初始化控件
+     */
     private void initViews() {
         mTabHost = getTabHost();
 
@@ -98,24 +93,26 @@ public class MainActivityTop extends TabActivity{
         mTabHost.addTab(mTabHost.newTabSpec(TAB_PERSONAL).setIndicator(TAB_PERSONAL)
                 .setContent(i_cart));
 
+        //如果myApplication.getSelectPage()有值且是home，就默认选中的是主页模块
         if("home".equals(myApplication.getSelectPage())){
             mTabHost.setCurrentTabByTag(TAB_MAIN);
             RadioButton r = findViewById(R.id.home_tab_main);
             r.setChecked(true);
         }
-
+        //如果myApplication.getSelectPage()有值且是person，就默认选中的是个人中心模块
         if("person".equals(myApplication.getSelectPage())){
             mTabHost.setCurrentTabByTag(TAB_PERSONAL);
             RadioButton r = findViewById(R.id.home_tab_personal);
             r.setChecked(true);
         }
-
+        //如果myApplication.getSelectPage()有值且是search，就默认选中的是调查模块
         if("search".equals(myApplication.getSelectPage())){
             mTabHost.setCurrentTabByTag(TAB_SEARCH);
             RadioButton r = findViewById(R.id.home_tab_search);
             r.setChecked(true);
         }
 
+        //mTabButtonGroup的点击触发事件处理
         mTabButtonGroup
                 .setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     public void onCheckedChanged(RadioGroup group, int checkedId) {

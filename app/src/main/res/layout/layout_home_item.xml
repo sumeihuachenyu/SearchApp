@@ -37,9 +37,4 @@
             android:layout_toRightOf="@+id/iv_head"
             android:textColor="#999"
             android:textSize="10sp" />
-    <!--<View-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="1dp"-->
-        <!--android:background="@color/red"/>-->
-
 </LinearLayout>

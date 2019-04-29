@@ -32,6 +32,7 @@ import java.util.Map;
 
 /**
  * Created by lenovo on 2019-03-27.
+ * 词云展示页面
  */
 @ContentView(R.layout.layout_show_cloud)
 public class ShowCloudActivity extends BaseActivity {
@@ -57,18 +58,23 @@ public class ShowCloudActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Utils.hideNavigationBar(this);
         x.view().inject(this);
+        //获取从首页模块传递过来的searchid值
         Intent intent = getIntent();
         if(!intent.equals(null) || !intent.equals("")){
             this.searchid = intent.getStringExtra("itemsearchid");//从intent对象中获得数据
         }
+        //删除文件
         deleteFile();
+        //初始化对话框
         initProgressDialog();
+        //获取图片
         initData();
     }
 
-    /*初始化对话框*/
+    /**
+     * 初始化对话框
+     */
     private void initProgressDialog() {
         //创建进度条对话框
         progressDialog = new ProgressDialog(this);
@@ -91,11 +97,9 @@ public class ShowCloudActivity extends BaseActivity {
                         Thread.sleep(300);
                         // 更新进度条的进度,可以在子线程中更新进度条进度
                         progressDialog.incrementProgressBy(1);
-                        // dialog.incrementSecondaryProgressBy(10)//二级进度条更新方式
                         i++;
 
                     } catch (Exception e) {
-                        // TODO: handle exception
                     }
                 }
                 // 在进度条走完时删除Dialog
@@ -104,17 +108,26 @@ public class ShowCloudActivity extends BaseActivity {
         }).start();
     }
 
+    /**
+     * 查看该文件是否存在，如果存在就删除
+     */
     public void deleteFile(){
+        //如果存在文件就删除该文件
         File file = new File("/mnt/sdcard/bigIcon/wordcloud.png");
         if(file.exists()){
             file.delete();
         }
     }
+
+    /**
+     * 从服务器获取图片
+     */
     private void initData()  {
+        //构造签名生成算法需要的数据
         Map<String, String> map = new HashMap<>();
         map.put("img", "img");
         map.put("searchid",searchid);
-
+        //http请求
         RequestParams params = new RequestParams(API.GET_WORD_CLOUD);
         try {
             params.addParameter("sign", Utils.getSignature(map, Constants.SECRET));
@@ -147,35 +160,11 @@ public class ShowCloudActivity extends BaseActivity {
                 @Override
                 public void onSuccess(File arg0) {
                     Log.i("tag", "下载成功的时候执行"+Thread.currentThread().getName());
-                 Logger.d("2222222="+arg0);
-//                    ImageOptions options = new ImageOptions.Builder()
-//                            .setLoadingDrawableId(R.mipmap.ic_launcher)
-//                            .setFailureDrawableId(R.mipmap.ic_launcher)
-//                            .setConfig(Bitmap.Config.RGB_565)//设置图片质量,这个是默认的
-//                            .setCrop(true)//设置图片大小
-//                            .setSize(120, 120)//设置图片大小
-//                            .setFadeIn(true)//淡入效果
-//                            .build();
-//                    x.image().bind(wordCloud, arg0, options);
+                    Logger.d("2222222="+arg0);
 
-                   // if (file != null) {
-                        //Logger.d("file="+file);
-
-                        //根据图片绝对路径获取图片并显示在界面上
-                    if(arg0.exists()){
-                        mBitmap = BitmapFactory.decodeFile(arg0.getAbsolutePath());
-                        wordCloud.setImageBitmap(mBitmap);
-                        if(wordCloud.isShown()){
-                            //Utils.showShortToast(ShowCloudActivity.this,"下载图片成功");
-                        }else{
-                            //Utils.showShortToast(ShowCloudActivity.this,"该调查还未有人参与");
-                        }
-
-                    }else{
-                        //Utils.showShortToast(ShowCloudActivity.this,"该调查还未有人参与");
-                    }
-
-                   // }
+                    //根据图片绝对路径获取图片并显示在界面上
+                    mBitmap = BitmapFactory.decodeFile(arg0.getAbsolutePath());
+                    wordCloud.setImageBitmap(mBitmap);
                 }
 
                 @Override
@@ -198,54 +187,6 @@ public class ShowCloudActivity extends BaseActivity {
                 }
 
             });
-
-//            x.http().get(params, new Callback.CommonCallback<File>() {
-//                @Override
-//                public void onSuccess(File file) {
-//                    Logger.d("file="+file);
-//                    if (file != null) {
-//                        Logger.d("file="+file);
-//                        //根据图片绝对路径获取图片并显示在界面上
-//                        mBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-//                        wordCloud.setImageBitmap(mBitmap);
-//                        Utils.showShortToast(ShowCloudActivity.this,"下载图片成功");
-//                    }
-//                }
-//
-//                @Override
-//                public void onError(Throwable ex, boolean isOnCallback) {
-//                    progressDialog.dismiss();
-//                    Utils.showShortToast(ShowCloudActivity.this,"下载图片失败，请重新点击");
-//                }
-//
-//                @Override
-//                public void onCancelled(CancelledException cex) {
-//                    progressDialog.dismiss();
-//                }
-//
-//                @Override
-//                public void onFinished() {
-//                    progressDialog.dismiss();
-//                    Logger.d("111111");
-//                    mBitmap = BitmapFactory.decodeFile("/mnt/sdcard/bigIcon/wordcloud.png");
-//                    wordCloud.setImageBitmap(mBitmap);
-//                }
-//            });
-//                Logger.d("2222222");
-//                    ImageOptions options = new ImageOptions.Builder()
-//                            .setLoadingDrawableId(R.mipmap.ic_launcher)
-//                            .setFailureDrawableId(R.mipmap.ic_launcher)
-//                            .setConfig(Bitmap.Config.RGB_565)//设置图片质量,这个是默认的
-//                            .setCrop(true)//设置图片大小
-//                            .setSize(120, 120)//设置图片大小
-//                            .setFadeIn(true)//淡入效果
-//                            .build();
-//                    x.image().bind(wordCloud, "/mnt/sdcard/bigIcon/wordcloud.png", options);
-//                    Bitmap bitmap = BitmapFactory.decodeFile(path);
-//                    main_icon.setImageBitmap(bitmap);
-
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }

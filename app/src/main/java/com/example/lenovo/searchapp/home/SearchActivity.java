@@ -34,6 +34,7 @@ import static android.view.View.VISIBLE;
 
 /**
  * Created by lenovo on 2019-03-24.
+ * 搜索页面
  */
 public class SearchActivity extends BaseActivity  {
     /**搜索框的输入*/
@@ -55,6 +56,7 @@ public class SearchActivity extends BaseActivity  {
     private String page;
     /**数据库变量,用于存放历史搜索记录*/
     private RecordSQLiteOpenHelper helper = null ;
+    /***SqlLite数据库*/
     private SQLiteDatabase db;
     // 回调接口
     private ICallBack mCallBack;// 搜索按键回调接口
@@ -66,20 +68,23 @@ public class SearchActivity extends BaseActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_search);
         /**实例化数据库SQLiteOpenHelper子类对象*/
-        //context = MyApplication.getInstance();
         helper = new RecordSQLiteOpenHelper(SearchActivity.this);
         Logger.d("位置：create方法里");
+        //初始化控件
         findViewById();
         Logger.d("位置：findViewById方法外");
         initView();
         Logger.d("位置","initView方法外");
-
+        //获取page数据，表示从那个模块传递过来的
         Intent intent = getIntent();
         if(!intent.equals(null) || !intent.equals("")){
             this.page = intent.getStringExtra("page");//从intent对象中获得数据
         }
     }
 
+    /**
+     * 进行控件的初始化
+     */
     protected void findViewById() {
         /**搜索框*/
         mEditText = (AutoClearEditText) findViewById(R.id.search_edit);
@@ -97,27 +102,23 @@ public class SearchActivity extends BaseActivity  {
         no_records.setVisibility(INVISIBLE);
     }
 
+    /**
+     *
+     */
     protected void initView() {
-        // TODO Auto-generated method stub
-        mEditText.requestFocus();
+        mEditText.requestFocus();//当点击搜索框时
         Logger.d("位置：initView");
         /**第1次进入时查询所有的历史搜索记录*/
         queryData("");
-
         /**点击搜索按钮*/
         mImageButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                //Utils.showShortToast(SearchActivity.this, "亲，该功能暂未开放");
                 // 1. 点击搜索按键后，根据输入的搜索字段进行查询
-                // 注：由于此处需求会根据自身情况不同而不同，所以具体逻辑由开发者自己实现，此处仅留出接口
                 if (!(mCallBack == null)){
                     mCallBack.SearchAciton(mEditText.getText().toString());
                 }
-                //Toast.makeText(SearchActivity.this, "需要搜索的是" + mEditText.getText(), Toast.LENGTH_SHORT).show();
-
                 // 2. 点击搜索键后，对该搜索字段在数据库是否存在进行检查（查询）->> 关注1
                 boolean hasData = hasData(mEditText.getText().toString().trim());
                 // 3. 若存在，则不保存；若不存在，则将该搜索字段保存（插入）到数据库，并作为历史搜索记录
@@ -125,18 +126,21 @@ public class SearchActivity extends BaseActivity  {
                     insertData(mEditText.getText().toString().trim());
                     queryData("");
                 }
-
+                //如果是home页面进行搜索
                 if(page.equals("home")){
+                    //打开HomeActivity页面，并将搜索的值传递过去
                     Utils.start_Activity(SearchActivity.this,HomeActivity.class,"searchName",mEditText.getText().toString().trim());
                     finish();
                 }
-
+                //如果是join页面进行搜索
                 if(page.equals("join")){
+                    //打开MyJoinActivity页面，并将搜索的值传递过去
                     Utils.start_Activity(SearchActivity.this,MyJoinActivity.class,"searchName",mEditText.getText().toString().trim());
                     finish();
                 }
-
+                //如果是search页面进行搜索
                 if(page.equals("search")){
+                    //打开MySearchActivity页面，并将搜索的值传递过去
                     Utils.start_Activity(SearchActivity.this,MySearchActivity.class,"searchName",mEditText.getText().toString().trim());
                     finish();
                 }
@@ -156,7 +160,6 @@ public class SearchActivity extends BaseActivity  {
         tv_clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 // 清空数据库
                 deleteData();
                 // 模糊搜索空字符 = 显示所有的搜索历史（此时是没有搜索记录的）
@@ -172,12 +175,9 @@ public class SearchActivity extends BaseActivity  {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
                     // 1. 点击搜索按键后，根据输入的搜索字段进行查询
-                    // 注：由于此处需求会根据自身情况不同而不同，所以具体逻辑由开发者自己实现，此处仅留出接口
                     if (!(mCallBack == null)){
                         mCallBack.SearchAciton(mEditText.getText().toString());
                     }
-                    //Toast.makeText(SearchActivity.this, "需要搜索的是" + mEditText.getText(), Toast.LENGTH_SHORT).show();
-
                     // 2. 点击搜索键后，对该搜索字段在数据库是否存在进行检查（查询）->> 关注1
                     boolean hasData = hasData(mEditText.getText().toString().trim());
                     // 3. 若存在，则不保存；若不存在，则将该搜索字段保存（插入）到数据库，并作为历史搜索记录
@@ -185,18 +185,21 @@ public class SearchActivity extends BaseActivity  {
                         insertData(mEditText.getText().toString().trim());
                         queryData("");
                     }
-
+                    //如果是home页面进行搜索
                     if(page.equals("home")){
+                        //打开HomeActivity页面，并将搜索的值传递过去
                         Utils.start_Activity(SearchActivity.this,HomeActivity.class,"searchName",mEditText.getText().toString().trim());
                         finish();
                     }
-
+                    //如果是join页面进行搜索
                     if(page.equals("join")){
+                        //打开MyJoinActivity页面，并将搜索的值传递过去
                         Utils.start_Activity(SearchActivity.this,MyJoinActivity.class,"searchName",mEditText.getText().toString().trim());
                         finish();
                     }
-
+                    //如果是search页面进行搜索
                     if(page.equals("search")){
+                        //打开MySearchActivity页面，并将搜索的值传递过去
                         Utils.start_Activity(SearchActivity.this,MySearchActivity.class,"searchName",mEditText.getText().toString().trim());
                         finish();
                     }
@@ -225,11 +228,9 @@ public class SearchActivity extends BaseActivity  {
                 // 每次输入后，模糊查询数据库 & 显示
                 // 注：若搜索框为空,则模糊搜索空字符 = 显示所有的搜索历史
                 String tempName = mEditText.getText().toString();
-                queryData(tempName); // ->>关注1
-
+                queryData(tempName);
             }
         });
-
         /**
          * 搜索记录列表（ListView）监听
          * 即当用户点击搜索历史里的字段后,会直接将结果当作搜索字段进行搜索
@@ -237,7 +238,6 @@ public class SearchActivity extends BaseActivity  {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 // 获取用户点击列表里的文字,并自动填充到搜索框内
                 TextView textView = (TextView) view.findViewById(android.R.id.text1);
                 String name = textView.getText().toString();
@@ -285,14 +285,12 @@ public class SearchActivity extends BaseActivity  {
      * 关注2：清空数据库
      */
     private void deleteData() {
-
         db = helper.getWritableDatabase();
         db.execSQL("delete from records");
         db.close();
         tv_clear.setVisibility(INVISIBLE);
     }
     /**
-     * 关注3
      * 检查数据库中是否已经有该搜索记录
      */
     private boolean hasData(String tempName) {
@@ -303,7 +301,6 @@ public class SearchActivity extends BaseActivity  {
         return cursor.moveToNext();
     }
     /**
-     * 关注4
      * 插入数据到数据库，即写入搜索字段到历史搜索记录
      */
     private void insertData(String tempName) {
@@ -316,7 +313,6 @@ public class SearchActivity extends BaseActivity  {
      */
     public void setOnClickSearch(ICallBack mCallBack){
         this.mCallBack = mCallBack;
-
     }
 
     /**
@@ -324,6 +320,5 @@ public class SearchActivity extends BaseActivity  {
      */
     public void setOnClickBack(bCallBack bCallBack){
         this.bCallBack = bCallBack;
-
     }
 }

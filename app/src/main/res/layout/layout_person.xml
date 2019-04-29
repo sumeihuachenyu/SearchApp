@@ -21,19 +21,6 @@
             android:text="@string/personal_title"
             android:textColor="@color/white"
             android:textSize="@dimen/medium_text_size" />
-
-        <!--<Button-->
-            <!--android:id="@+id/personal_more_button"-->
-            <!--android:layout_width="80dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--android:background="@drawable/personal_more_button_selector"-->
-            <!--android:gravity="center"-->
-            <!--android:text="@string/personal_more"-->
-            <!--android:textColor="@color/white"-->
-            <!--android:textSize="@dimen/small_text_size" />-->
     </RelativeLayout>
 
     <RelativeLayout

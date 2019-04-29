@@ -61,22 +61,6 @@
                     android:layout_gravity="center_vertical"
                     android:gravity="center"
                     android:text="调查主题？" />
-                <!--<ScrollView-->
-                    <!--android:id="@+id/scrollView1"-->
-                    <!--android:layout_marginRight="0dp"-->
-                    <!--android:layout_marginLeft="10dp"-->
-                    <!--android:layout_width="fill_parent"-->
-                    <!--android:scrollbars="vertical"-->
-                    <!--android:fadingEdge="vertical"-->
-                    <!--android:scrollbarStyle="outsideOverlay"-->
-                    <!--android:layout_height="50dp" >-->
-                    <!--<TextView-->
-                        <!--android:id="@+id/home_search_item_theme"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:textSize="20dp"-->
-                        <!--android:text="是的你说的你说，手动模式，是的开幕式；都没舍得买的什么的；代码；吗；acm；" />-->
-                <!--</ScrollView>-->
 
             </LinearLayout>
         <View

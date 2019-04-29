@@ -6,6 +6,7 @@ import android.widget.ListView;
 
 /**
  * Created by lenovo on 2019-03-25.
+ * 自定义的调查搜索列表，主要存放搜索调查历时记录
  */
 public class SearchListView extends ListView {
     public SearchListView(Context context) {

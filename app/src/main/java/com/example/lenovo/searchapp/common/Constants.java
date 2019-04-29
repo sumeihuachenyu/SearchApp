@@ -8,7 +8,7 @@ package com.example.lenovo.searchapp.common;
 public class Constants {
     /** 计算请求参数签名 */
     public static final String SECRET = "ssssss";//任意字符串都可以，和服务器匹配就行
-    public static final String FEEDBACK_TYPE = "Android";
+    //public static final String FEEDBACK_TYPE = "Android";
 
     /** 服务器返回的请求码 */
     /**表示成功*/

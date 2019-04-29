@@ -2,6 +2,7 @@ package com.example.lenovo.searchapp.entity;
 
 /**
  * Created by lenovo on 2019-04-02.
+ * 验证码实体
  */
 public class Captcha {
     private Integer id;

@@ -32,14 +32,27 @@ import java.util.Map;
 
 /**
  * Created by lenovo on 2019-03-21.
+ * 消息页面
  */
 @ContentView(R.layout.layout_message)
 public class MessageActivity extends BaseActivity {
     @ViewInject(R.id.recycle_view)
     private RecyclerView mRecyclerView;
+    /**
+     * 消息数据
+     */
     private ArrayList<MsgBean> dataBeanList;
+    /**
+     * 处理消息数据的临时变量
+     */
     private ArrayList<LinkedTreeMap> dataBeanListTmp;
+    /**
+     * 消息实体
+     */
     private MsgBean dataBean;
+    /**
+     * 消息Adapter
+     */
     private MsgAdapter mAdapter;
     private MyApplication myApplication;
 
@@ -48,14 +61,13 @@ public class MessageActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
-        //setContentView(R.layout.activity_mess);
-        //mRecyclerView = (RecyclerView) findViewById(R.id.recycle_view);
         myApplication = MyApplication.getInstance();
+        //获取消息数据
         initData();
     }
 
     /**
-     * 模拟数据
+     * 获取消息数据
      */
     private void initData(){
         dataBeanList = new ArrayList<>();
@@ -78,8 +90,9 @@ public class MessageActivity extends BaseActivity {
                             //需要提醒再次输入
                             Utils.showShortToast(x.app(), baseResult.getString("desc"));
                         }else if(baseResult.getInt("status") == Constants.STATUS_OK){
-                            ///返回成功之后需要直接跳转到登录页面
+                            //处理数据
                             dataBeanListTmp = Utils.parseJsonWithGson(baseResult.getString("data"),ArrayList.class);
+                            //遍历数据并将其封装到dataBeanListTmp中
                             for(int i=0;i<dataBeanListTmp.size();i++){
                                 LinkedTreeMap map = dataBeanListTmp.get(i);
                                 dataBean = new MsgBean();
@@ -93,6 +106,7 @@ public class MessageActivity extends BaseActivity {
                             Logger.d("dataBeanListTmp="+dataBeanListTmp);
                             Logger.d("data="+baseResult.getString("data"));
                             Logger.d("dataBeanList="+dataBeanList);
+                            //设置数据
                             setData();
                         }
                     } catch (JSONException e) {
@@ -120,11 +134,14 @@ public class MessageActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 将数据填充到Adapter中
+     */
     private void setData(){
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //mAdapter = new RecyclerAdapter(this,dataBeanList);
         mAdapter = new MsgAdapter(this);
         mAdapter.setLists(dataBeanList);
+        //给RecyclerList设置Adapter
         mRecyclerView.setAdapter(mAdapter);
     }
     /**

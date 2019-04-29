@@ -16,63 +16,65 @@ import com.orhanobut.logger.Logger;
 
 /**
  * Created by lenovo on 2019-03-26.
+ * 自定义的类型下拉框
  */
 public class SelectPopupWindow extends PopupWindow {
+    /**
+     * 选择完成回调接口
+     */
     private SelectCategory selectCategory;
     private MyApplication myApplication;
-
+    /**
+     * 上下文对象
+     */
     private Context context;
+    /**
+     * 填充的类型数据
+     */
     private String[] parentStrings;
-    private String[][] childrenStrings;
-
     private ListView lvParentCategory = null;
-    //private ListView lvChildrenCategory= null;
     private ParentCategoryAdapter parentCategoryAdapter = null;
     private static final String CLICK_TYPE = "type";
-    private static final String CLICK_paixu = "paixu";
-   // private childrenCategoryAdapter childrenCategoryAdapter = null;
-
     /**
      * @param parentStrings   字类别数据
      * @param activity
      * @param selectCategory  回调接口注入
      */
-    //public SelectPopupWindow(String[] parentStrings, String[][] childrenStrings, Activity activity, SelectCategory selectCategory) {
     public SelectPopupWindow(String[] parentStrings, Activity activity, SelectCategory selectCategory) {
         this.selectCategory=selectCategory;
         this.parentStrings=parentStrings;
-        //this.childrenStrings=childrenStrings;
         context = activity;
         View contentView = LayoutInflater.from(activity).inflate(R.layout.layout_quyu_choose_view, null);
+        //获取屏幕信息DisplayMetrics
         DisplayMetrics dm = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(dm); // 获取手机屏幕的大小
-
+        //设置下拉框的显示界面
         this.setContentView(contentView);
-        this.setWidth(dm.widthPixels);
-        this.setHeight(dm.heightPixels*7/10);
+        this.setWidth(dm.widthPixels);//设置大小
+        this.setHeight(dm.heightPixels*7/10);//设置高度
 
         /* 设置背景显示 */
         setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.pop_bg));
-        /* 设置触摸外面时消失 */
-//        setOutsideTouchable(true);
-//        setTouchable(true);
         setFocusable(true); /*设置点击menu以外其他地方以及返回键退出 */
 
         /**
          * 1.解决再次点击MENU键无反应问题
          */
         contentView.setFocusableInTouchMode(true);
-        //子类别适配器
-        lvParentCategory= (ListView) contentView.findViewById(R.id.lv_parent_category);
+        //获取的layout_quyu_choose_view的ListView
+        lvParentCategory= contentView.findViewById(R.id.lv_parent_category);
+        //创建类别适配器
         parentCategoryAdapter = new ParentCategoryAdapter(activity,parentStrings);
+        //给ListView绑定Adapter
         lvParentCategory.setAdapter(parentCategoryAdapter);
-
+        //给ListView中的设置ItemClick监听
         lvParentCategory.setOnItemClickListener(parentItemClickListener);
+        //获取Myapplication对象
         myApplication = MyApplication.getInstance();
     }
 
     /**
-     * 父类别点击事件
+     * 类别点击事件
      */
     private AdapterView.OnItemClickListener parentItemClickListener=new AdapterView.OnItemClickListener() {
         @Override
@@ -81,9 +83,11 @@ public class SelectPopupWindow extends PopupWindow {
             String parentStr=parentStrings[position];
             Logger.d("点击的类型="+parentStr+"位置="+position);
             Utils.showShortToast(context,"点击了"+parentStr);
+            //给Adapter设置选中的位置和选中的类型，已被弃用，因为无法在HomeActivity中获取当前设置的值
             parentCategoryAdapter.setSelectedPosition(position,CLICK_TYPE);
             parentCategoryAdapter.notifyDataSetChanged();
             if(selectCategory!=null){
+                //给选择完成回调接口设置选中的位置和选中的类型，方便在HomeActivity中进行获取
                 selectCategory.selectCategory(position,myApplication.isType());
             }
             dismiss();

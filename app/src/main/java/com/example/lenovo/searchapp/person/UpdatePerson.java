@@ -53,6 +53,7 @@ import java.util.Map;
 
 /**
  * Created by lenovo on 2019-03-19.
+ * 修改个人信息页面
  */
 public class UpdatePerson extends BaseActivity{
     private static final int REQUEST_IMAGE_GET = 0;
@@ -62,6 +63,9 @@ public class UpdatePerson extends BaseActivity{
     private static final String IMAGE_FILE_NAME = "icon.jpg";
 
     private ImageView main_icon,back_update;
+    /**
+     * 定义弹出框
+     */
     private PhotoPopupWindow mPhotoPopupWindow;
     private Uri mImageUri;
     private EditText phone;
@@ -73,29 +77,33 @@ public class UpdatePerson extends BaseActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_updateperson);
-
         myApplication = MyApplication.getInstance();
-
+        //初始化手机号和用户名
         phone = findViewById(R.id.et_update_phone);
         username = findViewById(R.id.et_update_username);
-
+        //设置手机号和用户名的值
         phone.setText(myApplication.getUser().getPhone());
         username.setText(myApplication.getUser().getUsername());
 
+        //初始化返回上一页按钮
         back_update =(ImageView) findViewById(R.id.back_update);
         back_update.setOnClickListener(new View.OnClickListener(){
                @Override
                public void onClick(View v) {
-                   //UpdatePerson.this.finish();
+                   //设置被选中的按钮是person按钮
                    myApplication.setSelectPage("person");
+                   //结束掉所有的Activity
                    ActivityCollectorUtil.finishAllActivity();
+                   //重新进行app中
                    Utils.start_Activity(UpdatePerson.this,MainActivityTop.class);
                }
         });
 
+        //初始化头像
         main_icon = (ImageView) findViewById(R.id.img_upload_img);
-        //更换头像按钮
+        //初始化更换头像按钮
         Button main_btn = (Button) findViewById(R.id.tx_upload_img);
+        //点击头像
         main_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,10 +161,6 @@ public class UpdatePerson extends BaseActivity{
          * 根据数据库中获取的值设置头像
          */
         if(myApplication.getUser().getHeadaddress() != null) {
-            //mImageUri.getEncodedPath()=/mnt/sdcard/bigIcon/1554644509881.jpg
-            // Logger.d("mImageUri.getEncodedPath()="+mImageUri.getEncodedPath());
-            //文件名称=F:\\BaiduNetdiskDownload\\androidProject\\uploadimg\\1554685537364.jpg
-            ///String filename = new File(myApplication.getUser().getHeadaddress().trim()).getName();
             String fName = myApplication.getUser().getHeadaddress().trim();
             String filename = fName.substring(fName.lastIndexOf("\\") + 1);
             String path = "/mnt/sdcard/bigIcon/" + filename;
@@ -165,34 +169,40 @@ public class UpdatePerson extends BaseActivity{
             main_icon.setImageBitmap(bitmap);
         }
 
+        //初始化修改按钮
         btn_update  = findViewById(R.id.btn_update);
         btn_update.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
+                  //判断手机号是否为空
                   if (phone.getText().toString().isEmpty()) {
                       Utils.showShortToast(UpdatePerson.this, "请输入手机号");
                       return;
                   } else {
+                      //判断手机号格式是否正确
                       if (!TransformUtils.isMobile(phone.getText().toString())) {
                           Utils.showShortToast(UpdatePerson.this, "请输入格式正确的手机号");
                           return;
                       }
                   }
+                  //判断用户名是否为空
                   if (username.getText().toString().isEmpty()) {
                       Utils.showShortToast(UpdatePerson.this, "请输入用户名");
                       return;
                   } else {
+                      //判断用户名格式是否正确
                       if (!TransformUtils.isUsername(username.getText().toString())) {
                           Utils.showShortToast(UpdatePerson.this, "用户名包含非法字符，请重新输入");
                           return;
                       }
                   }
 
+                  //构造签名生成算法所需要的数据
                   Map<String, String> map = new HashMap<>();
                   map.put("userid",myApplication.getUser().getUserid().toString());
                   map.put("mobile", phone.getText().toString());
                   map.put("username", username.getText().toString());
-
+                  //http请求
                   RequestParams params = new RequestParams(API.UPDATE_PERSON);
                   try {
                       params.addParameter("sign", Utils.getSignature(map, Constants.SECRET));
@@ -208,7 +218,6 @@ public class UpdatePerson extends BaseActivity{
                                       //需要提醒再次输入
                                       Utils.showShortToast(x.app(), baseResult.getString("desc"));
                                   } else if (baseResult.getInt("status") == Constants.STATUS_OK) {
-                                      ///返回成功之后需要直接跳转到登录页面
                                       User user = Utils.parseJsonWithGson(baseResult.getString("data"), User.class);
                                       myApplication.setUser(user);
                                       //如何回显的问题：还是需要  与头像的类似
@@ -263,12 +272,6 @@ public class UpdatePerson extends BaseActivity{
                     main_icon.setImageBitmap(bitmap);
 
                     Map<String, String> map = new HashMap<>();
-                    //file:///mnt/sdcard/bigIcon/1554641519197.jpg
-                    //mImageUri.getPath()=/mnt/sdcard/bigIcon/1554644509881.jpg
-                    //Logger.d("mImageUri.getPath()="+mImageUri.getPath());
-                    //mImageUri.getEncodedPath()=/mnt/sdcard/bigIcon/1554644509881.jpg
-                   // Logger.d("mImageUri.getEncodedPath()="+mImageUri.getEncodedPath());
-                    //map.put("file", new File(mImageUri.getPath()).toString());
                     map.put("userid", myApplication.getUser().getUserid().toString());
                     RequestParams params = new RequestParams(API.UPDATE_PERSON_HEADIMG);
                     params.setMultipart(true);
@@ -287,7 +290,6 @@ public class UpdatePerson extends BaseActivity{
                                         //需要提醒再次输入
                                         Utils.showShortToast(x.app(), baseResult.getString("desc"));
                                     } else if (baseResult.getInt("status") == Constants.STATUS_OK) {
-                                        ///返回成功之后需要直接跳转到登录页面
                                         User user = Utils.parseJsonWithGson(baseResult.getString("data"), User.class);
                                         myApplication.setUser(user);
                                     }

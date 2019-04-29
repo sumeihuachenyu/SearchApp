@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--输入手机号页面：fragment 包含页面：layout_top.xml-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:gravity="center"-->
-        <!--android:textSize="30sp"-->
-        <!--android:text="The Weixin Tab!"/>-->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,7 +13,6 @@
         android:text="@string/registerinfo"
         android:textColor="@color/goldyellow"
         android:textSize="12sp" />
-
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="40dp"
@@ -36,7 +30,6 @@
             android:background="@null"
             android:layout_gravity="center_vertical"
             />
-
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -54,8 +47,6 @@
             android:textColor="@color/white"
             android:textSize="16sp" />
     </LinearLayout>
-
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

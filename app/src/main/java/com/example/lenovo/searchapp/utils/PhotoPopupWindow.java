@@ -14,6 +14,7 @@ import com.example.lenovo.searchapp.R;
 
 /**
  * Created by lenovo on 2019-03-23.
+ * 自定义弹出框
  */
 public class PhotoPopupWindow extends PopupWindow {
 

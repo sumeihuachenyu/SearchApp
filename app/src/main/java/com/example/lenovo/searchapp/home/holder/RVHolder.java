@@ -50,26 +50,29 @@ public class RVHolder extends RecyclerView.ViewHolder {
                 public void onClick(View v) {
                     //首先判断是哪个页面点击的item
                     if(pagetype.equals("home")){
+                        //将searchid传递过去，方便提供searchid查询值
                         Utils.start_Activity(activity,ItemActivity.class,"searchid",rvData.getSearchid());
                     }
                     if(pagetype.equals("join")){
+                        //将searchid传递过去，方便提供searchid查询值
                         Utils.start_Activity(activity,MyJoinItemActivity.class,"searchId",rvData.getSearchid());
                     }
                     if(pagetype.equals("search")){
-                        //String id = "001";
+                        //将searchid传递过去，方便提供searchid查询值
                         Utils.start_Activity(activity,MySearchItemActivity.class,"searchId",rvData.getSearchid());
                     }
                 }
             });
+            //头像的点击事件处理
             head.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //Toast.makeText(context, "点击了头像" , Toast.LENGTH_SHORT).show();
+                    //跳转到SearchPersonActivity页面，传递searchid值
                     Utils.start_Activity(activity,SearchPersonActivity.class,"headsearchid",rvData.getSearchid());
                 }
             });
 
-            //head.setImageResource(R.drawable.head);//设置头像
+            //head.setImageResource(R.drawable.head);//设置头像的显示
             if(rvData.getHeadaddress() != null){
                 String fName = rvData.getHeadaddress().trim();
                 String filename = fName.substring(fName.lastIndexOf("\\")+1);
@@ -78,8 +81,8 @@ public class RVHolder extends RecyclerView.ViewHolder {
                 Bitmap bitmap = BitmapFactory.decodeFile(path);
                 head.setImageBitmap(bitmap);
             }
-            TimeTv.setText(rvData.getSearchsubmittime());//发布时间
-            titleTv.setText(rvData.getSearchtitle());//标题
+            TimeTv.setText(rvData.getSearchsubmittime());//设置发布时间的值
+            titleTv.setText(rvData.getSearchtitle());//设置标题的值
         }
     }
 }

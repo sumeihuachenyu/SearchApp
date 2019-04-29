@@ -27,6 +27,7 @@ import java.util.Map;
 
 /**
  * Created by lenovo on 2019-03-07.
+ * Xutils的网络模块的操作
  */
 public class Xutils {
     private volatile static Xutils instance;

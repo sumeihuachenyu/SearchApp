@@ -2,6 +2,7 @@ package com.example.lenovo.searchapp.home.model;
 
 /**
  * Created by lenovo on 2019-04-14.
+ * 包含参与记录、调查、用户数据，主要在参与模块使用
  */
 public class JoinSearchPerson extends SearchAndPerson {
     private String joinid;

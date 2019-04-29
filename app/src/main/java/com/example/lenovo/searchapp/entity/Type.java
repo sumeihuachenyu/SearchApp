@@ -1,5 +1,9 @@
-package com.example.Server.entity;
+package com.example.lenovo.searchapp.entity;
 
+/**
+ * Created by lenovo on 2019-04-02.
+ * 存储类型数据
+ */
 public class Type {
     private Integer typeid;
 

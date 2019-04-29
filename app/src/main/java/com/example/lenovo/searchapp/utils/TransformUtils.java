@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 /**
  * Created by lenovo on 2019-03-07.
+ * 判断格式的正确性
  */
 public class TransformUtils {
     /**

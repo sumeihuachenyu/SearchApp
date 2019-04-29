@@ -69,13 +69,14 @@ public class RvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder,int position){
+                //获取Item类型
                 int viewType=getItemViewType(position);
                 switch(viewType){
-                case TYPE_ONE:
-                        ((RVHolder)holder).bindHolder(page,context,mDatas.get(position),position);
+                        case TYPE_ONE:
+                                ((RVHolder)holder).bindHolder(page,context,mDatas.get(position),position);
                         break;
-                case TYPE_FOOT:// 底部
-                        ((FooterHolder)holder).bindHolder(footerData);
+                        case TYPE_FOOT:// 底部
+                                ((FooterHolder)holder).bindHolder(footerData);
                         break;
                 }
                 }
@@ -85,11 +86,17 @@ public class RvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 return mDatas.size()+(footerData==null?0:1);
                 }
 
+        /**
+         * 返回Item类型
+          * @param position
+         * @return
+         */
         @Override
         public int getItemViewType(int position){
-                if(position<mDatas.size())
-                return mDatas.get(position).getType();
-                else
-                return TYPE_FOOT;
-                }
+            //如果当前位置小于数据大小，表示数据还没有加载完
+            if(position<mDatas.size())
+                  return mDatas.get(position).getType();
+            else
+                  return TYPE_FOOT; //如果当前位置大于等于数据大小，表示数据已经加载完
+        }
 }

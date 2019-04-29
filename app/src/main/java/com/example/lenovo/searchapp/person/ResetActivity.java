@@ -28,6 +28,7 @@ import java.util.Map;
 
 /**
  * Created by lenovo on 2019-03-07.
+ * 重置密码页面
  */
 @ContentView(R.layout.activity_reset)
 public class ResetActivity extends BaseActivity {
@@ -41,11 +42,9 @@ public class ResetActivity extends BaseActivity {
     private EditText apassword;
     private MyApplication myApplication;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Utils.hideNavigationBar(this);
         x.view().inject(this);
         myApplication = MyApplication.getInstance();
     }
@@ -62,29 +61,34 @@ public class ResetActivity extends BaseActivity {
      */
     @Event(value = {R.id.tv_reset_update})
     private void reset(View v){
+        //判断密码是否为空
         if(password.getText().toString().isEmpty()){
             Utils.showShortToast(this,"请输入密码");
             return;
         }else{
+            //判断密码格式是否正确
             if(!TransformUtils.isPassword(password.getText().toString())){
                 Utils.showShortToast(this,"请输入6-20位包含字母和数字的密码");
                 return;
             }
         }
+        //判断再次输入密码是否为空
         if(apassword.getText().toString().isEmpty()){
             Utils.showShortToast(this,"请再次输入密码");
             return;
         }else{
+            //判断两次密码是否一致
             if(!apassword.getText().toString().equals(password.getText().toString())){
                 Utils.showShortToast(this,"两次密码不一致，请重新输入");
                 return;
             }
         }
 
+        //构造签名生成算法数据
         Map<String,String> map = new HashMap<>();
         map.put("mobile",myApplication.getData().getPhone());
         map.put("password",password.getText().toString());
-        //Utils.start_Activity(ResetActivity.this,LoginActivity.class);//走通逻辑而写
+        //http请求
         RequestParams params = new RequestParams(API.RESET_PASSWORD);
         try {
             params.addParameter("sign", Utils.getSignature(map, Constants.SECRET));

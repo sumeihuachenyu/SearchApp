@@ -6,6 +6,7 @@ package com.example.lenovo.searchapp.common;
  * 主要存储http请求地址
  */
 public class API {
+    //http地址的公共部分
     public static final String BASE_URL = "http://10.0.2.2:8080";
 
     //通过手机去获取验证码

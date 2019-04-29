@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.lenovo.searchapp.R;
 import com.example.lenovo.searchapp.home.model.FooterData;
@@ -46,7 +45,7 @@ public class FooterHolder extends RecyclerView.ViewHolder {
                         if (ClickUtil.isFastClick()) {
                             return;
                         }
-                        Toast.makeText(context, "发送通讯", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, "发送通讯", Toast.LENGTH_SHORT).show();
                     }
                 });
             } else {
